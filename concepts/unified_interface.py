@@ -9,12 +9,10 @@ import asyncio
 from typing import Dict, List, Any, Optional, Union
 from pathlib import Path
 
-# Add your module to path
 current_dir = Path(__file__).parent
 your_module_path = current_dir / "main" / "src"
 sys.path.insert(0, str(your_module_path))
 
-# Import your existing queriers
 from main.cb_llm_querier import CBLLMQuerier
 from main.label_free_querier import LabelFreeQuerier
 from main.labo_querier import LaBoQuerier
@@ -34,20 +32,17 @@ class UnifiedConceptInterface:
         Args:
             config_path: Path to your query_config.yaml file
         """
-        # Use your default config path if none provided
         if config_path is None:
             config_path = "concepts/main/config/query_config.yaml"
 
         self.config_path = config_path
         
-        # Initialize your existing queriers
         self.cb_llm_querier = CBLLMQuerier(config_path, enable_detailed_logging=True)
         self.label_free_querier = LabelFreeQuerier(config_path, enable_detailed_logging=True)
         self.labo_querier = LaBoQuerier(config_path)
         self.lm4cv_querier = LM4CVQuerier(config_path)
         self.async_interface = AsyncLLMQueryInterface(config_path)
         
-        # Cache for generated concepts
         self._concept_cache = {}
         
     async def generate_concepts_for_cbm(self,
@@ -71,11 +66,9 @@ class UnifiedConceptInterface:
         """
         cache_key = f"{dataset_name}_{cbm_method}_{num_concepts}"
         
-        # Check cache unless forced regeneration
         if not force_regenerate and cache_key in self._concept_cache:
             return self._concept_cache[cache_key]
         
-        # Route to appropriate querier based on method
         if cbm_method.lower() == 'label_free' or cbm_method.lower() == 'lf_cbm':
             concepts_data = await self._generate_label_free_concepts(dataset_name, **generation_kwargs)
         elif cbm_method.lower() == 'labo':
@@ -87,22 +80,18 @@ class UnifiedConceptInterface:
         else:
             raise ValueError(f"Unsupported CBM method: {cbm_method}")
         
-        # Format the output for unified consumption
         formatted_output = self._format_concept_output(
             concepts_data, dataset_name, cbm_method
         )
         
-        # Cache the results
         self._concept_cache[cache_key] = formatted_output
         
         return formatted_output
     
     async def _generate_label_free_concepts(self, dataset_name: str, **kwargs) -> Dict[str, Any]:
         """Generate Label-Free CBM concepts using your existing querier."""
-        # Get class names from your existing system
         class_names = self.async_interface.get_dataset_classes(dataset_name)
         
-        # Use your existing Label-Free querier
         concepts = await self.label_free_querier.generate_concepts(class_names, dataset_name)
         filtered_concepts = await self.label_free_querier.apply_filtering(concepts, dataset_name)
         
@@ -117,10 +106,8 @@ class UnifiedConceptInterface:
         """Generate LaBo concepts using your existing querier."""
         class_names = self.async_interface.get_dataset_classes(dataset_name)
         
-        # Use your existing LaBo querier
         class2concepts = await self.labo_querier.generate_concepts(class_names, dataset_name)
         
-        # Apply submodular selection
         k_per_class = kwargs.get('k_per_class', 25)
         selected_concepts = self.labo_querier.submodular_selection(class2concepts, dataset_name, k_per_class)
         
@@ -135,7 +122,6 @@ class UnifiedConceptInterface:
         """Generate LM4CV attributes using your existing querier."""
         class_names = self.async_interface.get_dataset_classes(dataset_name)
         
-        # Use your existing LM4CV querier
         attributes, cls2attributes = await self.lm4cv_querier.generate_attributes(class_names, dataset_name)
         
         return {
@@ -147,7 +133,6 @@ class UnifiedConceptInterface:
     
     async def _generate_cb_llm_concepts(self, dataset_name: str, **kwargs) -> Dict[str, Any]:
         """Generate CB-LLM concepts using your existing querier."""
-        # Use your existing CB-LLM querier
         concepts = await self.cb_llm_querier.generate_concepts(dataset_name)
         
         return {
@@ -178,13 +163,12 @@ class UnifiedConceptInterface:
                 }
             }
         elif method == 'labo':
-            # Flatten the class-based concepts for unified interface
             all_concepts = []
             for class_concepts in raw_concepts.get('concepts', {}).values():
                 all_concepts.extend(class_concepts)
             
             return {
-                'concept_names': list(set(all_concepts)),  # Remove duplicates
+                'concept_names': list(set(all_concepts)), 
                 'class_based_concepts': raw_concepts.get('concepts', {}),
                 'submodular_scores': raw_concepts.get('submodular_scores'),
                 'metadata': {
@@ -206,7 +190,6 @@ class UnifiedConceptInterface:
                 }
             }
         elif method == 'cb_llm':
-            # Flatten CB-LLM concepts
             all_concepts = []
             for class_concepts in raw_concepts.get('concepts', {}).values():
                 all_concepts.extend(class_concepts)
