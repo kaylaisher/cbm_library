@@ -1,4 +1,4 @@
-# CBM Library 
+# Concept Bottleneck Models benchmark project: CBM Library 
 *A unified library for training Concept Bottleneck Models (CBMs) with multiple state-of-the-art methods.*
 
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)]()
