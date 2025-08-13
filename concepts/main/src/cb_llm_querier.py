@@ -15,7 +15,6 @@ class CBLLMQuerier:
         self.enable_detailed_logging = enable_detailed_logging
         self.logger = DetailedLogger() if enable_detailed_logging else None
 
-        # Add missing filter configuration
         self.filter_config = {
             'min_length': 3,
             'max_length': 100,
@@ -29,7 +28,6 @@ class CBLLMQuerier:
             }
         }
 
-        # Template-based prompts following the exact format from the research paper
         self.prompts = {
             "SST2": {
                 "negative": """Here are some examples of key features that are often present in a negative movie rating. Each feature is shown between the tag <example></example>.
@@ -192,7 +190,6 @@ class CBLLMQuerier:
                 except Exception as e:
                     print(f"Error on part {part + 1}: {e}")
 
-            # Deduplicate raw concepts
             unique_concepts = list(dict.fromkeys(all_raw_concepts))
             filtered = self._filter_concepts(unique_concepts)
             concepts_dict[class_name] = filtered
@@ -266,7 +263,7 @@ class CBLLMQuerier:
             filtered.append(cleaned)
             stats["kept"] += 1
 
-        print("📊 Filter Loss Report:")
+        print(" Filter Loss Report:")
         for k, v in stats.items():
             print(f"  {k:>15}: {v}")
         return filtered
@@ -290,26 +287,23 @@ class CBLLMQuerier:
                 flat_list = []
                 for concept_list in class_dict.values():
                     flat_list.extend(concept_list)
-                deduped = list(dict.fromkeys(flat_list))  # optional deduplication
+                deduped = list(dict.fromkeys(flat_list)) 
                 dataset_var = dataset_name.lower()
                 f.write(f"{dataset_var} = {json.dumps(deduped, ensure_ascii=False)}\n\n")
 
-        print(f"✅ Exported flat concepts to {output_path}")
+        print(f" Exported flat concepts to {output_path}")
         return output_path
 
 
 
-# Example usage following CBM-benchmark-project pattern
 async def main():
     """Main function demonstrating CB-LLM concept generation"""
     
     print("=== CB-LLM Concept Generator ===")
     
-    # Initialize querier with config (adjust path as needed)
-    config_path = "config/llm_config.json"  # Adjust to your config path
+    config_path = "config/llm_config.json"  
     querier = CBLLMQuerier(config_path, enable_detailed_logging=True)
     
-    # Generate concepts for a specific dataset
     dataset_name = "SST2"  # Change as needed
     try:
         concepts = await querier.generate_concepts(dataset_name)
@@ -321,10 +315,6 @@ async def main():
     
     except Exception as e:
         print(f"Error: {e}")
-    
-    # Optionally generate for all datasets
-    # all_concepts = await querier.generate_all_datasets()
-    # querier.export_for_cbm_benchmark(all_concepts, "outputs/cb_llm_concepts/concepts.py")
 
 
 if __name__ == "__main__":
