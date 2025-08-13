@@ -181,5 +181,5 @@ class DetailedLogger:
             f.write("\n### Data Files:\n")
             f.write("Check the `outputs/` directory for generated concept files.\n\n")
         
-        print(f"📋 Summary report created: {summary_file}")
+        print(f" Summary report created: {summary_file}")
         return summary_file
