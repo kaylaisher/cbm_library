@@ -39,10 +39,16 @@ python run.py
 ```
 
 ## Roadmap
+
  - Finalize unified training interfaces
  -  Add full examples for LaBo, LM4CV, CB-LLM
  -  Benchmarks across standard datasets
  -  Documentation website
+
+## Acknowledgements
+
+This project was developed as part of the **UC San Diego International Summer Research Program (ISRP)**  
+in **[WengLab](https://wenglab.org/)** under the guidance of **Prof. Tsui-Wei Weng** and **Ph.D. Ge Yan**.
 
 ## Citation
 If you use this library, please cite:
