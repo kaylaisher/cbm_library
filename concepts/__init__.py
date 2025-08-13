@@ -5,7 +5,6 @@ Provides unified interface to the main concept generation module.
 
 from .unified_interface import UnifiedConceptInterface
 
-# Convenience functions for direct usage
 async def generate_concepts(dataset_name: str, 
                            cbm_method: str,
                            config_path: str = None,
@@ -27,7 +26,6 @@ def run_interactive_concept_generation(config_path: str = None):
     interface = UnifiedConceptInterface(config_path)
     return interface.run_interactive_mode()
 
-# Export main interface
 __all__ = [
     'UnifiedConceptInterface',
     'generate_concepts',
