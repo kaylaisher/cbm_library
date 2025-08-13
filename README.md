@@ -48,7 +48,7 @@ python run.py
 ## Acknowledgements
 
 This project was developed as part of the **UC San Diego International Summer Research Program (ISRP)**  
-in **[WengLab](https://wenglab.org/](https://lilywenglab.github.io/)** under the guidance of **Prof. Tsui-Wei Weng** and **Ph.D. Ge Yan**.
+in **[WengLab](https://lilywenglab.github.io/)** under the guidance of **Prof. Tsui-Wei Weng** and **Ph.D. Ge Yan**.
 
 ## Citation
 If you use this library, please cite:
