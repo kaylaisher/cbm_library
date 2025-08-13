@@ -1,12 +1,4 @@
 """
-CBM Library Integration with Unified Final Trainer
-=================================================
-
-This integrates the UnifiedFinalTrainer into your existing CBM library structure.
-"""
-
-# cbm_library/training/final_layer.py
-"""
 Unified Final Layer Training Module
 """
 
@@ -26,10 +18,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 class FinalLayerType(Enum):
-    SPARSE_GLM = "sparse_glm"  # Label-free CBM, VLG-CBM
-    DENSE_LINEAR = "dense_linear"  # Standard dense training
-    SPARSE_LINEAR = "sparse_linear"  # Manual sparsity constraints
-    ELASTIC_NET = "elastic_net"  # Elastic net regularization
+    SPARSE_GLM = "sparse_glm" 
+    DENSE_LINEAR = "dense_linear" 
+    SPARSE_LINEAR = "sparse_linear"  
+    ELASTIC_NET = "elastic_net"  
 
 @dataclass
 class FinalLayerConfig:
@@ -38,36 +30,31 @@ class FinalLayerConfig:
     num_concepts: int
     num_classes: int
     
-    # Sparsity control
     sparsity_lambda: float = 0.0007
     target_sparsity_per_class: int = 30
     sparsity_percentage: Optional[float] = None
     
-    # GLM-SAGA specific
     glm_step_size: float = 0.1
     glm_alpha: float = 0.99
     glm_max_iters: int = 1000
     glm_epsilon: float = 1.0
     
-    # Standard optimization
     learning_rate: float = 0.001
     batch_size: int = 128
     max_epochs: int = 100
     weight_decay: float = 0.0
     
-    # Normalization
+    
     normalize_concepts: bool = True
     concept_mean: Optional[torch.Tensor] = None
     concept_std: Optional[torch.Tensor] = None
     
-    # Device
     device: str = "cuda"
     
     def to_dict(self):
         """Convert to dictionary for serialization"""
         result = asdict(self)
         result['layer_type'] = self.layer_type.value
-        # Convert tensors to None for serialization
         if self.concept_mean is not None:
             result['concept_mean'] = None
         if self.concept_std is not None:
@@ -121,7 +108,6 @@ class SparseGLMMethod(BaseFinalLayerMethod):
         
         logger.info(f"Training sparse GLM final layer with {config.num_concepts} concepts, {config.num_classes} classes")
         
-        # Normalize concept activations
         if config.normalize_concepts:
             concept_mean = concept_activations.mean(dim=0)
             concept_std = concept_activations.std(dim=0) + 1e-8
@@ -131,16 +117,13 @@ class SparseGLMMethod(BaseFinalLayerMethod):
             concept_mean = torch.zeros(concept_activations.shape[1])
             concept_std = torch.ones(concept_activations.shape[1])
         
-        # Prepare data
         train_dataset = TensorDataset(normalized_concepts, labels.long())
         train_loader = DataLoader(train_dataset, batch_size=config.batch_size, shuffle=True)
         
-        # Create linear model
         linear = nn.Linear(config.num_concepts, config.num_classes).to(config.device)
         linear.weight.data.zero_()
         linear.bias.data.zero_()
         
-        # Prepare validation data if provided
         val_loader = None
         if validation_data is not None:
             val_concepts, val_labels = validation_data
@@ -149,7 +132,6 @@ class SparseGLMMethod(BaseFinalLayerMethod):
             val_dataset = TensorDataset(val_concepts, val_labels.long())
             val_loader = DataLoader(val_dataset, batch_size=config.batch_size, shuffle=False)
         
-        # GLM-SAGA metadata
         metadata = {
             'max_reg': {
                 'nongrouped': config.sparsity_lambda
@@ -158,7 +140,6 @@ class SparseGLMMethod(BaseFinalLayerMethod):
         
         logger.info(f"Running GLM-SAGA with lambda={config.sparsity_lambda}, alpha={config.glm_alpha}")
         
-        # Run GLM-SAGA
         output_proj = self.glm_saga(
             linear, train_loader, 
             config.glm_step_size, 
@@ -173,12 +154,10 @@ class SparseGLMMethod(BaseFinalLayerMethod):
             n_classes=config.num_classes
         )
         
-        # Extract results
         best_result = output_proj['path'][0]
         W_g = best_result['weight']
         b_g = best_result['bias']
         
-        # Calculate sparsity statistics
         nnz = (W_g.abs() > 1e-5).sum().item()
         total = W_g.numel()
         sparsity_per_class = nnz / config.num_classes
@@ -218,7 +197,6 @@ class DenseLinearMethod(BaseFinalLayerMethod):
         
         logger.info(f"Training dense linear final layer with {config.num_concepts} concepts, {config.num_classes} classes")
         
-        # Normalize if requested
         if config.normalize_concepts:
             concept_mean = concept_activations.mean(dim=0)
             concept_std = concept_activations.std(dim=0) + 1e-8
@@ -228,18 +206,14 @@ class DenseLinearMethod(BaseFinalLayerMethod):
             concept_mean = torch.zeros(concept_activations.shape[1])
             concept_std = torch.ones(concept_activations.shape[1])
         
-        # Create model
         model = nn.Linear(config.num_concepts, config.num_classes).to(config.device)
         
-        # Setup training
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
         
-        # Prepare data
         train_dataset = TensorDataset(normalized_concepts, labels.long())
         train_loader = DataLoader(train_dataset, batch_size=config.batch_size, shuffle=True)
         
-        # Training loop
         train_losses = []
         val_accuracies = []
         
@@ -262,7 +236,6 @@ class DenseLinearMethod(BaseFinalLayerMethod):
             avg_loss = epoch_loss / len(train_loader)
             train_losses.append(avg_loss)
             
-            # Validation
             if validation_data is not None:
                 val_concepts, val_labels = validation_data
                 if config.normalize_concepts:
@@ -315,33 +288,25 @@ class SparseLinearMethod(BaseFinalLayerMethod):
         
         logger.info(f"Training sparse linear final layer with {config.num_concepts} concepts, {config.num_classes} classes")
         
-        # Use dense method as base
         dense_method = DenseLinearMethod()
         result = dense_method.train(concept_activations, labels, config, validation_data)
         
-        # Apply sparsity constraints
         weight = result['weight']
         
         if config.sparsity_percentage is not None:
-            # Percentage-based sparsity
             k = int(weight.numel() * config.sparsity_percentage)
         else:
-            # Per-class sparsity
             k = config.target_sparsity_per_class * config.num_classes
         
-        # Keep top-k weights by absolute value
         flat_weights = weight.flatten()
         _, top_k_indices = torch.topk(torch.abs(flat_weights), k)
         
-        # Create sparse weight mask
         sparse_mask = torch.zeros_like(flat_weights, dtype=torch.bool)
         sparse_mask[top_k_indices] = True
         sparse_mask = sparse_mask.reshape(weight.shape)
         
-        # Apply sparsity
         sparse_weight = weight * sparse_mask.float()
         
-        # Update sparsity stats
         nnz = sparse_mask.sum().item()
         result['weight'] = sparse_weight
         result['sparsity_stats'] = {
@@ -383,7 +348,6 @@ class UnifiedFinalTrainer:
         if config.layer_type not in self.methods:
             raise ValueError(f"Unsupported layer type: {config.layer_type}")
         
-        # Update config with inferred dimensions if not set
         if config.num_concepts == 0:
             config.num_concepts = concept_activations.shape[1]
         if config.num_classes == 0:
@@ -392,7 +356,6 @@ class UnifiedFinalTrainer:
         method = self.methods[config.layer_type]
         result = method.train(concept_activations, labels, config, validation_data)
         
-        # Add configuration to result
         result['config'] = config
         result['method'] = config.layer_type.value
         
@@ -404,7 +367,6 @@ class UnifiedFinalTrainer:
         method = self.methods[config.layer_type]
         layer = method.create_layer(config)
         
-        # Load trained weights
         layer.weight.data = training_result['weight'].to(config.device)
         layer.bias.data = training_result['bias'].to(config.device)
         
@@ -414,13 +376,11 @@ class UnifiedFinalTrainer:
         """Save training results to disk"""
         os.makedirs(save_path, exist_ok=True)
         
-        # Save tensors
         torch.save(result['weight'], os.path.join(save_path, 'W_g.pt'))
         torch.save(result['bias'], os.path.join(save_path, 'b_g.pt'))
         torch.save(result['concept_mean'], os.path.join(save_path, 'concept_mean.pt'))
         torch.save(result['concept_std'], os.path.join(save_path, 'concept_std.pt'))
         
-        # Save metadata
         metadata = {
             'config': result['config'].to_dict(),
             'method': result['method'],
@@ -428,7 +388,6 @@ class UnifiedFinalTrainer:
             'sparsity_stats': result['sparsity_stats']
         }
         
-        # Handle GLM-specific metadata
         if 'glm_metadata' in result:
             metadata['glm_metadata'] = result['glm_metadata']
         
@@ -442,17 +401,14 @@ class UnifiedFinalTrainer:
         
         result = {}
         
-        # Load tensors
         result['weight'] = torch.load(os.path.join(load_path, 'W_g.pt'), map_location=device)
         result['bias'] = torch.load(os.path.join(load_path, 'b_g.pt'), map_location=device)
         result['concept_mean'] = torch.load(os.path.join(load_path, 'concept_mean.pt'), map_location=device)
         result['concept_std'] = torch.load(os.path.join(load_path, 'concept_std.pt'), map_location=device)
         
-        # Load metadata
         with open(os.path.join(load_path, 'final_layer_metadata.json'), 'r') as f:
             metadata = json.load(f)
         
-        # Reconstruct config
         result['config'] = FinalLayerConfig.from_dict(metadata['config'])
         result.update(metadata)
         
@@ -460,7 +416,6 @@ class UnifiedFinalTrainer:
         
         return result
 
-# Method-specific configuration helpers
 def get_label_free_cbm_config(num_concepts: int, num_classes: int, **kwargs) -> FinalLayerConfig:
     """Standard configuration for Label-free CBM"""
     defaults = {
@@ -504,7 +459,7 @@ def get_cb_llm_config(num_concepts: int, num_classes: int, **kwargs) -> FinalLay
     """Configuration for CB-LLM final layer"""
     defaults = {
         'layer_type': FinalLayerType.DENSE_LINEAR,
-        'learning_rate': 0.0001,  # Lower LR for language models
+        'learning_rate': 0.0001,  
         'max_epochs': 50,
         'normalize_concepts': True,
         'weight_decay': 0.01
