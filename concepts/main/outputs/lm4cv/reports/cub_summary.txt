@@ -1,0 +1,209 @@
+LM4CV Attribute Generation Summary - cub
+==================================================
+
+Total classes: 200
+Total attributes: 1900
+Unique attributes: 1052
+Average attributes per class: 9.5
+
+Class breakdown:
+  Black footed Albatross: 14 attributes
+  Laysan Albatross: 7 attributes
+  Sooty Albatross: 8 attributes
+  Groove billed Ani: 8 attributes
+  Crested Auklet: 9 attributes
+  Least Auklet: 10 attributes
+  Parakeet Auklet: 9 attributes
+  Rhinoceros Auklet: 10 attributes
+  Brewer Blackbird: 10 attributes
+  Red winged Blackbird: 12 attributes
+  Rusty Blackbird: 10 attributes
+  Yellow headed Blackbird: 11 attributes
+  Bobolink: 8 attributes
+  Indigo Bunting: 9 attributes
+  Lazuli Bunting: 7 attributes
+  Painted Bunting: 7 attributes
+  Cardinal: 10 attributes
+  Spotted Catbird: 10 attributes
+  Gray Catbird: 8 attributes
+  Yellow breasted Chat: 9 attributes
+  Eastern Towhee: 10 attributes
+  Chuck will Widow: 11 attributes
+  Brandt Cormorant: 9 attributes
+  Red faced Cormorant: 9 attributes
+  Pelagic Cormorant: 10 attributes
+  Bronzed Cowbird: 7 attributes
+  Shiny Cowbird: 15 attributes
+  Brown Creeper: 10 attributes
+  American Crow: 10 attributes
+  Fish Crow: 6 attributes
+  Black billed Cuckoo: 10 attributes
+  Mangrove Cuckoo: 10 attributes
+  Yellow billed Cuckoo: 10 attributes
+  Gray crowned Rosy Finch: 10 attributes
+  Purple Finch: 8 attributes
+  Northern Flicker: 10 attributes
+  Acadian Flycatcher: 10 attributes
+  Great Crested Flycatcher: 7 attributes
+  Least Flycatcher: 10 attributes
+  Olive sided Flycatcher: 10 attributes
+  Scissor tailed Flycatcher: 8 attributes
+  Vermilion Flycatcher: 7 attributes
+  Yellow bellied Flycatcher: 9 attributes
+  Frigatebird: 9 attributes
+  Northern Fulmar: 10 attributes
+  Gadwall: 9 attributes
+  American Goldfinch: 9 attributes
+  European Goldfinch: 9 attributes
+  Boat tailed Grackle: 10 attributes
+  Eared Grebe: 9 attributes
+  Horned Grebe: 10 attributes
+  Pied billed Grebe: 10 attributes
+  Western Grebe: 10 attributes
+  Blue Grosbeak: 10 attributes
+  Evening Grosbeak: 9 attributes
+  Pine Grosbeak: 7 attributes
+  Rose breasted Grosbeak: 10 attributes
+  Pigeon Guillemot: 8 attributes
+  California Gull: 7 attributes
+  Glaucous winged Gull: 10 attributes
+  Heermann Gull: 9 attributes
+  Herring Gull: 10 attributes
+  Ivory Gull: 7 attributes
+  Ring billed Gull: 10 attributes
+  Slaty backed Gull: 9 attributes
+  Western Gull: 10 attributes
+  Anna Hummingbird: 10 attributes
+  Ruby throated Hummingbird: 10 attributes
+  Rufous Hummingbird: 12 attributes
+  Green Violetear: 11 attributes
+  Long tailed Jaeger: 7 attributes
+  Pomarine Jaeger: 8 attributes
+  Blue Jay: 9 attributes
+  Florida Jay: 13 attributes
+  Green Jay: 8 attributes
+  Dark eyed Junco: 9 attributes
+  Tropical Kingbird: 10 attributes
+  Gray Kingbird: 10 attributes
+  Belted Kingfisher: 7 attributes
+  Green Kingfisher: 10 attributes
+  Pied Kingfisher: 9 attributes
+  Ringed Kingfisher: 10 attributes
+  White breasted Kingfisher: 9 attributes
+  Red legged Kittiwake: 10 attributes
+  Horned Lark: 9 attributes
+  Pacific Loon: 10 attributes
+  Mallard: 10 attributes
+  Western Meadowlark: 10 attributes
+  Hooded Merganser: 8 attributes
+  Red breasted Merganser: 16 attributes
+  Mockingbird: 8 attributes
+  Nighthawk: 9 attributes
+  Clark Nutcracker: 7 attributes
+  White breasted Nuthatch: 8 attributes
+  Baltimore Oriole: 9 attributes
+  Hooded Oriole: 10 attributes
+  Orchard Oriole: 8 attributes
+  Scott Oriole: 8 attributes
+  Ovenbird: 9 attributes
+  Brown Pelican: 9 attributes
+  White Pelican: 10 attributes
+  Western Wood Pewee: 9 attributes
+  Sayornis: 10 attributes
+  American Pipit: 14 attributes
+  Whip poor Will: 8 attributes
+  Horned Puffin: 10 attributes
+  Common Raven: 9 attributes
+  White necked Raven: 9 attributes
+  American Redstart: 10 attributes
+  Geococcyx: 8 attributes
+  Loggerhead Shrike: 10 attributes
+  Great Grey Shrike: 10 attributes
+  Baird Sparrow: 8 attributes
+  Black throated Sparrow: 10 attributes
+  Brewer Sparrow: 12 attributes
+  Chipping Sparrow: 8 attributes
+  Clay colored Sparrow: 7 attributes
+  House Sparrow: 12 attributes
+  Field Sparrow: 8 attributes
+  Fox Sparrow: 17 attributes
+  Grasshopper Sparrow: 9 attributes
+  Harris Sparrow: 10 attributes
+  Henslow Sparrow: 10 attributes
+  Le Conte Sparrow: 10 attributes
+  Lincoln Sparrow: 10 attributes
+  Nelson Sharp tailed Sparrow: 9 attributes
+  Savannah Sparrow: 10 attributes
+  Seaside Sparrow: 10 attributes
+  Song Sparrow: 8 attributes
+  Tree Sparrow: 5 attributes
+  Vesper Sparrow: 12 attributes
+  White crowned Sparrow: 10 attributes
+  White throated Sparrow: 8 attributes
+  Cape Glossy Starling: 10 attributes
+  Bank Swallow: 10 attributes
+  Barn Swallow: 8 attributes
+  Cliff Swallow: 18 attributes
+  Tree Swallow: 10 attributes
+  Scarlet Tanager: 10 attributes
+  Summer Tanager: 11 attributes
+  Artic Tern: 9 attributes
+  Black Tern: 9 attributes
+  Caspian Tern: 9 attributes
+  Common Tern: 9 attributes
+  Elegant Tern: 10 attributes
+  Forsters Tern: 10 attributes
+  Least Tern: 17 attributes
+  Green tailed Towhee: 10 attributes
+  Brown Thrasher: 8 attributes
+  Sage Thrasher: 8 attributes
+  Black capped Vireo: 10 attributes
+  Blue headed Vireo: 8 attributes
+  Philadelphia Vireo: 10 attributes
+  Red eyed Vireo: 11 attributes
+  Warbling Vireo: 11 attributes
+  White eyed Vireo: 9 attributes
+  Yellow throated Vireo: 9 attributes
+  Bay breasted Warbler: 10 attributes
+  Black and white Warbler: 10 attributes
+  Black throated Blue Warbler: 9 attributes
+  Blue winged Warbler: 7 attributes
+  Canada Warbler: 8 attributes
+  Cape May Warbler: 9 attributes
+  Cerulean Warbler: 8 attributes
+  Chestnut sided Warbler: 10 attributes
+  Golden winged Warbler: 10 attributes
+  Hooded Warbler: 9 attributes
+  Kentucky Warbler: 10 attributes
+  Magnolia Warbler: 10 attributes
+  Mourning Warbler: 9 attributes
+  Myrtle Warbler: 10 attributes
+  Nashville Warbler: 10 attributes
+  Orange crowned Warbler: 9 attributes
+  Palm Warbler: 9 attributes
+  Pine Warbler: 9 attributes
+  Prairie Warbler: 10 attributes
+  Prothonotary Warbler: 10 attributes
+  Swainson Warbler: 8 attributes
+  Tennessee Warbler: 9 attributes
+  Wilson Warbler: 10 attributes
+  Worm eating Warbler: 11 attributes
+  Yellow Warbler: 10 attributes
+  Northern Waterthrush: 9 attributes
+  Louisiana Waterthrush: 8 attributes
+  Bohemian Waxwing: 10 attributes
+  Cedar Waxwing: 10 attributes
+  American Three toed Woodpecker: 8 attributes
+  Pileated Woodpecker: 12 attributes
+  Red bellied Woodpecker: 10 attributes
+  Red cockaded Woodpecker: 10 attributes
+  Red headed Woodpecker: 10 attributes
+  Downy Woodpecker: 8 attributes
+  Bewick Wren: 10 attributes
+  Cactus Wren: 8 attributes
+  Carolina Wren: 10 attributes
+  House Wren: 8 attributes
+  Marsh Wren: 10 attributes
+  Rock Wren: 8 attributes
+  Winter Wren: 10 attributes
+  Common Yellowthroat: 10 attributes

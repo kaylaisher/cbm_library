@@ -1,0 +1,829 @@
+{
+  "apple": [
+    "fruit",
+    "plant",
+    "tree",
+    "food",
+    "consumer good"
+  ],
+  "aquarium fish": [
+    "freshwater fish",
+    "saltwater fish",
+    "cichlids",
+    "killifish",
+    "danios",
+    "guppies",
+    "mollies",
+    "platies",
+    "tetras",
+    "catfish",
+    "loaches",
+    "puffers",
+    "clownfish",
+    "angelfish",
+    "butterflyfish",
+    "damselfish",
+    "wrasses",
+    "gobies",
+    "eels",
+    "seahorses",
+    "lionfish",
+    "triggerfish",
+    "tangs",
+    "surgeonfish",
+    "blennies",
+    "dwarf cichlids",
+    "oscars",
+    "discus",
+    "livebearers",
+    "mouthbrooders",
+    "biotopes",
+    "community tanks",
+    "aggressive fish"
+  ],
+  "baby": [
+    "baby",
+    "human",
+    "child",
+    "family member"
+  ],
+  "bear": [
+    "mammal",
+    "large carnivore",
+    "ursid family",
+    "omnivore",
+    "berelo",
+    "grizzly",
+    "polar bear",
+    "black bear"
+  ],
+  "beaver": [
+    "mammal",
+    "rodent",
+    "Castor",
+    "aquatic",
+    "furbearer",
+    "burrower",
+    "dam builder"
+  ],
+  "bed": [
+    "furniture",
+    "sleeping aid",
+    "mattress",
+    "pillow",
+    "bed frame",
+    "linen",
+    "comforter",
+    "pillowcase",
+    "duvet",
+    "sheet"
+  ],
+  "bee": [
+    "insect",
+    "pollinator",
+    "honeybee",
+    "bumblebee",
+    "drones",
+    "queens",
+    "workers"
+  ],
+  "beetle": [
+    "insect",
+    "insecta",
+    "coleoptera",
+    "beetle"
+  ],
+  "bicycle": [
+    "transportation",
+    "two-wheeled",
+    "human-powered",
+    "recreation",
+    "sport",
+    "exercise",
+    "commuting",
+    "leisure",
+    "outdoor",
+    "cycling"
+  ],
+  "bottle": [
+    "container",
+    "drinking vessel",
+    "storage",
+    "glassware",
+    "packaging"
+  ],
+  "bowl": [
+    "kitchen item",
+    "container",
+    "dishware",
+    "tableware",
+    "serving dish",
+    "pottery",
+    "ceramic"
+  ],
+  "boy": [
+    "human being",
+    "male child",
+    "adolescent",
+    "adult",
+    "young man",
+    "father",
+    "son",
+    "brother",
+    "cousin",
+    "nephew",
+    "grandson",
+    "uncle",
+    "male student",
+    "employee",
+    "colleague",
+    "friend",
+    "neighbor",
+    "teammate",
+    "athlete",
+    "artist",
+    "musician",
+    "actor",
+    "dancer",
+    "scientist",
+    "engineer",
+    "doctor",
+    "lawyer",
+    "teacher",
+    "coach",
+    "mentor",
+    "leader",
+    "boss",
+    "customer",
+    "patient",
+    "client",
+    "guest"
+  ],
+  "bridge": [
+    "transportation",
+    "communication",
+    "card game",
+    "social activity"
+  ],
+  "bus": [
+    "vehicle",
+    "ground transportation",
+    "public transport"
+  ],
+  "butterfly": [
+    "Animal",
+    "Insect",
+    "Lepidoptera",
+    "Rhopalocera",
+    "Papilionoidea",
+    "Macrolepidoptera"
+  ],
+  "camel": [
+    "camel, mammal, desert"
+  ],
+  "can": [
+    "verb\", \"computer program"
+  ],
+  "castle": [
+    "Architectural structure",
+    "Historical monument",
+    "Royal residence",
+    "Fortification",
+    "Landmark"
+  ],
+  "caterpillar": [
+    "insect",
+    "arboriculture",
+    "lepidoptera",
+    "animal",
+    "invertebrate",
+    "animalia"
+  ],
+  "cattle": [
+    "Animal",
+    "mammal",
+    "livestock",
+    "bovine",
+    "domesticated",
+    "beef",
+    "dairy",
+    "bull",
+    "cow",
+    "steer"
+  ],
+  "chair": [
+    "furniture",
+    "seating",
+    "home furnishing",
+    "living room"
+  ],
+  "chimpanzee": [
+    "Mammal",
+    "Primate",
+    "Chimpanzee",
+    "Hominid",
+    "Great ape",
+    "Social animal"
+  ],
+  "clock": [
+    "timekeeping",
+    "measuring tool",
+    "device",
+    "accessory"
+  ],
+  "cloud": [
+    "computer",
+    "technology",
+    "internet",
+    "storage",
+    "data",
+    "virtualization",
+    "software",
+    "network",
+    "infrastructure",
+    "security",
+    "cloud computing",
+    "cloud services",
+    "cloud storage",
+    "cloud platform",
+    "cloud provider",
+    "cloud management",
+    "cloud migration"
+  ],
+  "cockroach": [
+    "insect",
+    "arthropod",
+    "pest",
+    "blattodea"
+  ],
+  "couch": [
+    "furniture",
+    "home accessory",
+    "seating"
+  ],
+  "crab": [
+    "marine animal",
+    "arthropod",
+    "crustacean",
+    "decapod",
+    "edible",
+    "invertebrate"
+  ],
+  "crocodile": [
+    "reptile",
+    "cold-blooded animal",
+    "amphibious",
+    "archosaurs",
+    "crocodylians"
+  ],
+  "cup": [
+    "beverage container",
+    "drinking vessel",
+    "tableware",
+    "kitchenware",
+    "ceramic",
+    "glass",
+    "metal"
+  ],
+  "dinosaur": [
+    "Reptile",
+    "Mesozoic",
+    "Vertebrate",
+    "Prehistoric",
+    "Tetrapod",
+    "Fossil",
+    "Extinct",
+    "Sauropsid",
+    "Therapsid"
+  ],
+  "dolphin": [
+    "marine mammal",
+    "cetacean",
+    "mammal",
+    "air-breathing"
+  ],
+  "elephant": [
+    "land animal",
+    "mammal",
+    "herbivore",
+    "large mammal",
+    "elephantidae",
+    "african elephant",
+    "asian elephant"
+  ],
+  "flatfish": [
+    "fish",
+    "vertebrates",
+    "teleosts",
+    "flatfish",
+    "pleuronectiformes"
+  ],
+  "forest": [
+    "ecosystem",
+    "biome",
+    "plant community",
+    "terrestrial",
+    "flora",
+    "fauna",
+    "natural habitat",
+    "wildlife",
+    "biodiversity",
+    "conservation",
+    "climate",
+    "geography",
+    "landscape",
+    "physis"
+  ],
+  "fox": [
+    "mammal",
+    "canidae",
+    "carnivore",
+    "wildlife",
+    "nocturnal"
+  ],
+  "girl": [
+    "human being",
+    "female",
+    "child",
+    "adolescent",
+    "young woman",
+    "teenage girl",
+    "preteen girl",
+    "girlhood",
+    "womanhood"
+  ],
+  "hamster": [
+    "Rodent",
+    "Pet",
+    "Mammal"
+  ],
+  "house": [
+    "building",
+    "residential",
+    "structure",
+    "shelter",
+    "dwelling",
+    "real estate",
+    "architecture",
+    "living space",
+    "home",
+    "domestic",
+    "abode"
+  ],
+  "kangaroo": [
+    "animal",
+    "marsupial",
+    "mammal",
+    "herbivore",
+    "hopping",
+    "Australia"
+  ],
+  "keyboard": [
+    "input device",
+    "computer peripheral",
+    "electrical component",
+    "mechanical part",
+    "digital interface"
+  ],
+  "lamp": [
+    "lighting device",
+    "electrical equipment",
+    "home furnishing",
+    "illumination"
+  ],
+  "lawn mower": [
+    "vehicle",
+    "power tool",
+    "garden equipment",
+    "outdoor equipment",
+    "machine"
+  ],
+  "leopard": [
+    "Mammal",
+    "Carnivore",
+    "Felidae",
+    "Panthera",
+    "Spotted cat",
+    "Wild cat"
+  ],
+  "lion": [
+    "mammal",
+    "carnivore",
+    "big cat",
+    "wild animal",
+    "feline"
+  ],
+  "lizard": [
+    "reptile",
+    "cold-blooded animal",
+    "scaled skin",
+    "amniote",
+    "tesla",
+    "ectothermic",
+    "vertebrate",
+    "tetrapod",
+    "legged",
+    "terrestrial"
+  ],
+  "lobster": [
+    "marine creature",
+    "seafood",
+    "crustacean",
+    "decapod",
+    "edible"
+  ],
+  "man": [
+    "biological organism",
+    "human being",
+    "mammal",
+    "primate",
+    "Homo sapiens",
+    "bipedal",
+    "male",
+    "person",
+    "male human",
+    "mankind"
+  ],
+  "maple tree": [
+    "plant",
+    "tree",
+    "maple",
+    "angiosperm",
+    "deciduous",
+    "hardwood"
+  ],
+  "motorcycle": [
+    "two-wheeler",
+    "motorized vehicle",
+    "transportation",
+    "personal transporter",
+    "gas-powered",
+    "roadworthy"
+  ],
+  "mountain": [
+    "geographical feature",
+    "natural formation",
+    "landscape",
+    "earth formation",
+    "terrain"
+  ],
+  "mouse": [
+    "mammal",
+    "rodent",
+    "pet",
+    "Mus musculus",
+    "laboratory animal",
+    "computer mouse"
+  ],
+  "mushroom": [
+    "fungi",
+    "plant life",
+    "organisms",
+    "earth life"
+  ],
+  "oak tree": [
+    "plant",
+    "tree",
+    "oak",
+    "life form",
+    "nature"
+  ],
+  "orange": [
+    "fruit",
+    "citrus",
+    "plant",
+    "fruit tree"
+  ],
+  "orchid": [
+    "plant family, orchidaceae",
+    "orchid, flowering plant",
+    "angiosperm, seed plant",
+    "monocot, flowering plant",
+    "epiphyte, air plant",
+    "tropical, warm-climate"
+  ],
+  "otter": [
+    "mammal",
+    "carnivore",
+    "weasel",
+    "mustelid"
+  ],
+  "palm tree": [
+    "Plant",
+    "Tree",
+    "Tropical",
+    "Palm",
+    "Evergreen"
+  ],
+  "pear": [
+    "fruit",
+    "plant",
+    "Pomo",
+    "Malus domestica"
+  ],
+  "pickup truck": [
+    "vehicle",
+    "transportation",
+    "automotive",
+    "truck",
+    "utility",
+    "off-road",
+    "work",
+    "durability",
+    "cargo"
+  ],
+  "pine tree": [
+    "Tree",
+    "Pine tree",
+    "Plant",
+    "Flora",
+    "Life form",
+    "Conifer",
+    "Foliage",
+    "Woods"
+  ],
+  "plain": [
+    "adjective",
+    "noun",
+    "description",
+    "simplicity",
+    "basic"
+  ],
+  "plate": [
+    "kitchenware",
+    "tableware",
+    "dishware",
+    "cookware",
+    "bakeware"
+  ],
+  "poppy": [
+    "flower - plant"
+  ],
+  "porcupine": [
+    "mammal",
+    "rodent",
+    "Quill pig",
+    "Erethizon dorsatum"
+  ],
+  "possum": [
+    "mammal",
+    "nocturnal",
+    "arsenal",
+    "wildlife",
+    "animal"
+  ],
+  "rabbit": [
+    "Animal",
+    "Mammal",
+    "Rodent",
+    "Lagomorph"
+  ],
+  "raccoon": [
+    "mammal",
+    "nocturnal",
+    "omnivore",
+    "North American"
+  ],
+  "ray": [
+    "marine life",
+    "night creature",
+    "flying object",
+    "water animal",
+    "light emitter",
+    "space object",
+    "energy source",
+    "natural phenomenon"
+  ],
+  "road": [
+    "transportation system",
+    "infrastructure",
+    "public works",
+    "urban planning",
+    "geography",
+    "engineering"
+  ],
+  "rocket": [
+    "spacecraft",
+    "propulsion system",
+    "aerospace engineering",
+    "astronautics",
+    "launch vehicle",
+    "solid rocket",
+    "liquid rocket",
+    "sounding rocket",
+    "satellite deployment",
+    "space exploration"
+  ],
+  "rose": [
+    "plant",
+    "biology",
+    "flower",
+    "botany"
+  ],
+  "sea": [
+    "aquatic environment",
+    "ocean",
+    "marine life",
+    "coastal area",
+    "underwater world",
+    "saltwater",
+    "tidal zone",
+    "marine ecosystem",
+    "sea creature",
+    "salinity"
+  ],
+  "seal": [
+    "marine mammal",
+    "aquatic animal",
+    "pinniped",
+    "carnivore"
+  ],
+  "shark": [
+    "aquatic animal",
+    "chondrichthyan",
+    "elasmobranch",
+    "cartilaginous fish",
+    "predator",
+    "marine life",
+    "nurse shark",
+    "bull shark",
+    "great white shark"
+  ],
+  "shrew": [
+    "mammal",
+    "insectivore",
+    "rodent"
+  ],
+  "skunk": [
+    "mammal",
+    "carnivore",
+    "striped animal",
+    "skunk family"
+  ],
+  "skyscraper": [
+    "architecture",
+    "building",
+    "construction",
+    "engineering",
+    "urban development"
+  ],
+  "snail": [
+    "Gastropod",
+    "Mollusk",
+    "Animal",
+    "Invertebrate",
+    "Pulmonate",
+    "Hermaphrodite",
+    "Terrestrial snail",
+    "Land snail",
+    "Aquatic snail",
+    "Eating machine",
+    "Slowpoke"
+  ],
+  "snake": [
+    "reptile",
+    "animal",
+    "ectotherm",
+    "cold-blooded",
+    "crawling creature",
+    "scales"
+  ],
+  "spider": [
+    "arachnid",
+    "Animal",
+    "Invertebrate",
+    "Eight-legged",
+    "web-building"
+  ],
+  "squirrel": [
+    "mammal",
+    "rodent",
+    "tree dweller",
+    "forager",
+    "arborist"
+  ],
+  "streetcar": [
+    "public transportation",
+    "urban transit",
+    "electric rail",
+    "railway vehicle"
+  ],
+  "sunflower": [
+    "plant",
+    "wildflower",
+    "herb",
+    "flowering plant",
+    "annual",
+    "Asteraceae"
+  ],
+  "sweet pepper": [
+    "plant",
+    "vegetable",
+    "fruit",
+    "solanum",
+    "capsicum",
+    "nightshade"
+  ],
+  "table": [
+    "vehicle, transportation",
+    "living thing, organism",
+    "furniture, household item",
+    "tool, equipment"
+  ],
+  "tank": [
+    "armored vehicle",
+    "tracked vehicle",
+    "combat vehicle",
+    "main battle tank",
+    "tank destroyer"
+  ],
+  "telephone": [
+    "communication device",
+    "electronic device",
+    "personal item"
+  ],
+  "television": [
+    "electronic device",
+    "visual media",
+    "broadcasting",
+    "entertainment"
+  ],
+  "tiger": [
+    "animal",
+    "mammal",
+    "big cat",
+    "predator",
+    "feline"
+  ],
+  "tractor": [
+    "agricultural equipment",
+    "vehicle",
+    "farming machinery",
+    "heavy equipment",
+    "power source"
+  ],
+  "train": [
+    "vehicle",
+    "transportation",
+    "railway",
+    "locomotive",
+    "highway"
+  ],
+  "trout": [
+    "fish",
+    "Aquatic animal",
+    "Freshwater fish",
+    "Salmonid"
+  ],
+  "tulip": [],
+  "turtle": [
+    "reptile",
+    "pet",
+    "animal"
+  ],
+  "wardrobe": [
+    "clothing",
+    "personal items",
+    "storage",
+    "fashion",
+    "garment",
+    "accessories",
+    "home"
+  ],
+  "whale": [
+    "marine mammal",
+    "aquatic animal",
+    "cetacean",
+    "mammal"
+  ],
+  "willow tree": [
+    "Plant",
+    "Tree",
+    "Willow",
+    "Angiosperm"
+  ],
+  "wolf": [
+    "mammal",
+    "canine",
+    "predator",
+    "wild animal"
+  ],
+  "woman": [
+    "adult female",
+    "biological female",
+    "daughter",
+    "female human",
+    "mother",
+    "woman"
+  ],
+  "worm": [
+    "Annelids",
+    "Invertebrates",
+    "Segmented worms",
+    "Decomposers",
+    "Nematodes",
+    "Oligochaetes",
+    "Parasitic worms",
+    "Microscopic worms"
+  ]
+}

@@ -1,0 +1,1007 @@
+LM4CV Attribute Generation Summary - imagenet
+==================================================
+
+Total classes: 998
+Total attributes: 9475
+Unique attributes: 3809
+Average attributes per class: 9.5
+
+Class breakdown:
+  tench: 9 attributes
+  goldfish: 10 attributes
+  great white shark: 9 attributes
+  tiger shark: 8 attributes
+  hammerhead shark: 10 attributes
+  electric ray: 10 attributes
+  stingray: 10 attributes
+  rooster: 10 attributes
+  hen: 9 attributes
+  ostrich: 10 attributes
+  brambling: 10 attributes
+  goldfinch: 8 attributes
+  house finch: 7 attributes
+  junco: 10 attributes
+  indigo bunting: 10 attributes
+  American robin: 10 attributes
+  bulbul: 9 attributes
+  jay: 12 attributes
+  magpie: 9 attributes
+  chickadee: 10 attributes
+  American dipper: 8 attributes
+  kite (bird of prey): 7 attributes
+  bald eagle: 10 attributes
+  vulture: 10 attributes
+  great grey owl: 8 attributes
+  fire salamander: 8 attributes
+  smooth newt: 8 attributes
+  newt: 11 attributes
+  spotted salamander: 9 attributes
+  axolotl: 8 attributes
+  American bullfrog: 8 attributes
+  tree frog: 10 attributes
+  tailed frog: 10 attributes
+  loggerhead sea turtle: 9 attributes
+  leatherback sea turtle: 10 attributes
+  mud turtle: 10 attributes
+  terrapin: 7 attributes
+  box turtle: 10 attributes
+  banded gecko: 10 attributes
+  green iguana: 9 attributes
+  Carolina anole: 10 attributes
+  desert grassland whiptail lizard: 10 attributes
+  agama: 10 attributes
+  frilled-necked lizard: 10 attributes
+  alligator lizard: 9 attributes
+  Gila monster: 12 attributes
+  European green lizard: 10 attributes
+  chameleon: 10 attributes
+  Komodo dragon: 12 attributes
+  Nile crocodile: 10 attributes
+  American alligator: 10 attributes
+  triceratops: 10 attributes
+  worm snake: 10 attributes
+  ring-necked snake: 10 attributes
+  eastern hog-nosed snake: 10 attributes
+  smooth green snake: 13 attributes
+  kingsnake: 10 attributes
+  garter snake: 8 attributes
+  water snake: 10 attributes
+  vine snake: 8 attributes
+  night snake: 8 attributes
+  boa constrictor: 10 attributes
+  African rock python: 10 attributes
+  Indian cobra: 10 attributes
+  green mamba: 9 attributes
+  sea snake: 9 attributes
+  Saharan horned viper: 10 attributes
+  eastern diamondback rattlesnake: 9 attributes
+  sidewinder rattlesnake: 10 attributes
+  trilobite: 9 attributes
+  harvestman: 10 attributes
+  scorpion: 10 attributes
+  yellow garden spider: 8 attributes
+  barn spider: 10 attributes
+  European garden spider: 9 attributes
+  southern black widow: 10 attributes
+  tarantula: 8 attributes
+  wolf spider: 10 attributes
+  tick: 10 attributes
+  centipede: 9 attributes
+  black grouse: 10 attributes
+  ptarmigan: 10 attributes
+  ruffed grouse: 7 attributes
+  prairie grouse: 10 attributes
+  peafowl: 10 attributes
+  quail: 11 attributes
+  partridge: 9 attributes
+  african grey parrot: 9 attributes
+  macaw: 8 attributes
+  sulphur-crested cockatoo: 8 attributes
+  lorikeet: 9 attributes
+  coucal: 10 attributes
+  bee eater: 7 attributes
+  hornbill: 8 attributes
+  hummingbird: 10 attributes
+  jacamar: 10 attributes
+  toucan: 10 attributes
+  duck: 10 attributes
+  red-breasted merganser: 8 attributes
+  goose: 10 attributes
+  black swan: 10 attributes
+  tusker: 8 attributes
+  echidna: 9 attributes
+  platypus: 7 attributes
+  wallaby: 13 attributes
+  koala: 10 attributes
+  wombat: 7 attributes
+  jellyfish: 9 attributes
+  sea anemone: 8 attributes
+  brain coral: 9 attributes
+  flatworm: 10 attributes
+  nematode: 8 attributes
+  conch: 10 attributes
+  snail: 10 attributes
+  slug: 10 attributes
+  sea slug: 7 attributes
+  chiton: 11 attributes
+  chambered nautilus: 10 attributes
+  Dungeness crab: 10 attributes
+  rock crab: 6 attributes
+  fiddler crab: 15 attributes
+  red king crab: 10 attributes
+  American lobster: 8 attributes
+  spiny lobster: 10 attributes
+  crayfish: 8 attributes
+  hermit crab: 10 attributes
+  isopod: 8 attributes
+  white stork: 10 attributes
+  black stork: 8 attributes
+  spoonbill: 10 attributes
+  flamingo: 7 attributes
+  little blue heron: 7 attributes
+  great egret: 9 attributes
+  bittern bird: 9 attributes
+  crane bird: 14 attributes
+  limpkin: 8 attributes
+  common gallinule: 9 attributes
+  American coot: 10 attributes
+  bustard: 9 attributes
+  ruddy turnstone: 8 attributes
+  dunlin: 8 attributes
+  common redshank: 8 attributes
+  dowitcher: 10 attributes
+  oystercatcher: 10 attributes
+  pelican: 15 attributes
+  king penguin: 10 attributes
+  albatross: 10 attributes
+  grey whale: 10 attributes
+  killer whale: 10 attributes
+  dugong: 9 attributes
+  sea lion: 15 attributes
+  Chihuahua: 9 attributes
+  Japanese Chin: 10 attributes
+  Maltese: 8 attributes
+  Pekingese: 9 attributes
+  Shih Tzu: 15 attributes
+  King Charles Spaniel: 10 attributes
+  Papillon: 10 attributes
+  toy terrier: 10 attributes
+  Rhodesian Ridgeback: 10 attributes
+  Afghan Hound: 10 attributes
+  Basset Hound: 11 attributes
+  Beagle: 9 attributes
+  Bloodhound: 9 attributes
+  Bluetick Coonhound: 8 attributes
+  Black and Tan Coonhound: 9 attributes
+  Treeing Walker Coonhound: 9 attributes
+  English foxhound: 10 attributes
+  Redbone Coonhound: 9 attributes
+  borzoi: 10 attributes
+  Irish Wolfhound: 8 attributes
+  Italian Greyhound: 8 attributes
+  Whippet: 7 attributes
+  Ibizan Hound: 6 attributes
+  Norwegian Elkhound: 8 attributes
+  Otterhound: 9 attributes
+  Saluki: 10 attributes
+  Scottish Deerhound: 11 attributes
+  Weimaraner: 8 attributes
+  Staffordshire Bull Terrier: 9 attributes
+  American Staffordshire Terrier: 10 attributes
+  Bedlington Terrier: 7 attributes
+  Border Terrier: 9 attributes
+  Kerry Blue Terrier: 10 attributes
+  Irish Terrier: 10 attributes
+  Norfolk Terrier: 10 attributes
+  Norwich Terrier: 9 attributes
+  Yorkshire Terrier: 10 attributes
+  Wire Fox Terrier: 10 attributes
+  Lakeland Terrier: 10 attributes
+  Sealyham Terrier: 13 attributes
+  Airedale Terrier: 9 attributes
+  Cairn Terrier: 8 attributes
+  Australian Terrier: 8 attributes
+  Dandie Dinmont Terrier: 9 attributes
+  Boston Terrier: 8 attributes
+  Miniature Schnauzer: 20 attributes
+  Giant Schnauzer: 10 attributes
+  Standard Schnauzer: 10 attributes
+  Scottish Terrier: 7 attributes
+  Tibetan Terrier: 10 attributes
+  Australian Silky Terrier: 10 attributes
+  Soft-coated Wheaten Terrier: 10 attributes
+  West Highland White Terrier: 10 attributes
+  Lhasa Apso: 10 attributes
+  Flat-Coated Retriever: 7 attributes
+  Curly-coated Retriever: 14 attributes
+  Golden Retriever: 10 attributes
+  Labrador Retriever: 8 attributes
+  Chesapeake Bay Retriever: 10 attributes
+  German Shorthaired Pointer: 8 attributes
+  Vizsla: 10 attributes
+  English Setter: 10 attributes
+  Irish Setter: 9 attributes
+  Gordon Setter: 11 attributes
+  Brittany dog: 10 attributes
+  Clumber Spaniel: 14 attributes
+  English Springer Spaniel: 8 attributes
+  Welsh Springer Spaniel: 9 attributes
+  Cocker Spaniel: 10 attributes
+  Sussex Spaniel: 8 attributes
+  Irish Water Spaniel: 10 attributes
+  Kuvasz: 10 attributes
+  Schipperke: 9 attributes
+  Groenendael dog: 10 attributes
+  Malinois: 10 attributes
+  Briard: 10 attributes
+  Australian Kelpie: 10 attributes
+  Komondor: 10 attributes
+  Old English Sheepdog: 10 attributes
+  Shetland Sheepdog: 12 attributes
+  collie: 9 attributes
+  Border Collie: 10 attributes
+  Bouvier des Flandres dog: 7 attributes
+  Rottweiler: 10 attributes
+  German Shepherd Dog: 10 attributes
+  Dobermann: 9 attributes
+  Miniature Pinscher: 11 attributes
+  Greater Swiss Mountain Dog: 11 attributes
+  Bernese Mountain Dog: 8 attributes
+  Appenzeller Sennenhund: 10 attributes
+  Entlebucher Sennenhund: 7 attributes
+  Boxer: 8 attributes
+  Bullmastiff: 9 attributes
+  Tibetan Mastiff: 7 attributes
+  French Bulldog: 16 attributes
+  Great Dane: 7 attributes
+  St. Bernard: 10 attributes
+  husky: 13 attributes
+  Alaskan Malamute: 7 attributes
+  Siberian Husky: 10 attributes
+  Dalmatian: 9 attributes
+  Affenpinscher: 10 attributes
+  Basenji: 10 attributes
+  pug: 11 attributes
+  Leonberger: 10 attributes
+  Newfoundland dog: 11 attributes
+  Great Pyrenees dog: 8 attributes
+  Samoyed: 18 attributes
+  Pomeranian: 8 attributes
+  Chow Chow: 8 attributes
+  Keeshond: 8 attributes
+  brussels griffon: 10 attributes
+  Pembroke Welsh Corgi: 9 attributes
+  Cardigan Welsh Corgi: 11 attributes
+  Toy Poodle: 10 attributes
+  Miniature Poodle: 10 attributes
+  Standard Poodle: 10 attributes
+  Mexican hairless dog (xoloitzcuintli): 7 attributes
+  grey wolf: 8 attributes
+  Alaskan tundra wolf: 10 attributes
+  red wolf or maned wolf: 9 attributes
+  coyote: 11 attributes
+  dingo: 10 attributes
+  dhole: 10 attributes
+  African wild dog: 8 attributes
+  hyena: 9 attributes
+  red fox: 6 attributes
+  kit fox: 9 attributes
+  Arctic fox: 9 attributes
+  grey fox: 10 attributes
+  tabby cat: 10 attributes
+  tiger cat: 10 attributes
+  Persian cat: 10 attributes
+  Siamese cat: 7 attributes
+  Egyptian Mau: 8 attributes
+  cougar: 10 attributes
+  lynx: 10 attributes
+  leopard: 12 attributes
+  snow leopard: 10 attributes
+  jaguar: 8 attributes
+  lion: 10 attributes
+  tiger: 10 attributes
+  cheetah: 8 attributes
+  brown bear: 9 attributes
+  American black bear: 10 attributes
+  polar bear: 9 attributes
+  sloth bear: 9 attributes
+  mongoose: 8 attributes
+  meerkat: 9 attributes
+  tiger beetle: 8 attributes
+  ladybug: 10 attributes
+  ground beetle: 10 attributes
+  longhorn beetle: 7 attributes
+  leaf beetle: 8 attributes
+  dung beetle: 8 attributes
+  rhinoceros beetle: 10 attributes
+  weevil: 8 attributes
+  fly: 10 attributes
+  bee: 10 attributes
+  ant: 9 attributes
+  grasshopper: 10 attributes
+  cricket insect: 9 attributes
+  stick insect: 8 attributes
+  cockroach: 10 attributes
+  praying mantis: 9 attributes
+  cicada: 10 attributes
+  leafhopper: 8 attributes
+  lacewing: 10 attributes
+  dragonfly: 7 attributes
+  damselfly: 10 attributes
+  red admiral butterfly: 10 attributes
+  ringlet butterfly: 8 attributes
+  monarch butterfly: 10 attributes
+  small white butterfly: 13 attributes
+  sulphur butterfly: 10 attributes
+  gossamer-winged butterfly: 7 attributes
+  starfish: 10 attributes
+  sea urchin: 10 attributes
+  sea cucumber: 11 attributes
+  cottontail rabbit: 8 attributes
+  hare: 8 attributes
+  Angora rabbit: 9 attributes
+  hamster: 10 attributes
+  porcupine: 10 attributes
+  fox squirrel: 12 attributes
+  marmot: 7 attributes
+  beaver: 8 attributes
+  guinea pig: 10 attributes
+  common sorrel horse: 10 attributes
+  zebra: 8 attributes
+  pig: 19 attributes
+  wild boar: 8 attributes
+  warthog: 10 attributes
+  hippopotamus: 8 attributes
+  ox: 8 attributes
+  water buffalo: 10 attributes
+  bison: 8 attributes
+  ram (adult male sheep): 8 attributes
+  bighorn sheep: 8 attributes
+  Alpine ibex: 10 attributes
+  hartebeest: 10 attributes
+  impala (antelope): 8 attributes
+  gazelle: 7 attributes
+  arabian camel: 10 attributes
+  llama: 6 attributes
+  weasel: 10 attributes
+  mink: 10 attributes
+  European polecat: 8 attributes
+  black-footed ferret: 7 attributes
+  otter: 8 attributes
+  skunk: 10 attributes
+  badger: 9 attributes
+  armadillo: 9 attributes
+  three-toed sloth: 9 attributes
+  orangutan: 10 attributes
+  gorilla: 10 attributes
+  chimpanzee: 10 attributes
+  gibbon: 8 attributes
+  siamang: 10 attributes
+  guenon: 8 attributes
+  patas monkey: 10 attributes
+  baboon: 8 attributes
+  macaque: 8 attributes
+  langur: 8 attributes
+  black-and-white colobus: 10 attributes
+  proboscis monkey: 9 attributes
+  marmoset: 7 attributes
+  white-headed capuchin: 8 attributes
+  howler monkey: 10 attributes
+  titi monkey: 10 attributes
+  Geoffroy's spider monkey: 7 attributes
+  common squirrel monkey: 9 attributes
+  ring-tailed lemur: 9 attributes
+  indri: 10 attributes
+  Asian elephant: 9 attributes
+  African bush elephant: 10 attributes
+  red panda: 10 attributes
+  giant panda: 8 attributes
+  snoek fish: 10 attributes
+  eel: 9 attributes
+  silver salmon: 10 attributes
+  rock beauty fish: 8 attributes
+  clownfish: 10 attributes
+  sturgeon: 8 attributes
+  gar fish: 10 attributes
+  lionfish: 10 attributes
+  pufferfish: 10 attributes
+  abacus: 10 attributes
+  abaya: 9 attributes
+  academic gown: 8 attributes
+  accordion: 8 attributes
+  acoustic guitar: 10 attributes
+  aircraft carrier: 9 attributes
+  airliner: 10 attributes
+  airship: 10 attributes
+  altar: 10 attributes
+  ambulance: 14 attributes
+  amphibious vehicle: 9 attributes
+  analog clock: 10 attributes
+  apiary: 9 attributes
+  apron: 8 attributes
+  trash can: 7 attributes
+  assault rifle: 10 attributes
+  backpack: 10 attributes
+  bakery: 12 attributes
+  balance beam: 8 attributes
+  balloon: 9 attributes
+  ballpoint pen: 9 attributes
+  Band-Aid: 8 attributes
+  banjo: 10 attributes
+  baluster / handrail: 12 attributes
+  barbell: 12 attributes
+  barber chair: 7 attributes
+  barbershop: 10 attributes
+  barn: 8 attributes
+  barometer: 10 attributes
+  barrel: 10 attributes
+  wheelbarrow: 10 attributes
+  baseball: 8 attributes
+  basketball: 10 attributes
+  bassinet: 10 attributes
+  bassoon: 7 attributes
+  swimming cap: 10 attributes
+  bath towel: 9 attributes
+  bathtub: 10 attributes
+  station wagon: 8 attributes
+  lighthouse: 10 attributes
+  beaker: 8 attributes
+  military hat (bearskin or shako): 10 attributes
+  beer bottle: 9 attributes
+  beer glass: 10 attributes
+  bell tower: 10 attributes
+  baby bib: 10 attributes
+  tandem bicycle: 9 attributes
+  bikini: 8 attributes
+  ring binder: 10 attributes
+  binoculars: 10 attributes
+  birdhouse: 9 attributes
+  boathouse: 9 attributes
+  bobsleigh: 10 attributes
+  bolo tie: 10 attributes
+  poke bonnet: 10 attributes
+  bookcase: 8 attributes
+  bookstore: 8 attributes
+  bottle cap: 10 attributes
+  hunting bow: 9 attributes
+  bow tie: 10 attributes
+  brass memorial plaque: 10 attributes
+  bra: 10 attributes
+  breakwater: 14 attributes
+  breastplate: 10 attributes
+  broom: 10 attributes
+  bucket: 10 attributes
+  buckle: 10 attributes
+  bulletproof vest: 8 attributes
+  high-speed train: 10 attributes
+  butcher shop: 10 attributes
+  taxicab: 10 attributes
+  cauldron: 9 attributes
+  candle: 10 attributes
+  cannon: 10 attributes
+  canoe: 8 attributes
+  can opener: 10 attributes
+  cardigan: 9 attributes
+  car mirror: 7 attributes
+  carousel: 8 attributes
+  tool kit: 9 attributes
+  cardboard box / carton: 14 attributes
+  car wheel: 10 attributes
+  automated teller machine: 10 attributes
+  cassette: 10 attributes
+  cassette player: 10 attributes
+  castle: 10 attributes
+  catamaran: 10 attributes
+  CD player: 8 attributes
+  cello: 8 attributes
+  mobile phone: 10 attributes
+  chain: 7 attributes
+  chain-link fence: 14 attributes
+  chain mail: 8 attributes
+  chainsaw: 8 attributes
+  storage chest: 10 attributes
+  chiffonier: 7 attributes
+  bell or wind chime: 10 attributes
+  china cabinet: 10 attributes
+  Christmas stocking: 10 attributes
+  church: 10 attributes
+  movie theater: 7 attributes
+  cleaver: 10 attributes
+  cliff dwelling: 8 attributes
+  cloak: 9 attributes
+  clogs: 10 attributes
+  cocktail shaker: 9 attributes
+  coffee mug: 18 attributes
+  coffeemaker: 10 attributes
+  spiral or coil: 10 attributes
+  combination lock: 11 attributes
+  computer keyboard: 9 attributes
+  candy store: 8 attributes
+  container ship: 7 attributes
+  convertible: 10 attributes
+  corkscrew: 10 attributes
+  cornet: 8 attributes
+  cowboy boot: 9 attributes
+  cowboy hat: 8 attributes
+  cradle: 12 attributes
+  construction crane: 10 attributes
+  crash helmet: 10 attributes
+  crate: 10 attributes
+  infant bed: 8 attributes
+  Crock Pot: 10 attributes
+  croquet ball: 9 attributes
+  crutch: 9 attributes
+  cuirass: 10 attributes
+  dam: 10 attributes
+  desk: 12 attributes
+  desktop computer: 8 attributes
+  rotary dial telephone: 10 attributes
+  diaper: 10 attributes
+  digital clock: 10 attributes
+  digital watch: 10 attributes
+  dining table: 7 attributes
+  dishcloth: 8 attributes
+  dishwasher: 7 attributes
+  disc brake: 7 attributes
+  dock: 7 attributes
+  dog sled: 6 attributes
+  dome: 10 attributes
+  doormat: 9 attributes
+  drilling rig: 7 attributes
+  drum: 10 attributes
+  drumstick: 10 attributes
+  dumbbell: 8 attributes
+  Dutch oven: 10 attributes
+  electric fan: 9 attributes
+  electric guitar: 10 attributes
+  electric locomotive: 8 attributes
+  entertainment center: 10 attributes
+  envelope: 10 attributes
+  espresso machine: 9 attributes
+  face powder: 15 attributes
+  feather boa: 11 attributes
+  filing cabinet: 8 attributes
+  fireboat: 8 attributes
+  fire truck: 10 attributes
+  fire screen: 8 attributes
+  flagpole: 10 attributes
+  flute: 10 attributes
+  folding chair: 10 attributes
+  football helmet: 9 attributes
+  forklift: 12 attributes
+  fountain: 10 attributes
+  fountain pen: 9 attributes
+  four-poster bed: 8 attributes
+  freight car: 12 attributes
+  French horn: 8 attributes
+  frying pan: 10 attributes
+  fur coat: 9 attributes
+  garbage truck: 9 attributes
+  gas mask or respirator: 7 attributes
+  gas pump: 10 attributes
+  goblet: 7 attributes
+  go-kart: 10 attributes
+  golf ball: 8 attributes
+  golf cart: 10 attributes
+  gondola: 13 attributes
+  gong: 9 attributes
+  gown: 9 attributes
+  grand piano: 9 attributes
+  greenhouse: 10 attributes
+  radiator grille: 10 attributes
+  grocery store: 10 attributes
+  guillotine: 9 attributes
+  hair clip: 7 attributes
+  hair spray: 11 attributes
+  half-track: 7 attributes
+  hammer: 9 attributes
+  hamper: 10 attributes
+  hair dryer: 8 attributes
+  hand-held computer: 8 attributes
+  handkerchief: 8 attributes
+  hard disk drive: 8 attributes
+  harmonica: 10 attributes
+  harp: 10 attributes
+  combine harvester: 10 attributes
+  hatchet: 10 attributes
+  holster: 10 attributes
+  home theater: 15 attributes
+  honeycomb: 9 attributes
+  hook: 7 attributes
+  hoop skirt: 9 attributes
+  gymnastic horizontal bar: 10 attributes
+  horse-drawn vehicle: 10 attributes
+  hourglass: 10 attributes
+  iPod: 7 attributes
+  clothes iron: 16 attributes
+  carved pumpkin: 10 attributes
+  jeans: 10 attributes
+  jeep: 10 attributes
+  T-shirt: 11 attributes
+  jigsaw puzzle: 8 attributes
+  rickshaw: 10 attributes
+  joystick: 10 attributes
+  kimono: 7 attributes
+  knee pad: 10 attributes
+  knot: 10 attributes
+  lab coat: 10 attributes
+  ladle: 10 attributes
+  lampshade: 9 attributes
+  laptop computer: 10 attributes
+  lawn mower: 10 attributes
+  lens cap: 10 attributes
+  letter opener: 10 attributes
+  library: 10 attributes
+  lifeboat: 9 attributes
+  lighter: 9 attributes
+  limousine: 10 attributes
+  ocean liner: 11 attributes
+  lipstick: 8 attributes
+  slip-on shoe: 10 attributes
+  lotion: 12 attributes
+  music speaker: 7 attributes
+  loupe magnifying glass: 18 attributes
+  sawmill: 9 attributes
+  magnetic compass: 10 attributes
+  messenger bag: 8 attributes
+  mailbox: 7 attributes
+  tights: 9 attributes
+  one-piece bathing suit: 9 attributes
+  manhole cover: 9 attributes
+  maraca: 10 attributes
+  marimba: 10 attributes
+  mask: 10 attributes
+  matchstick: 10 attributes
+  maypole: 10 attributes
+  maze: 8 attributes
+  measuring cup: 8 attributes
+  medicine cabinet: 12 attributes
+  megalith: 10 attributes
+  microphone: 10 attributes
+  microwave oven: 7 attributes
+  military uniform: 9 attributes
+  milk can: 10 attributes
+  minibus: 9 attributes
+  miniskirt: 9 attributes
+  minivan: 7 attributes
+  missile: 10 attributes
+  mitten: 10 attributes
+  mixing bowl: 10 attributes
+  mobile home: 10 attributes
+  ford model t: 11 attributes
+  modem: 7 attributes
+  monastery: 10 attributes
+  monitor: 14 attributes
+  moped: 8 attributes
+  mortar and pestle: 10 attributes
+  graduation cap: 10 attributes
+  mosque: 10 attributes
+  mosquito net: 9 attributes
+  vespa: 8 attributes
+  mountain bike: 8 attributes
+  tent: 10 attributes
+  computer mouse: 10 attributes
+  mousetrap: 7 attributes
+  moving van: 12 attributes
+  muzzle: 9 attributes
+  metal nail: 13 attributes
+  neck brace: 6 attributes
+  necklace: 9 attributes
+  baby pacifier: 12 attributes
+  notebook computer: 7 attributes
+  obelisk: 8 attributes
+  oboe: 8 attributes
+  ocarina: 8 attributes
+  odometer: 13 attributes
+  oil filter: 8 attributes
+  pipe organ: 10 attributes
+  oscilloscope: 10 attributes
+  overskirt: 8 attributes
+  bullock cart: 12 attributes
+  oxygen mask: 10 attributes
+  product packet / packaging: 10 attributes
+  paddle: 10 attributes
+  paddle wheel: 5 attributes
+  padlock: 10 attributes
+  paintbrush: 10 attributes
+  pajamas: 10 attributes
+  palace: 10 attributes
+  pan flute: 10 attributes
+  paper towel: 10 attributes
+  parachute: 10 attributes
+  parallel bars: 10 attributes
+  park bench: 7 attributes
+  parking meter: 9 attributes
+  railroad car: 10 attributes
+  patio: 10 attributes
+  payphone: 9 attributes
+  pedestal: 9 attributes
+  pencil case: 10 attributes
+  pencil sharpener: 10 attributes
+  perfume: 9 attributes
+  Petri dish: 7 attributes
+  photocopier: 10 attributes
+  plectrum: 10 attributes
+  Pickelhaube: 8 attributes
+  picket fence: 9 attributes
+  pickup truck: 9 attributes
+  pier: 7 attributes
+  piggy bank: 10 attributes
+  pill bottle: 7 attributes
+  pillow: 10 attributes
+  ping-pong ball: 10 attributes
+  pinwheel: 8 attributes
+  pirate ship: 10 attributes
+  drink pitcher: 10 attributes
+  block plane: 11 attributes
+  planetarium: 9 attributes
+  plastic bag: 7 attributes
+  plate rack: 9 attributes
+  farm plow: 7 attributes
+  plunger: 10 attributes
+  Polaroid camera: 10 attributes
+  pole: 10 attributes
+  police van: 10 attributes
+  poncho: 8 attributes
+  pool table: 9 attributes
+  soda bottle: 10 attributes
+  plant pot: 10 attributes
+  potter's wheel: 8 attributes
+  power drill: 8 attributes
+  prayer rug: 8 attributes
+  printer: 7 attributes
+  prison: 10 attributes
+  projector: 16 attributes
+  hockey puck: 8 attributes
+  punching bag: 8 attributes
+  purse: 7 attributes
+  quill: 8 attributes
+  quilt: 8 attributes
+  race car: 10 attributes
+  racket: 9 attributes
+  radiator: 9 attributes
+  radio: 10 attributes
+  radio telescope: 11 attributes
+  rain barrel: 6 attributes
+  recreational vehicle: 8 attributes
+  fishing casting reel: 10 attributes
+  reflex camera: 10 attributes
+  refrigerator: 10 attributes
+  remote control: 10 attributes
+  restaurant: 10 attributes
+  revolver: 9 attributes
+  rifle: 8 attributes
+  rocking chair: 9 attributes
+  rotisserie: 10 attributes
+  eraser: 10 attributes
+  rugby ball: 14 attributes
+  ruler measuring stick: 13 attributes
+  sneaker: 9 attributes
+  safe: 8 attributes
+  safety pin: 10 attributes
+  salt shaker: 10 attributes
+  sandal: 8 attributes
+  sarong: 13 attributes
+  saxophone: 10 attributes
+  scabbard: 8 attributes
+  weighing scale: 10 attributes
+  school bus: 10 attributes
+  schooner: 10 attributes
+  scoreboard: 10 attributes
+  CRT monitor: 9 attributes
+  screw: 10 attributes
+  screwdriver: 9 attributes
+  seat belt: 8 attributes
+  sewing machine: 7 attributes
+  shield: 9 attributes
+  shoe store: 8 attributes
+  shoji screen / room divider: 7 attributes
+  shopping basket: 10 attributes
+  shopping cart: 10 attributes
+  shovel: 9 attributes
+  shower cap: 10 attributes
+  shower curtain: 9 attributes
+  ski: 7 attributes
+  balaclava ski mask: 10 attributes
+  sleeping bag: 9 attributes
+  slide rule: 10 attributes
+  sliding door: 11 attributes
+  slot machine: 10 attributes
+  snorkel: 10 attributes
+  snowmobile: 8 attributes
+  snowplow: 10 attributes
+  soap dispenser: 10 attributes
+  soccer ball: 10 attributes
+  sock: 10 attributes
+  solar thermal collector: 14 attributes
+  sombrero: 11 attributes
+  soup bowl: 15 attributes
+  keyboard space bar: 10 attributes
+  space heater: 10 attributes
+  space shuttle: 10 attributes
+  spatula: 8 attributes
+  motorboat: 11 attributes
+  spider web: 8 attributes
+  spindle: 20 attributes
+  sports car: 17 attributes
+  spotlight: 9 attributes
+  stage: 10 attributes
+  steam locomotive: 10 attributes
+  through arch bridge: 10 attributes
+  steel drum: 8 attributes
+  stethoscope: 10 attributes
+  scarf: 9 attributes
+  stone wall: 6 attributes
+  stopwatch: 9 attributes
+  stove: 10 attributes
+  strainer: 13 attributes
+  tram: 10 attributes
+  stretcher: 12 attributes
+  couch: 10 attributes
+  stupa: 10 attributes
+  submarine: 8 attributes
+  suit: 10 attributes
+  sundial: 10 attributes
+  sunglasses: 10 attributes
+  sunscreen: 7 attributes
+  suspension bridge: 11 attributes
+  mop: 10 attributes
+  sweatshirt: 11 attributes
+  swim trunks / shorts: 10 attributes
+  swing: 9 attributes
+  electrical switch: 9 attributes
+  syringe: 6 attributes
+  table lamp: 7 attributes
+  tank: 8 attributes
+  tape player: 7 attributes
+  teapot: 10 attributes
+  teddy bear: 10 attributes
+  television: 9 attributes
+  tennis ball: 10 attributes
+  thatched roof: 10 attributes
+  front curtain: 8 attributes
+  thimble: 10 attributes
+  threshing machine: 8 attributes
+  throne: 10 attributes
+  tile roof: 8 attributes
+  toaster: 10 attributes
+  tobacco shop: 13 attributes
+  toilet seat: 10 attributes
+  torch: 13 attributes
+  totem pole: 10 attributes
+  tow truck: 10 attributes
+  toy store: 10 attributes
+  tractor: 9 attributes
+  semi-trailer truck: 10 attributes
+  tray: 10 attributes
+  trench coat: 8 attributes
+  tricycle: 9 attributes
+  trimaran: 9 attributes
+  tripod: 10 attributes
+  triumphal arch: 8 attributes
+  trolleybus: 10 attributes
+  trombone: 10 attributes
+  hot tub: 10 attributes
+  turnstile: 10 attributes
+  typewriter keyboard: 10 attributes
+  umbrella: 9 attributes
+  unicycle: 10 attributes
+  upright piano: 9 attributes
+  vacuum cleaner: 7 attributes
+  vase: 10 attributes
+  vaulted or arched ceiling: 15 attributes
+  velvet fabric: 10 attributes
+  vending machine: 10 attributes
+  vestment: 9 attributes
+  viaduct: 10 attributes
+  violin: 8 attributes
+  volleyball: 14 attributes
+  waffle iron: 8 attributes
+  wall clock: 12 attributes
+  wallet: 10 attributes
+  wardrobe: 9 attributes
+  military aircraft: 8 attributes
+  sink: 10 attributes
+  washing machine: 8 attributes
+  water bottle: 8 attributes
+  water jug: 9 attributes
+  water tower: 10 attributes
+  whiskey jug: 10 attributes
+  whistle: 6 attributes
+  hair wig: 17 attributes
+  window screen: 10 attributes
+  window shade: 10 attributes
+  Windsor tie: 10 attributes
+  wine bottle: 10 attributes
+  airplane wing: 5 attributes
+  wok: 9 attributes
+  wooden spoon: 10 attributes
+  wool: 9 attributes
+  split-rail fence: 9 attributes
+  shipwreck: 9 attributes
+  sailboat: 10 attributes
+  yurt: 8 attributes
+  website: 7 attributes
+  comic book: 10 attributes
+  crossword: 10 attributes
+  traffic or street sign: 12 attributes
+  traffic light: 9 attributes
+  dust jacket: 16 attributes
+  menu: 11 attributes
+  plate: 10 attributes
+  guacamole: 11 attributes
+  consomme: 10 attributes
+  hot pot: 10 attributes
+  trifle: 7 attributes
+  ice cream: 8 attributes
+  popsicle: 8 attributes
+  baguette: 7 attributes
+  bagel: 9 attributes
+  pretzel: 9 attributes
+  cheeseburger: 9 attributes
+  hot dog: 9 attributes
+  mashed potatoes: 10 attributes
+  cabbage: 8 attributes
+  broccoli: 10 attributes
+  cauliflower: 8 attributes
+  zucchini: 10 attributes
+  spaghetti squash: 10 attributes
+  acorn squash: 8 attributes
+  butternut squash: 10 attributes
+  cucumber: 10 attributes
+  artichoke: 14 attributes
+  bell pepper: 6 attributes
+  cardoon: 11 attributes
+  mushroom: 9 attributes
+  Granny Smith apple: 10 attributes
+  strawberry: 9 attributes
+  orange: 16 attributes
+  lemon: 9 attributes
+  fig: 8 attributes
+  pineapple: 10 attributes
+  banana: 13 attributes
+  jackfruit: 7 attributes
+  cherimoya (custard apple): 10 attributes
+  pomegranate: 9 attributes
+  hay: 10 attributes
+  carbonara: 10 attributes
+  chocolate syrup: 9 attributes
+  dough: 9 attributes
+  meatloaf: 10 attributes
+  pizza: 10 attributes
+  pot pie: 10 attributes
+  burrito: 10 attributes
+  red wine: 12 attributes
+  espresso: 9 attributes
+  tea cup: 9 attributes
+  eggnog: 8 attributes
+  mountain: 9 attributes
+  bubble: 8 attributes
+  cliff: 8 attributes
+  coral reef: 7 attributes
+  geyser: 13 attributes
+  lakeshore: 10 attributes
+  promontory: 16 attributes
+  sandbar: 10 attributes
+  beach: 10 attributes
+  valley: 10 attributes
+  volcano: 9 attributes
+  baseball player: 8 attributes
+  bridegroom: 11 attributes
+  scuba diver: 9 attributes
+  rapeseed: 10 attributes
+  daisy: 10 attributes
+  yellow lady's slipper: 8 attributes
+  corn: 10 attributes
+  acorn: 10 attributes
+  rose hip: 7 attributes
+  horse chestnut seed: 10 attributes
+  coral fungus: 9 attributes
+  agaric: 10 attributes
+  gyromitra: 9 attributes
+  stinkhorn mushroom: 8 attributes
+  earth star fungus: 10 attributes
+  hen of the woods mushroom: 9 attributes
+  bolete: 10 attributes
+  corn cob: 10 attributes
+  toilet paper: 10 attributes

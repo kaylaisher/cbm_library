@@ -1,0 +1,2752 @@
+{
+  "airfield": [
+    "airport",
+    "transportation",
+    "infrastructure",
+    "aviation",
+    "public facility"
+  ],
+  "airplane cabin": [
+    "Transportation",
+    "Aircraft",
+    "Aviation",
+    "Interior design",
+    "Comfort",
+    "Safety",
+    "Entertainment",
+    "Seating",
+    "Cargo",
+    "Service"
+  ],
+  "airport terminal": [
+    "transportation",
+    "infrastructure",
+    "facility",
+    "building"
+  ],
+  "alcove": [
+    "architectural feature",
+    "interior design"
+  ],
+  "alley": [
+    "urban space",
+    "street",
+    "public space"
+  ],
+  "amphitheater": [
+    "Outdoor theater",
+    "Public venue"
+  ],
+  "amusement arcade": [
+    "entertainment center",
+    "business establishment",
+    "gaming",
+    "recreation"
+  ],
+  "amusement park": [
+    "entertainment",
+    "business",
+    "recreation",
+    "attraction",
+    "thrill ride",
+    "amusement"
+  ],
+  "apartment building, outdoor": [
+    "structure",
+    "residential building",
+    "outdoor space",
+    "common area",
+    "recreational area"
+  ],
+  "aquarium": [
+    "Pet supplies",
+    "Decor",
+    "Tank",
+    "Marine life",
+    "Freshwater life",
+    "Filtration"
+  ],
+  "aqueduct": [
+    "Infrastructure",
+    "Water transportation",
+    "Engineering marvel",
+    "Water management"
+  ],
+  "arcade": [
+    "entertainment",
+    "electronic device",
+    "game",
+    "leisure activity",
+    "coin-operated"
+  ],
+  "arch": [
+    "building",
+    "structure",
+    "construction",
+    "design",
+    "architecture"
+  ],
+  "archaelogical excavation": [
+    "artifact",
+    "culture",
+    "context",
+    "stratum",
+    "site",
+    "period",
+    "pottery",
+    "bone",
+    "tool",
+    "climate"
+  ],
+  "archive": [
+    "data storage",
+    "historical documents",
+    "physical records",
+    "digital files",
+    "media archives",
+    "organizational records",
+    "legal documents",
+    "financial records",
+    "photographic collections",
+    "newspaper clippings",
+    "audio recordings",
+    "video recordings",
+    "artifacts",
+    "manuscripts",
+    "maps",
+    "blueprints",
+    "government records",
+    "corporate records",
+    "personal collections",
+    "genealogy"
+  ],
+  "arena, hockey": [
+    "sport, ice, game",
+    "team",
+    "competition",
+    "sporting event"
+  ],
+  "arena, performance": [
+    "sports facility",
+    "entertainment venue",
+    "artistic event",
+    "musical performance"
+  ],
+  "arena, rodeo": [
+    "entertainment",
+    "sports",
+    "agriculture"
+  ],
+  "army base": [
+    "military facility",
+    "defense",
+    "infrastructure",
+    "logistic support",
+    "tactical command",
+    "weapon storage",
+    "personnel housing",
+    "training ground"
+  ],
+  "art gallery": [
+    "Art gallery",
+    "Business",
+    "Cultural institution",
+    "Exhibition space",
+    "Museum",
+    "Public space",
+    "Visual arts"
+  ],
+  "art school": [
+    "Fine arts school",
+    "Visual arts",
+    "Creative disciplines",
+    "Artistic education",
+    "Design education",
+    "Art history"
+  ],
+  "art studio": [
+    "art studio",
+    "creative space",
+    "artistic environment",
+    "painting area",
+    "sculpting area",
+    "drawing area",
+    "mixed media studio",
+    "artistic workshop",
+    "artist's sanctuary",
+    "art gallery"
+  ],
+  "artists loft": [
+    "living space",
+    "residential",
+    "creative workspace"
+  ],
+  "assembly line": [
+    "manufacturing process",
+    "production line",
+    "assembly",
+    "automation"
+  ],
+  "athletic field, outdoor": [
+    "outdoor sports",
+    "field facility",
+    "recreational area"
+  ],
+  "atrium, public": [],
+  "attic": [
+    "space, room, storage"
+  ],
+  "auditorium": [
+    "indoor space",
+    "acoustic environment",
+    "seating arrangement",
+    "performance venue"
+  ],
+  "auto factory": [
+    "automobile production",
+    "manufacturing facility",
+    "assembly line",
+    "vehicle production",
+    "car factory",
+    "truck assembly",
+    "SUV production",
+    "motor vehicle",
+    "auto industry",
+    "mass production",
+    "transportation",
+    "logistics"
+  ],
+  "auto showroom": [
+    "Automotive",
+    "Transportation",
+    "Vehicle",
+    "Sales",
+    "Showroom",
+    "Display",
+    "Dealership",
+    "Vehicle types",
+    "Luxury",
+    "Electric"
+  ],
+  "badlands": [
+    "geological formation",
+    "landscape",
+    "erosion",
+    "rock formations"
+  ],
+  "bakery, shop": [
+    "bread",
+    "pastries",
+    "cakes",
+    "cookies",
+    "bakery items",
+    "retail store",
+    "business",
+    "customer service",
+    "food industry"
+  ],
+  "balcony, exterior": [
+    "outdoor space",
+    "architectural element",
+    "living space"
+  ],
+  "balcony, interior": [
+    "outdoor area",
+    "living space",
+    "architecture",
+    "interior design"
+  ],
+  "ball pit": [
+    "Recreational activity",
+    "Play equipment",
+    "Indoor playground",
+    "Plastic balls",
+    "Children's entertainment"
+  ],
+  "ballroom": [
+    "social activity",
+    "dance genre",
+    "formal event",
+    "couples dance",
+    "performance art"
+  ],
+  "bamboo forest": [
+    "ecosystem",
+    "forest",
+    "plant",
+    "bamboo",
+    "Asia"
+  ],
+  "bank vault": [
+    "secure container",
+    "financial institution",
+    "storage",
+    "safety"
+  ],
+  "banquet hall": [
+    "event venue",
+    "public space",
+    "indoor",
+    "private"
+  ],
+  "bar": [
+    "drinking establishment",
+    "business",
+    "hospitality industry",
+    "establishment"
+  ],
+  "barn": [
+    "agriculture",
+    "building",
+    "structure",
+    "farm",
+    "shelter",
+    "rural",
+    "animal",
+    "livestock",
+    "utility"
+  ],
+  "barndoor": [
+    "vehicle",
+    "farm equipment",
+    "door",
+    "hardware"
+  ],
+  "baseball field": [
+    "outdoor",
+    "sports",
+    "field",
+    "baseball",
+    "ground"
+  ],
+  "basement": [
+    "space",
+    "underground",
+    "living area",
+    "home"
+  ],
+  "basketball court, indoor": [
+    "construction",
+    "indoor",
+    "sports",
+    "facility"
+  ],
+  "bathroom": [
+    "Room",
+    "Indoor space",
+    "Personal hygiene",
+    "Plumbing",
+    "Tiles",
+    "Fixtures",
+    "Accessories"
+  ],
+  "bazaar, indoor": [
+    "market",
+    "building",
+    "entertainment",
+    "shopping"
+  ],
+  "bazaar, outdoor": [
+    "shopping location",
+    "recreational space",
+    "open area",
+    "natural environment",
+    "marketplace",
+    "outdoor activity",
+    "environment",
+    "leisure spot",
+    "gathering place",
+    "green space"
+  ],
+  "beach": [
+    "recreational area",
+    "coastal environment",
+    "vacation destination",
+    "natural landscape"
+  ],
+  "beach house": [
+    "residential building",
+    "coastal property",
+    "vacation home"
+  ],
+  "beauty salon": [
+    "beauty services",
+    "personal care",
+    "grooming",
+    "hair salon",
+    "skincare",
+    "cosmetics",
+    "nail salon",
+    "spa",
+    "aesthetic",
+    "wellness"
+  ],
+  "bedchamber": [
+    "room",
+    "living space",
+    "private space",
+    "bedroom",
+    "sleeping area"
+  ],
+  "bedroom": [
+    "Bedroom",
+    "Room",
+    "Living space",
+    "Sleeping area",
+    "Decor",
+    "Furniture",
+    "Textiles",
+    "Lighting",
+    "Storage",
+    "Comfort"
+  ],
+  "beer garden": [
+    "outdoor venue",
+    "public space",
+    "social gathering",
+    "drinking establishment",
+    "casual atmosphere",
+    "beer",
+    "garden"
+  ],
+  "beer hall": [
+    "Business",
+    "Venue",
+    "Recreational",
+    "Social",
+    "Food",
+    "Drink",
+    "Alcoholic Beverage",
+    "Beer",
+    "Eatery",
+    "Dining"
+  ],
+  "berth": [
+    "Accommodation",
+    "Transportation",
+    "Ship",
+    "Cabin"
+  ],
+  "biology laboratory": [
+    "microscope",
+    "petri dish",
+    "tissue culture",
+    "DNA analysis",
+    "cell culture",
+    "biohazard",
+    "lab coat",
+    "safety glasses",
+    "pipette",
+    "biosafety cabinet"
+  ],
+  "boardwalk": [
+    "outdoors",
+    "recreation",
+    "amusement",
+    "entertainment",
+    "tourist attraction",
+    "public space",
+    "leisure"
+  ],
+  "boat deck": [
+    "vessel",
+    "ship component",
+    "outdoor area"
+  ],
+  "boathouse": [
+    "water sports",
+    "boating facility",
+    "building",
+    "structure",
+    "public amenity"
+  ],
+  "bookstore": [
+    "book store",
+    "commerce",
+    "retail",
+    "literature",
+    "publishing"
+  ],
+  "booth, indoor": [],
+  "botanical garden": [
+    "Plant collection",
+    "Garden",
+    "Recreation area",
+    "Educational institution",
+    "Conservation center"
+  ],
+  "bow window, indoor": [
+    "window",
+    "architectural feature",
+    "home"
+  ],
+  "bowling alley": [
+    "Entertainment",
+    "Recreational facility",
+    "Sports",
+    "Activity center"
+  ],
+  "boxing ring": [
+    "Sports arena",
+    "Combative sport",
+    "Boxing gear",
+    "Athletic competition"
+  ],
+  "bridge": [
+    "transportation",
+    "card game",
+    "social activity",
+    "strategic game",
+    "human interaction"
+  ],
+  "building facade": [
+    "Structure",
+    "Building element",
+    "Exterior design",
+    "Architectural feature",
+    "Aesthetic appeal",
+    "Material choice",
+    "Visual identity"
+  ],
+  "bullring": [
+    "animal, livestock, bull"
+  ],
+  "burial chamber": [
+    "structure",
+    "ancient monument",
+    "tomb",
+    "burial site",
+    "architecture"
+  ],
+  "bus interior": [
+    "vehicle",
+    "interior",
+    "transportation",
+    "public",
+    "seating",
+    "comfort",
+    "space",
+    "design",
+    "utilities"
+  ],
+  "bus station, indoor": [
+    "Transportation",
+    "Public facility",
+    "Indoor environment"
+  ],
+  "butchers shop": [
+    "Meat",
+    "Food Store",
+    "Retail",
+    "Business",
+    "Small Business"
+  ],
+  "butte": [
+    "landform",
+    "geologic feature"
+  ],
+  "cabin, outdoor": [
+    "Building type",
+    "Shelter",
+    "Accommodation",
+    "Nature setting",
+    "Weather resistance"
+  ],
+  "cafeteria": [
+    "eatery",
+    "establishment",
+    "public space"
+  ],
+  "campsite": [
+    "Accommodation",
+    "Outdoor",
+    "Leisure",
+    "Recreation",
+    "Nature",
+    "Travel",
+    "Wildlife",
+    "Adventure",
+    "Camping",
+    "Hospitality",
+    "Tourism"
+  ],
+  "campus": [
+    "building",
+    "academic",
+    "residential",
+    "administrative",
+    "facility",
+    "parking",
+    "structure",
+    "transportation",
+    "education",
+    "library",
+    "dormitory",
+    "recreation",
+    "athletics",
+    "faculty",
+    "staff",
+    "student",
+    "classroom",
+    "laboratory",
+    "auditorium",
+    "cafeteria",
+    "gymnasium",
+    "park"
+  ],
+  "canal, natural": [
+    "waterway",
+    "natural feature",
+    "freshwater",
+    "inland"
+  ],
+  "canal, urban": [
+    "infrastructure",
+    "waterway",
+    "transportation",
+    "city"
+  ],
+  "candy store": [
+    "Candy Store",
+    "Retail Store",
+    "Confectionery",
+    "Sweets"
+  ],
+  "canyon": [
+    "natural feature",
+    "geographic formation",
+    "river erosion",
+    "land formation"
+  ],
+  "car interior": [
+    "car interior",
+    "vehicle",
+    "automobile",
+    "transportation",
+    "passenger compartment",
+    "upholstery",
+    "dashboard",
+    "controls",
+    "seating",
+    "door panel",
+    "floor mat",
+    "headliner",
+    "center console",
+    "storage",
+    "lighting"
+  ],
+  "carrousel": [
+    "vehicle",
+    "transportation",
+    "amusement"
+  ],
+  "castle": [
+    "architecture",
+    "historical site",
+    "fortification",
+    "medieval structure",
+    "royal residence",
+    "defensive structure"
+  ],
+  "catacomb": [
+    "underground structure",
+    "burial site",
+    "historical site"
+  ],
+  "cemetery": [
+    "burial ground",
+    "memorial",
+    "graveyard",
+    "place of death",
+    "final resting place"
+  ],
+  "chalet": [
+    "accommodation",
+    "residential building",
+    "vacation home",
+    "ski chalet",
+    "mountain cabin"
+  ],
+  "chemistry lab": [
+    "chemical reaction",
+    "gas laws",
+    "equilibrium",
+    "acid-base titration",
+    "spectroscopy",
+    "chemical analysis",
+    "chemical properties",
+    "chemical bonding",
+    "chemical reactions",
+    "chemical equilibrium",
+    "chemical stoichiometry",
+    "chemical identification",
+    "chemical synthesis",
+    "chemical thermodynamics",
+    "chemical kinetics",
+    "chemical separation",
+    "chemical hazards",
+    "chemical safety",
+    "laboratory techniques",
+    "glassware"
+  ],
+  "childs room": [
+    "toy",
+    "game",
+    "decoration",
+    "bed",
+    "dresser",
+    "chair",
+    "table",
+    "bookshelf",
+    "lamp",
+    "storage",
+    "artwork",
+    "play mat",
+    "rug",
+    "sound system",
+    "nightlight",
+    "window treatment",
+    "closet",
+    "mirror",
+    "rocker",
+    "area rug"
+  ],
+  "church, indoor": [
+    "building",
+    "religious institution",
+    "indoor space"
+  ],
+  "church, outdoor": [
+    "building",
+    "place of worship",
+    "outdoor setting"
+  ],
+  "classroom": [
+    "Educational setting",
+    "Learning environment",
+    "Instructional space",
+    "School setting",
+    "Teaching area"
+  ],
+  "clean room": [
+    "room",
+    "cleanliness",
+    "space",
+    "interior",
+    "environment",
+    "facility"
+  ],
+  "cliff": [
+    "geological feature",
+    "rock formation",
+    "natural structure"
+  ],
+  "closet": [
+    "storage",
+    "furniture",
+    "room accessory",
+    "household item"
+  ],
+  "clothing store": [
+    "clothing store",
+    "apparel",
+    "footwear",
+    "accessories",
+    "casual wear",
+    "formal wear",
+    "outdoors wear",
+    "children's wear",
+    "men's wear",
+    "women's wear",
+    "unisex wear",
+    "brands",
+    "discounts"
+  ],
+  "coast": [
+    "coastal area",
+    "geographical feature",
+    "landform"
+  ],
+  "cockpit": [
+    "aircraft interior",
+    "cockpit panel",
+    "pilot control",
+    "aviation component"
+  ],
+  "coffee shop": [
+    "Business",
+    "Service",
+    "Food establishment",
+    "Retail",
+    "Beverage",
+    "Cafe",
+    "Sitting",
+    "Relaxation",
+    "Drink",
+    "Social"
+  ],
+  "computer room": [
+    "computer room",
+    "electronics",
+    "communication",
+    "data storage",
+    "hardware",
+    "software",
+    "networking",
+    "security",
+    "monitoring",
+    "maintenance"
+  ],
+  "conference center": [
+    "Entertainment",
+    "Business",
+    "Event",
+    "Hospitality",
+    "Venue",
+    "Facility",
+    "Building",
+    "Tourism",
+    "Recreation",
+    "Leisure"
+  ],
+  "conference room": [
+    "Meeting space",
+    "Office setting",
+    "Indoor area",
+    "Collaboration venue"
+  ],
+  "construction site": [
+    "construction site",
+    "heavy equipment",
+    "safety gear",
+    "workers",
+    "site management",
+    "project planning",
+    "excavation",
+    "demolition",
+    "construction materials",
+    "site layout"
+  ],
+  "corn field": [
+    "agricultural field",
+    "crop",
+    "plant",
+    "food source"
+  ],
+  "corral": [
+    "animal enclosure",
+    "outdoor structure",
+    "containment area",
+    "livestock pen"
+  ],
+  "corridor": [
+    "space",
+    "structure",
+    "indoor",
+    "passage",
+    "enclosed"
+  ],
+  "cottage": [],
+  "courthouse": [
+    "Government building",
+    "Public facility",
+    "Judicial institution",
+    "Legal system"
+  ],
+  "courtyard": [
+    "outdoor space",
+    "architectural design",
+    "garden",
+    "space",
+    "area",
+    "courtyard"
+  ],
+  "creek": [
+    "water body",
+    "geographical feature",
+    "stream",
+    "natural feature"
+  ],
+  "crevasse": [
+    "natural feature",
+    "geological formation",
+    "crack"
+  ],
+  "crosswalk": [
+    "road",
+    "traffic",
+    "safety",
+    "pedestrian"
+  ],
+  "dam": [
+    "water structure",
+    "construction",
+    "engineering",
+    "infrastructure"
+  ],
+  "delicatessen": [
+    "food store",
+    "retail",
+    "grocery",
+    "specialty store",
+    "food",
+    "meat",
+    "cheese"
+  ],
+  "department store": [
+    "retail",
+    "consumer goods",
+    "clothing",
+    "accessories",
+    "home goods",
+    "electronics",
+    "beauty",
+    "food",
+    "pharmacy",
+    "services"
+  ],
+  "desert, sand": [
+    "geographical feature",
+    "landform",
+    "composition",
+    "arid",
+    "dry environment",
+    "hot climate",
+    "sand, sediment, particle"
+  ],
+  "desert, vegetation": [
+    "Desert: arid environment",
+    "hot climate",
+    "sandy landscape",
+    "Vegetation: plant life",
+    "flora",
+    "ecosystem"
+  ],
+  "desert road": [
+    "terrain",
+    "transportation",
+    "landscape"
+  ],
+  "diner, outdoor": [
+    "eating establishment",
+    "public place",
+    "outdoor space",
+    "recreational area"
+  ],
+  "dining hall": [
+    "building",
+    "social space",
+    "food service",
+    "eating"
+  ],
+  "dining room": [
+    "space",
+    "indoor",
+    "room",
+    "living area"
+  ],
+  "discotheque": [
+    "entertainment venue",
+    "social gathering",
+    "nightlife",
+    "music",
+    "dancing"
+  ],
+  "doorway, outdoor": [
+    "doorway",
+    "outdoor space",
+    "entrance",
+    "passage",
+    "threshold",
+    "exterior"
+  ],
+  "dorm room": [
+    "Room Category",
+    "Furniture Superclass",
+    "Decor Superclass",
+    "Storage Superclass",
+    "Electronics Superclass"
+  ],
+  "downtown": [
+    "urban area",
+    "downtown",
+    "commercial district",
+    "business district",
+    "shopping district",
+    "entertainment district",
+    "government area",
+    "transportation hub"
+  ],
+  "dressing room": [
+    "Clothing",
+    "Storage",
+    "Fashion",
+    "Accessories",
+    "Personal Space"
+  ],
+  "driveway": [
+    "driveway",
+    "surface",
+    "transportation",
+    "property feature",
+    "roadway"
+  ],
+  "drugstore": [
+    "Retail store",
+    "Healthcare",
+    "Pharmacy",
+    "Personal care",
+    "Cosmetics",
+    "Household items"
+  ],
+  "elevator, door": [
+    "transportation",
+    "mechanical device",
+    "security feature",
+    "accessibility",
+    "entry"
+  ],
+  "elevator lobby": [
+    "Building area",
+    "Entryway",
+    "Access point",
+    "Vertical transportation"
+  ],
+  "elevator shaft": [
+    "construction",
+    "building",
+    "structure",
+    "transportation"
+  ],
+  "embassy": [
+    "Diplomatic mission",
+    "Governmental building",
+    "Representative office",
+    "Consulate"
+  ],
+  "engine room": [
+    "Naval architecture",
+    "Marine engineering",
+    "Shipbuilding",
+    "Propulsion system"
+  ],
+  "entrance hall": [
+    "space",
+    "architecture",
+    "room",
+    "interior",
+    "lobby",
+    "entrance",
+    "hallway"
+  ],
+  "escalator, indoor": [
+    "transportation system",
+    "vertical conveyance",
+    "building component",
+    "indoor infrastructure"
+  ],
+  "excavation": [
+    "digging activity",
+    "ground removal",
+    "construction work",
+    "earthmoving equipment",
+    "manual labor",
+    "heavy machinery",
+    "demolition",
+    "mining",
+    "archaeology",
+    "geological survey"
+  ],
+  "fabric store": [
+    "clothing materials",
+    "textiles",
+    "sewing supplies",
+    "patterns",
+    "accessories"
+  ],
+  "farm": [
+    "agriculture",
+    "rural area",
+    "business",
+    "livestock",
+    "crop",
+    "machinery",
+    "farmland",
+    "food production",
+    "agricultural practice",
+    "farmhouse",
+    "income",
+    "farm equipment",
+    "farm worker",
+    "animal husbandry",
+    "farming industry",
+    "rural community",
+    "farm management",
+    "farm market",
+    "farm policy",
+    "farm technology",
+    "farm infrastructure",
+    "farm finance",
+    "farm innovation",
+    "farm safety"
+  ],
+  "fastfood restaurant": [
+    "Fast food",
+    "Restaurant",
+    "Food service",
+    "Retail",
+    "Service industry"
+  ],
+  "field, cultivated": [
+    "farming practice",
+    "agricultural product",
+    "crop type",
+    "cultivated plant"
+  ],
+  "field, wild": [],
+  "field road": [
+    "paved surface",
+    "transportation",
+    "infrastructure",
+    "public space"
+  ],
+  "fire escape": [
+    "Building component",
+    "Safety equipment",
+    "Emergency exit",
+    "Structural element"
+  ],
+  "fire station": [
+    "fire station",
+    "emergency service",
+    "public safety",
+    "building",
+    "community"
+  ],
+  "fishpond": [
+    "Aquatic environment",
+    "Water body",
+    "Animal habitat"
+  ],
+  "flea market, indoor": [
+    "flea market",
+    "indoor venue",
+    "shopping event",
+    "used goods",
+    "secondhand market"
+  ],
+  "florist shop, indoor": [
+    "business",
+    "indoor",
+    "retail",
+    "flower",
+    "shop"
+  ],
+  "food court": [
+    "food court",
+    "shopping mall",
+    "dining area",
+    "indoor market",
+    "eatery",
+    "food market",
+    "retail center"
+  ],
+  "football field": [
+    "Sports field",
+    "Playing surface",
+    "Grass field"
+  ],
+  "forest, broadleaf": [
+    "biome",
+    "ecosystem",
+    "plant",
+    "tree",
+    "deciduous"
+  ],
+  "forest path": [
+    "natural path",
+    "woodland trail",
+    "outdoor location",
+    "hiking route",
+    "forest environment",
+    "nature walk"
+  ],
+  "forest road": [
+    "Transportation",
+    "Road",
+    "Infrastructure",
+    "Geography",
+    "Natural environment"
+  ],
+  "formal garden": [
+    "Garden design",
+    "Horticulture",
+    "Landscape architecture",
+    "Aesthetics",
+    "Outdoor space",
+    "Plant arrangement",
+    "Cultural influence",
+    "Symmetry",
+    "Geometric patterns",
+    "Formal elements",
+    "European influence",
+    "English country garden",
+    "French formal garden"
+  ],
+  "fountain": [
+    "ornamental structure",
+    "outdoor decoration",
+    "water feature",
+    "landscape design"
+  ],
+  "galley": [
+    "transport",
+    "food preparation",
+    "space",
+    "kitchen"
+  ],
+  "garage, indoor": [
+    "vehicle storage",
+    "indoor space",
+    "building"
+  ],
+  "garage, outdoor": [],
+  "gas station": [
+    "business, retail"
+  ],
+  "gazebo, exterior": [
+    "outdoor structure",
+    "garden accessory",
+    "play equipment",
+    "metal structure"
+  ],
+  "general store, indoor": [
+    "Retail store",
+    "Indoor location",
+    "General merchandise",
+    "Customer service"
+  ],
+  "general store, outdoor": [
+    "general store",
+    "outdoor equipment",
+    "camping supplies",
+    "hiking gear",
+    "fishing tackle",
+    "outdoor clothing",
+    "recreational items",
+    "sports gear",
+    "hunting supplies",
+    "gardening tools",
+    "barbecue accessories",
+    "patio furniture",
+    "lawn care",
+    "seasonal items",
+    "weather protection",
+    "outdoor lighting",
+    "insect repellent",
+    "fire starters",
+    "water sports",
+    "safety gear",
+    "trail"
+  ],
+  "gift shop": [
+    "gift item",
+    "retail store",
+    "merchandise",
+    "souvenir",
+    "sales"
+  ],
+  "glacier": [
+    "landform",
+    "ice mass",
+    "cold region",
+    "water body",
+    "Earth feature"
+  ],
+  "golf course": [
+    "recreation area",
+    "business establishment",
+    "sports facility",
+    "outdoor activity",
+    "leisure activity"
+  ],
+  "greenhouse, indoor": [
+    "greenhouse",
+    "indoor - structure",
+    "indoor",
+    "greenhouse - horticulture",
+    "climate control"
+  ],
+  "greenhouse, outdoor": [
+    "building, structure",
+    "greenhouse",
+    "outdoor"
+  ],
+  "grotto": [
+    "cave",
+    "geological feature",
+    "underground",
+    "natural formation"
+  ],
+  "gymnasium, indoor": [
+    "building, indoor, sports"
+  ],
+  "hangar, indoor": [
+    "indoor space",
+    "aircraft storage",
+    "facility",
+    "enclosed area",
+    "building"
+  ],
+  "hangar, outdoor": [
+    "aircraft storage",
+    "shelter",
+    "airport facility",
+    "structural building",
+    "external structure"
+  ],
+  "harbor": [
+    "maritime transportation"
+  ],
+  "hardware store": [
+    "Building materials",
+    "Tools",
+    "Paints",
+    "Electrical supplies",
+    "Plumbing supplies",
+    "Hardware",
+    "Locks",
+    "Fasteners",
+    "Adhesives",
+    "Safety gear",
+    "Ladders",
+    "Shelving",
+    "Storage",
+    "Pipe fittings",
+    "Wall accessories",
+    "Door hardware",
+    "Window hardware",
+    "Garden tools",
+    "Fencing",
+    "Landscaping",
+    "Irrigation"
+  ],
+  "hayfield": [
+    "agriculture, field, crop"
+  ],
+  "heliport": [
+    "transportation facility",
+    "airport",
+    "aerial platform"
+  ],
+  "highway": [
+    "road",
+    "infrastructure",
+    "transportation"
+  ],
+  "home office": [
+    "workspace",
+    "office equipment",
+    "organization",
+    "productivity",
+    "communication",
+    "technology",
+    "ergonomics",
+    "comfort",
+    "multifunctional",
+    "space optimization"
+  ],
+  "home theater": [
+    "Audio equipment",
+    "Video equipment",
+    "Home theater system",
+    "Speakers",
+    "Receiver",
+    "Projector",
+    "Screen",
+    "Seating",
+    "Surround sound",
+    "Home automation"
+  ],
+  "hospital": [
+    "medical facility",
+    "health care",
+    "human services",
+    "public service",
+    "private institution"
+  ],
+  "hospital room": [
+    "Healthcare facility",
+    "Building",
+    "Room",
+    "Patient care"
+  ],
+  "hot spring": [
+    "geothermal feature",
+    "natural resource",
+    "attraction",
+    "mineral"
+  ],
+  "hotel, outdoor": [
+    "Accommodation",
+    "Travel",
+    "Lodging",
+    "Resort",
+    "Recreation",
+    "Leisure",
+    "Nature"
+  ],
+  "hotel room": [
+    "Accommodation",
+    "Facility",
+    "Entertainment",
+    "Sleeping",
+    "Travel",
+    "Leisure",
+    "Amenities",
+    "Hospitality",
+    "Comfort",
+    "Services"
+  ],
+  "house": [
+    "residential building",
+    "living space",
+    "structure",
+    "home",
+    "property"
+  ],
+  "hunting lodge, outdoor": [
+    "lodging",
+    "recreation",
+    "nature"
+  ],
+  "ice cream parlor": [
+    "Business",
+    "Food service",
+    "Dessert shop",
+    "Ice cream",
+    "Cold treat",
+    "Retail",
+    "Caf\u00e9"
+  ],
+  "ice floe": [
+    "Body of water",
+    "Frozen water",
+    "Polar region",
+    "Ocean feature"
+  ],
+  "ice shelf": [
+    "ice sheet, glacier",
+    "coastal feature",
+    "geographic feature"
+  ],
+  "ice skating rink, indoor": [
+    "indoor facility",
+    "sport venue",
+    "recreational activity",
+    "ice skating"
+  ],
+  "ice skating rink, outdoor": [
+    "outdoor location",
+    "ice sport",
+    "entertainment",
+    "public facility"
+  ],
+  "iceberg": [
+    "natural formation",
+    "underwater object",
+    "geological feature"
+  ],
+  "igloo": [
+    "dwellings",
+    "shelter",
+    "igloo building"
+  ],
+  "industrial area": [
+    "commercial zone",
+    "business district",
+    "manufacturing",
+    "warehouse",
+    "distribution center",
+    "logistics hub",
+    "factory",
+    "retail",
+    "office building",
+    "service industry"
+  ],
+  "inn, outdoor": [
+    "location",
+    "environment",
+    "accommodation",
+    "recreation",
+    "shelter",
+    "area",
+    "space",
+    "destination"
+  ],
+  "islet": [
+    "Pancreas",
+    "Endocrine tissue",
+    "Organelle",
+    "Cell",
+    "Tissue"
+  ],
+  "jacuzzi, indoor": [
+    "spa, indoor",
+    "hot tub, indoor",
+    "relaxation, space"
+  ],
+  "jail cell": [
+    "confinement",
+    "structure",
+    "building",
+    "facility"
+  ],
+  "japanese garden": [
+    "landscape design",
+    "cultural artifact",
+    "zen philosophy",
+    "traditional architecture",
+    "water feature",
+    "rock arrangement",
+    "planted area",
+    "bonsai",
+    "koi pond",
+    "tea house"
+  ],
+  "jewelry shop": [
+    "Accessories",
+    "Luxury goods",
+    "Fashion items",
+    "Fine metals",
+    "Precious stones"
+  ],
+  "junkyard": [
+    "abandoned",
+    "salvage",
+    "automobile",
+    "machine"
+  ],
+  "kasbah": [
+    "Moroccan architecture",
+    "Building",
+    "Residence",
+    "Fortification",
+    "Historical monument"
+  ],
+  "kennel, outdoor": [
+    "Pet care",
+    "Animal housing",
+    "Weather protection"
+  ],
+  "kindergarden classroom": [
+    "Child's play",
+    "Learning materials",
+    "Furniture",
+    "Art supplies",
+    "Outdoor equipment",
+    "Snack time",
+    "Story time",
+    "Classroom management",
+    "Teaching tools",
+    "Safety measures"
+  ],
+  "kitchen": [
+    "Food Preparation",
+    "Cooking Equipment",
+    "Dining Area",
+    "Storage",
+    "Appliances",
+    "Utensils",
+    "Cleaning",
+    "Decor",
+    "Space Organization"
+  ],
+  "lagoon": [
+    "water body",
+    "natural formation",
+    "geographic feature",
+    "marine environment"
+  ],
+  "lake, natural": [
+    "water body",
+    "natural formation",
+    "geographic feature",
+    "body of water"
+  ],
+  "landfill": [
+    "waste disposal",
+    "environmental hazard",
+    "waste management"
+  ],
+  "landing deck": [
+    "Aircraft carrier",
+    "Naval base",
+    "Military vessel",
+    "Defense infrastructure"
+  ],
+  "laundromat": [
+    "Business",
+    "Service",
+    "Clothing",
+    "Cleaning"
+  ],
+  "lawn": [
+    "Outdoor area",
+    "Residential area",
+    "Green space",
+    "Landscape feature"
+  ],
+  "lecture room": [
+    "educational facility",
+    "building",
+    "indoor space",
+    "seating area",
+    "acoustic partition"
+  ],
+  "legislative chamber": [
+    "legislative chamber",
+    "assembly",
+    "political institution"
+  ],
+  "library, indoor": [
+    "building",
+    "structure",
+    "space",
+    "venue"
+  ],
+  "library, outdoor": [
+    "building maintenance",
+    "recreational",
+    "gardening",
+    "sports",
+    "nature exploration"
+  ],
+  "lighthouse": [
+    "navigation aid",
+    "tower",
+    "structure",
+    "maritime aid",
+    "beacon"
+  ],
+  "living room": [
+    "Home interior",
+    "Decoration",
+    "Furniture",
+    "Comfort",
+    "Design",
+    "Living space",
+    "Relaxation"
+  ],
+  "loading dock": [
+    "transportation system",
+    "industrial area",
+    "loading",
+    "unloading",
+    "warehouse",
+    "goods management",
+    "truck",
+    "cargo",
+    "forklift",
+    "pallet",
+    "dock door",
+    "conveyor belt"
+  ],
+  "lobby": [
+    "public space",
+    "indoor area",
+    "meeting area",
+    "social space",
+    "gathering place"
+  ],
+  "lock chamber": [
+    "Security device",
+    "Mechanical component",
+    "Enclosure"
+  ],
+  "locker room": [
+    "Sports facility",
+    "Public space",
+    "Fitness area",
+    "Changing area"
+  ],
+  "mansion": [
+    "residential building",
+    "large house",
+    "luxury property",
+    "estate",
+    "personal residence"
+  ],
+  "manufactured home": [
+    "manufactured home",
+    "prefabricated structure",
+    "factory-built"
+  ],
+  "market, indoor": [],
+  "market, outdoor": [
+    "market",
+    "outdoor",
+    "shopping",
+    "recreation",
+    "nature",
+    "sport",
+    "activity",
+    "event",
+    "space",
+    "environment",
+    "area",
+    "venue"
+  ],
+  "marsh": [
+    "wetland",
+    "ecosystem",
+    "habitat"
+  ],
+  "martial arts gym": [
+    "martial arts",
+    "combat sports",
+    "self-defense",
+    "athletic facility",
+    "fitness center",
+    "training",
+    "discipline",
+    "traditional",
+    "modern",
+    "boxing",
+    "wrestling",
+    "karate",
+    "jiu-jitsu",
+    "taekwondo",
+    "aikido",
+    "kickboxing",
+    "muay thai",
+    "kung fu",
+    "yoga"
+  ],
+  "mausoleum": [
+    "monument",
+    "burial site",
+    "tomb",
+    "architectural structure",
+    "religious building"
+  ],
+  "medina": [
+    "city",
+    "historical site",
+    "religious site",
+    "Islamic site",
+    "architecture",
+    "landmark",
+    "culture",
+    "history"
+  ],
+  "mezzanine": [
+    "building structure",
+    "commercial space"
+  ],
+  "moat, water": [
+    "water body",
+    "natural feature",
+    "landscape element"
+  ],
+  "mosque, outdoor": [
+    "Islamic architecture",
+    "Religious building",
+    "Outdoor space",
+    "Prayer hall"
+  ],
+  "motel": [
+    "Accommodation",
+    "Business",
+    "Lodging",
+    "Travel",
+    "Temporary",
+    "Residence"
+  ],
+  "mountain": [
+    "geographical feature",
+    "natural formation",
+    "elevation"
+  ],
+  "mountain path": [
+    "outdoor activity",
+    "hiking",
+    "nature",
+    "terrain",
+    "trail"
+  ],
+  "mountain snowy": [
+    "climate",
+    "geography",
+    "weather"
+  ],
+  "movie theater, indoor": [
+    "entertainment",
+    "public place",
+    "building",
+    "enclosed"
+  ],
+  "museum, indoor": [
+    "building",
+    "indoor location"
+  ],
+  "museum, outdoor": [
+    "museum, artifact",
+    "outdoor, nature",
+    "museum, history",
+    "outdoor, recreation",
+    "museum, science"
+  ],
+  "music studio": [
+    "audio production",
+    "sound engineering",
+    "music composition",
+    "recording studio",
+    "music industry",
+    "audio equipment",
+    "digital audio workstation",
+    "acoustics",
+    "musician collaboration",
+    "sound mixing"
+  ],
+  "natural history museum": [
+    "animal",
+    "vegetable",
+    "mineral",
+    "geology",
+    "paleontology",
+    "zoology",
+    "botany",
+    "ecology",
+    "taxidermy",
+    "anatomy",
+    "evolution"
+  ],
+  "nursery": [
+    "Education",
+    "Childcare",
+    "Playground",
+    "Toys",
+    "Books",
+    "Furniture",
+    "Safety",
+    "Development",
+    "Activities",
+    "Supplies",
+    "Nursery School",
+    "Montessori",
+    "Pre-school",
+    "Daycare",
+    "Infant"
+  ],
+  "nursing home": [
+    "Elderly care",
+    "Residential facility",
+    "Healthcare",
+    "Assisted living",
+    "Geriatric",
+    "Retirement home",
+    "Long-term care"
+  ],
+  "oast house": [
+    "agricultural building",
+    "historical structure",
+    "brick structure",
+    "dwelling"
+  ],
+  "ocean": [
+    "body of water",
+    "natural feature",
+    "aquatic environment",
+    "marine ecosystem"
+  ],
+  "office": [
+    "building",
+    "workplace",
+    "business",
+    "workstation",
+    "office supply",
+    "communication",
+    "technology"
+  ],
+  "office building": [
+    "Structure",
+    "Building",
+    "Workplace",
+    "Commercial",
+    "Multi-story",
+    "High-rise",
+    "Office space",
+    "Business center",
+    "Work environment",
+    "Commercial real estate"
+  ],
+  "office cubicles": [
+    "furniture",
+    "workspace",
+    "storage",
+    "privacy",
+    "comfort",
+    "ergonomics",
+    "productivity"
+  ],
+  "oilrig": [
+    "man-made structure",
+    "offshore facility",
+    "drilling platform",
+    "petroleum industry"
+  ],
+  "operating room": [
+    "sterilization",
+    "medical equipment",
+    "surgical instruments",
+    "hospital department",
+    "aseptic environment"
+  ],
+  "orchard": [
+    "plant",
+    "tree",
+    "fruit"
+  ],
+  "orchestra pit": [
+    "musical ensemble",
+    "live performance",
+    "classical music",
+    "music industry",
+    "entertainment",
+    "cultural event"
+  ],
+  "pagoda": [
+    "architectural structure",
+    "religious building",
+    "Buddhist monument",
+    "cultural heritage"
+  ],
+  "palace": [
+    "architecture",
+    "building",
+    "historic site",
+    "royal residence",
+    "cultural landmark"
+  ],
+  "pantry": [
+    "kitchen item",
+    "home appliance",
+    "storage",
+    "food items",
+    "household organization"
+  ],
+  "park": [
+    "outdoor space",
+    "recreational area",
+    "public facility",
+    "green space",
+    "nature reserve",
+    "urban park",
+    "national park",
+    "state park",
+    "city park",
+    "botanical garden",
+    "playground",
+    "sports field",
+    "park bench",
+    "park pavilion"
+  ],
+  "parking garage, indoor": [
+    "structure",
+    "enclosed",
+    "transportation",
+    "facility",
+    "storage"
+  ],
+  "parking garage, outdoor": [
+    "outdoor structure",
+    "parking facility",
+    "open-air garage"
+  ],
+  "parking lot": [
+    "public space",
+    "land use",
+    "transportation",
+    "urban planning",
+    "real estate"
+  ],
+  "pasture": [
+    "habitat",
+    "grassland",
+    "ecosystem",
+    "agricultural land"
+  ],
+  "patio": [
+    "Outdoor space",
+    "Home improvement"
+  ],
+  "pavilion": [
+    "building",
+    "structure",
+    "architecture",
+    "event space"
+  ],
+  "pet shop": [
+    "small animals",
+    "birds",
+    "fish",
+    "reptiles",
+    "mammals",
+    "aquatic pets",
+    "pet supplies",
+    "pet food",
+    "pet toys",
+    "pet accessories"
+  ],
+  "pharmacy": [
+    "pharmaceuticals",
+    "medical supplies",
+    "healthcare",
+    "retail",
+    "customer service",
+    "drugstore",
+    "pharmacist",
+    "medication"
+  ],
+  "phone booth": [
+    "public utility",
+    "communication device",
+    "enclosure",
+    "outdoor fixture"
+  ],
+  "physics laboratory": [
+    "Electronic equipment",
+    "Measurement instruments",
+    "Experimental setup",
+    "Laboratory apparatus",
+    "Scientific instruments",
+    "Test equipment",
+    "Optical devices",
+    "Thermal devices",
+    "Electrochemical devices"
+  ],
+  "picnic area": [
+    "outdoor area",
+    "public space",
+    "recreation",
+    "leisure",
+    "natural setting",
+    "green space"
+  ],
+  "pier": [
+    "structure",
+    "architectural element",
+    "construction",
+    "waterfront"
+  ],
+  "pizzeria": [
+    "Food",
+    "Business",
+    "Restaurant",
+    "Eatery",
+    "Dining",
+    "Fast Food",
+    "Italian"
+  ],
+  "playground": [
+    "outdoor area",
+    "recreational space",
+    "children's area",
+    "play equipment",
+    "safety zone",
+    "educational space"
+  ],
+  "playroom": [
+    "education",
+    "entertainment",
+    "play area",
+    "child's space",
+    "indoor activities",
+    "toys",
+    "games",
+    "furniture",
+    "safety"
+  ],
+  "plaza": [
+    "urban area",
+    "public space",
+    "commercial space",
+    "outdoor space",
+    "cultural hub",
+    "social gathering"
+  ],
+  "pond": [
+    "water body",
+    "natural environment",
+    "ecosystem"
+  ],
+  "porch": [
+    "outdoor structure",
+    "building component",
+    "residential area feature"
+  ],
+  "promenade": [
+    "outdoor activity",
+    "leisure activity",
+    "walking",
+    "exercise"
+  ],
+  "pub, indoor": [
+    "public place",
+    "indoor area",
+    "building",
+    "establishment"
+  ],
+  "racecourse": [
+    "sports venue",
+    "equestrian event",
+    "horse racing",
+    "outdoor location"
+  ],
+  "raceway": [
+    "electrical component",
+    "building structure",
+    "infrastructure element"
+  ],
+  "raft": [
+    "watercraft",
+    "boat",
+    "transportation"
+  ],
+  "railroad track": [
+    "infrastructure",
+    "transportation",
+    "steel"
+  ],
+  "rainforest": [
+    "biome",
+    "tropical climate",
+    "biodiversity",
+    "dense vegetation",
+    "humid environment",
+    "primary forest",
+    "old growth forest",
+    "evergreen forest"
+  ],
+  "reception": [
+    "event",
+    "social gathering",
+    "hospitality",
+    "entertainment",
+    "networking"
+  ],
+  "recreation room": [
+    "Games",
+    "Sports",
+    "Entertainment",
+    "Leisure",
+    "Fitness",
+    "Hobbies",
+    "Relaxation",
+    "Audio-visual",
+    "Play area"
+  ],
+  "repair shop": [
+    "automotive",
+    "repair services",
+    "vehicle maintenance",
+    "mechanical work",
+    "diagnostic",
+    "tools and equipment",
+    "customer service",
+    "business operations",
+    "parts and supplies"
+  ],
+  "residential neighborhood": [
+    "residential area",
+    "urban planning",
+    "community",
+    "real estate",
+    "land use",
+    "housing",
+    "environment",
+    "demographics",
+    "location",
+    "infrastructure"
+  ],
+  "restaurant": [
+    "Food Service",
+    "Hospitality",
+    "Culinary",
+    "Dining",
+    "Eatery"
+  ],
+  "restaurant kitchen": [
+    "Commercial kitchen",
+    "Food preparation"
+  ],
+  "restaurant patio": [
+    "Outdoor setting",
+    "Dining area",
+    "Patio furniture",
+    "Business",
+    "Cafe",
+    "Restaurant",
+    "Leisure"
+  ],
+  "rice paddy": [
+    "Agriculture",
+    "Crop",
+    "Plant"
+  ],
+  "river": [
+    "geographic feature",
+    "watercourse",
+    "natural formation",
+    "freshwater body",
+    "hydrological feature"
+  ],
+  "rock arch": [
+    "geological formation",
+    "natural arch",
+    "rock structure",
+    "erosion"
+  ],
+  "roof garden": [
+    "Green space",
+    "Rooftop",
+    "Garden",
+    "Urban planning",
+    "Outdoor space"
+  ],
+  "rope bridge": [
+    "engineering structure",
+    "suspension bridge",
+    "transportation",
+    "climbing aid"
+  ],
+  "ruin": [
+    "building structure",
+    "architecture"
+  ],
+  "runway": [
+    "Fashion industry",
+    "modeling",
+    "clothing"
+  ],
+  "sandbox": [
+    "virtual environment",
+    "digital playground",
+    "sandbox game",
+    "creativity zone",
+    "interactive design"
+  ],
+  "sauna": [
+    "building",
+    "leisure",
+    "relaxation",
+    "heat therapy",
+    "steam room"
+  ],
+  "schoolhouse": [
+    "building",
+    "educational institution",
+    "school"
+  ],
+  "science museum": [
+    "Natural sciences",
+    "Physical sciences",
+    "Life sciences",
+    "Earth sciences",
+    "Chemistry",
+    "Biology",
+    "Geology",
+    "Astronomy",
+    "Physics",
+    "Robotics",
+    "Engineering",
+    "Technology",
+    "Mathematics",
+    "Computer science",
+    "Oceanography",
+    "Paleontology",
+    "Astrobiology",
+    "Materials science",
+    "Environmental science",
+    "Space exploration"
+  ],
+  "server room": [
+    "Server room",
+    "Technology",
+    "Data center",
+    "IT infrastructure",
+    "Server rack",
+    "Networking equipment",
+    "Cooling system",
+    "Power supply",
+    "Fire suppression",
+    "Access control"
+  ],
+  "shed": [
+    "outdoor structure",
+    "storage",
+    "building",
+    "garden structure"
+  ],
+  "shoe shop": [
+    "Clothing Accessories",
+    "Footwear",
+    "Fashion",
+    "Retail",
+    "Leather Goods",
+    "Sports Gear",
+    "Casual Wear",
+    "Dress Shoes",
+    "Outdoor Gear"
+  ],
+  "shopfront": [
+    "retail",
+    "business",
+    "storefront",
+    "building",
+    "architecture"
+  ],
+  "shopping mall, indoor": [
+    "indoor facility",
+    "shopping area",
+    "commercial space",
+    "retail center",
+    "mall"
+  ],
+  "shower": [
+    "bathroom fixture",
+    "plumbing",
+    "bathing equipment",
+    "water device"
+  ],
+  "ski resort": [
+    "Recreation",
+    "Winter sports",
+    "Skiing",
+    "Snowboarding",
+    "Lodging",
+    "Ski area",
+    "Ski lift",
+    "Snow conditions",
+    "Mountain resort"
+  ],
+  "ski slope": [
+    "outdoor activity",
+    "recreation",
+    "winter sport"
+  ],
+  "sky": [
+    "outer space",
+    "celestial object",
+    "atmospheric phenomena",
+    "weather",
+    "natural feature"
+  ],
+  "skyscraper": [
+    "tall building",
+    "architecture",
+    "urban development"
+  ],
+  "slum": [
+    "housing",
+    "impoverished area",
+    "urban",
+    "informal settlement"
+  ],
+  "snowfield": [
+    "natural feature",
+    "landform",
+    "glacier",
+    "ice",
+    "cold region"
+  ],
+  "soccer field": [
+    "outdoor sports",
+    "field",
+    "soccer",
+    "sports ground"
+  ],
+  "stable": [
+    "state of being",
+    "equilibrium",
+    "balance",
+    "steadfastness"
+  ],
+  "stadium, baseball": [
+    "sports venue",
+    "baseball park",
+    "athletic facility"
+  ],
+  "stadium, football": [
+    "sports venue",
+    "football field",
+    "physical activity"
+  ],
+  "stadium, soccer": [],
+  "stage, indoor": [
+    "indoor stage",
+    "performance"
+  ],
+  "stage, outdoor": [
+    "outdoor stage",
+    "live performance",
+    "outdoor space"
+  ],
+  "staircase": [
+    "architectural structure",
+    "building component",
+    "residential design"
+  ],
+  "storage room": [
+    "room, storage"
+  ],
+  "street": [
+    "transportation",
+    "urban area",
+    "public space",
+    "infrastructure",
+    "road"
+  ],
+  "subway station, platform": [
+    "transportation",
+    "infrastructure",
+    "public space",
+    "elevated structure"
+  ],
+  "supermarket": [
+    "retail business",
+    "commerce",
+    "food industry",
+    "consumer goods",
+    "household items",
+    "personal care",
+    "cleaning supplies",
+    "fresh produce",
+    "meat and seafood",
+    "dairy and eggs",
+    "bakery",
+    "frozen food",
+    "beverages",
+    "pet supplies",
+    "toys and games",
+    "health and wellness",
+    "household chemicals",
+    "pharmacy"
+  ],
+  "sushi bar": [
+    "Japanese cuisine",
+    "Food establishment",
+    "Dining",
+    "Seafood",
+    "Restaurant"
+  ],
+  "swamp": [
+    "ecosystem",
+    "wetland",
+    "habitat",
+    "freshwater",
+    "flora",
+    "fauna",
+    "aquatic",
+    "marsh"
+  ],
+  "swimming hole": [
+    "Natural feature",
+    "Water body",
+    "Recreational site",
+    "Swimming location"
+  ],
+  "swimming pool, indoor": [
+    "indoor facility",
+    "swimming location",
+    "enclosed pool",
+    "covered water area"
+  ],
+  "swimming pool, outdoor": [
+    "Outdoor activity",
+    "Recreational facility",
+    "Swimming venue",
+    "Water attraction"
+  ],
+  "synagogue, outdoor": [
+    "building",
+    "place of worship",
+    "outside",
+    "religious structure"
+  ],
+  "television room": [
+    "Entertainment",
+    "Room type",
+    "Living space",
+    "Electronics"
+  ],
+  "television studio": [
+    "audio-visual equipment",
+    "building",
+    "broadcasting",
+    "production facility"
+  ],
+  "temple, asia": [
+    "building",
+    "religious",
+    "architecture",
+    "Asia"
+  ],
+  "throne room": [
+    "Architecture",
+    "Interior design",
+    "Royalty",
+    "Furniture",
+    "Decoration"
+  ],
+  "ticket booth": [
+    "building",
+    "structure",
+    "public service",
+    "payment",
+    "entertainment",
+    "transaction"
+  ],
+  "topiary garden": [
+    "plants",
+    "horticulture",
+    "art",
+    "landscape design",
+    "living art"
+  ],
+  "tower": [
+    "architecture",
+    "building",
+    "structure",
+    "landmark"
+  ],
+  "toyshop": [
+    "toy",
+    "entertainment",
+    "store",
+    "business",
+    "product",
+    "retail",
+    "children",
+    "play",
+    "gift",
+    "merchandise",
+    "sales"
+  ],
+  "train interior": [
+    "vehicle interior",
+    "passenger compartment",
+    "seating",
+    "entertainment",
+    "lighting",
+    "ventilation",
+    "flooring",
+    "windows",
+    "doors",
+    "materials"
+  ],
+  "train station, platform": [
+    "station, transport hub",
+    "platform, waiting area"
+  ],
+  "tree farm": [
+    "agriculture",
+    "business",
+    "forestry",
+    "eco-friendly",
+    "farm",
+    "logging",
+    "profit",
+    "sustainable",
+    "nature",
+    "environment"
+  ],
+  "tree house": [
+    "outdoor structure",
+    "play area",
+    "tree accessory",
+    "children's space",
+    "recreational facility"
+  ],
+  "trench": [
+    "structure",
+    "military equipment",
+    "warfare",
+    "trench coat",
+    "excavation"
+  ],
+  "tundra": [
+    "biome",
+    "cold climate",
+    "vegetation",
+    "ecosystem"
+  ],
+  "underwater, ocean deep": [
+    "marine life, ocean depths"
+  ],
+  "utility room": [
+    "room",
+    "storage",
+    "utility",
+    "maintenance",
+    "cleaning",
+    "tool",
+    "cabinet",
+    "shelving",
+    "workspace",
+    "appliances"
+  ],
+  "valley": [
+    "geographical feature",
+    "topography",
+    "landscape"
+  ],
+  "vegetable garden": [
+    "Garden",
+    "Plant",
+    "Vegetable",
+    "Soil",
+    "Cultivation",
+    "Weather",
+    "Pest control",
+    "Harvest"
+  ],
+  "veterinarians office": [
+    "Category: animal care",
+    "Category: pet supplies",
+    "Superclass: retail",
+    "Category: diagnostics",
+    "Superclass: medical",
+    "Category: medication",
+    "Superclass: pharmacy",
+    "Category: surgery",
+    "Category: pet boarding",
+    "Superclass: accommodation",
+    "Category: pet grooming",
+    "Superclass: personal care"
+  ],
+  "viaduct": [
+    "architectural structure",
+    "civil engineering",
+    "transportation"
+  ],
+  "village": [
+    "geographical location",
+    "human settlement",
+    "rural area"
+  ],
+  "vineyard": [
+    "agriculture",
+    "business",
+    "farming",
+    "plant",
+    "winemaking"
+  ],
+  "volcano": [
+    "geological feature",
+    "earth science",
+    "natural disaster",
+    "mountain"
+  ],
+  "volleyball court, outdoor": [
+    "Outdoor location",
+    "Sports court",
+    "Recreational area"
+  ],
+  "waiting room": [
+    "indoor space",
+    "public area",
+    "seating area",
+    "waiting area"
+  ],
+  "water park": [
+    "Water park",
+    "Amusement park",
+    "Recreation facility",
+    "Aquatic center",
+    "Family entertainment",
+    "Outdoor attraction",
+    "Swimming pool",
+    "Water slide",
+    "Wave pool",
+    "Lazy river"
+  ],
+  "water tower": [
+    "engineering structure",
+    "water storage",
+    "tank",
+    "infrastructure",
+    "public utility"
+  ],
+  "waterfall": [
+    "waterfall",
+    "natural feature",
+    "geological phenomenon",
+    "landscape",
+    "river"
+  ],
+  "watering hole": [
+    "Establishment",
+    "Recreational venue",
+    "Social setting",
+    "Eatery",
+    "Drinking establishment",
+    "Public space"
+  ],
+  "wave": [
+    "Electromagnetic wave",
+    "Physics",
+    "Science"
+  ],
+  "wet bar": [
+    "Bar equipment",
+    "Home furnishing",
+    "Drinking accessory",
+    "Food service"
+  ],
+  "wheat field": [
+    "agriculture",
+    "crop",
+    "plant",
+    "cereal"
+  ],
+  "wind farm": [
+    "Renewable energy",
+    "Wind turbine",
+    "Power generation"
+  ],
+  "windmill": [
+    "wind energy",
+    "alternative energy",
+    "milling"
+  ],
+  "yard": [
+    "outdoor space",
+    "property",
+    "garden",
+    "landscape"
+  ],
+  "youth hostel": [
+    "accommodation",
+    "travel",
+    "budget",
+    "social",
+    "backpacker",
+    "dormitory",
+    "lodging",
+    "hosteling"
+  ],
+  "zen garden": [
+    "Zen garden",
+    "Zen art",
+    "Meditation",
+    "Landscape design",
+    "Rocks",
+    "Sand",
+    "Plants",
+    "Mindfulness",
+    "Aesthetic",
+    "Spiritual practice"
+  ]
+}

@@ -1,0 +1,109 @@
+LM4CV Attribute Generation Summary - cifar100
+==================================================
+
+Total classes: 100
+Total attributes: 954
+Unique attributes: 625
+Average attributes per class: 9.5
+
+Class breakdown:
+  apple: 10 attributes
+  aquarium fish: 10 attributes
+  baby: 10 attributes
+  bear: 10 attributes
+  beaver: 7 attributes
+  bed: 9 attributes
+  bee: 10 attributes
+  beetle: 10 attributes
+  bicycle: 9 attributes
+  bottle: 10 attributes
+  bowl: 10 attributes
+  boy: 8 attributes
+  bridge: 9 attributes
+  bus: 10 attributes
+  butterfly: 8 attributes
+  camel: 8 attributes
+  can: 10 attributes
+  castle: 13 attributes
+  caterpillar: 9 attributes
+  cattle: 10 attributes
+  chair: 10 attributes
+  chimpanzee: 8 attributes
+  clock: 10 attributes
+  cloud: 10 attributes
+  cockroach: 9 attributes
+  couch: 10 attributes
+  crab: 6 attributes
+  crocodile: 11 attributes
+  cup: 8 attributes
+  dinosaur: 10 attributes
+  dolphin: 9 attributes
+  elephant: 8 attributes
+  flatfish: 10 attributes
+  forest: 10 attributes
+  fox: 10 attributes
+  girl: 10 attributes
+  hamster: 10 attributes
+  house: 10 attributes
+  kangaroo: 10 attributes
+  keyboard: 10 attributes
+  lamp: 10 attributes
+  lawn mower: 9 attributes
+  leopard: 10 attributes
+  lion: 10 attributes
+  lizard: 10 attributes
+  lobster: 15 attributes
+  man: 9 attributes
+  maple tree: 8 attributes
+  motorcycle: 9 attributes
+  mountain: 8 attributes
+  mouse: 10 attributes
+  mushroom: 10 attributes
+  oak tree: 10 attributes
+  orange: 10 attributes
+  orchid: 8 attributes
+  otter: 7 attributes
+  palm tree: 10 attributes
+  pear: 6 attributes
+  pickup truck: 10 attributes
+  pine tree: 9 attributes
+  plain: 9 attributes
+  plate: 10 attributes
+  poppy: 9 attributes
+  porcupine: 10 attributes
+  possum: 10 attributes
+  rabbit: 10 attributes
+  raccoon: 10 attributes
+  ray: 6 attributes
+  road: 10 attributes
+  rocket: 9 attributes
+  rose: 10 attributes
+  sea: 11 attributes
+  seal: 10 attributes
+  shark: 10 attributes
+  shrew: 10 attributes
+  skunk: 7 attributes
+  skyscraper: 9 attributes
+  snail: 10 attributes
+  snake: 11 attributes
+  spider: 10 attributes
+  squirrel: 7 attributes
+  streetcar: 10 attributes
+  sunflower: 15 attributes
+  sweet pepper: 10 attributes
+  table: 10 attributes
+  tank: 15 attributes
+  telephone: 10 attributes
+  television: 10 attributes
+  tiger: 6 attributes
+  tractor: 8 attributes
+  train: 8 attributes
+  trout: 7 attributes
+  tulip: 8 attributes
+  turtle: 8 attributes
+  wardrobe: 8 attributes
+  whale: 14 attributes
+  willow tree: 12 attributes
+  wolf: 10 attributes
+  woman: 10 attributes
+  worm: 10 attributes
