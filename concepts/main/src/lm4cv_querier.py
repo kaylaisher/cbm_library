@@ -17,14 +17,13 @@ class LM4CVQuerier:
             'food': 'foods'
         }
         
-        # Improved filtering configuration
         self.filter_config = {
-            'min_length': 8,  # Minimum character length
-            'max_length': 60,  # Maximum character length
+            'min_length': 8,  
+            'max_length': 60,  
             'brand_keywords': {
                 'cars': ['acura', 'bmw', 'audi', 'mercedes', 'toyota', 'ford', 'chevrolet', 
                         'honda', 'nissan', 'volkswagen', 'volvo', 'lexus', 'cadillac'],
-                'birds': ['sparrow', 'eagle', 'robin', 'cardinal'],  # specific species
+                'birds': ['sparrow', 'eagle', 'robin', 'cardinal'], 
                 'default': []
             },
             'generic_terms': [
@@ -32,9 +31,9 @@ class LM4CVQuerier:
                 'various', 'different', 'several', 'multiple', 'many'
             ],
             'measurement_patterns': [
-                r"\d+\s*['\"]\s*(alloy\s+)?wheels?",  # "17" wheels"
-                r'\d+\s*inch\s+(alloy\s+)?wheels?',    # "17 inch wheels"
-                r'\d+\.\d+\s*[lL]\s+.*engine'          # "6.2L V8 engine"
+                r"\d+\s*['\"]\s*(alloy\s+)?wheels?",  
+                r'\d+\s*inch\s+(alloy\s+)?wheels?',   
+                r'\d+\.\d+\s*[lL]\s+.*engine'        
             ]
         }
 
@@ -46,12 +45,11 @@ class LM4CVQuerier:
         
         domain_name = self.domain_mapping.get(dataset_name.lower(), 'objects')
         
-        print(f"\n🔍 Generating LM4CV attributes for {dataset_name} ({domain_name})...")
+        print(f"\n Generating LM4CV attributes for {dataset_name} ({domain_name})...")
         
         for class_name in class_names:
             class_attributes = []
             
-            # Enhanced instance prompting with better examples
             instance_prompt = f"""make sure all the answer are visual features, it should be concise and descriptive. output example:
             <concepts>
             - four-limbed primate
@@ -68,14 +66,12 @@ class LM4CVQuerier:
             attributes = self._parse_attributes(response)
             class_attributes.extend(attributes)
             
-            # Domain-specific prompting with better context
             domain_prompt = f"""Q: What are useful visual features to distinguish {class_name} from other {domain_name} in a photo?"""
             
             response = await self.llm_client.query(domain_prompt)
             attributes = self._parse_attributes(response)
             class_attributes.extend(attributes)
             
-            # Shape/form specific prompting for cars
             if domain_name == 'cars':
                 shape_prompt = f""" What are the key body shape and design features of {class_name}?"""
                 
@@ -83,7 +79,6 @@ class LM4CVQuerier:
                 attributes = self._parse_attributes(response)
                 class_attributes.extend(attributes)
             
-            # Clean and store
             cleaned_attributes = self._clean_attributes(class_attributes, class_name, dataset_name)
             cls2attributes[class_name] = cleaned_attributes
             all_attributes.update(cleaned_attributes)
@@ -91,7 +86,6 @@ class LM4CVQuerier:
             print(f"  {class_name}: {len(cleaned_attributes)} attributes")
             await asyncio.sleep(0.5)
         
-        # Save outputs
         unified_attributes = sorted(list(all_attributes))
         self._save_attributes_txt(unified_attributes, dataset_name)
         self._save_cls2attributes_json(cls2attributes, dataset_name)
@@ -106,7 +100,6 @@ class LM4CVQuerier:
         for line in lines:
             line = line.strip()
             
-            # Skip obvious prompt leaks
             if line.startswith(('Q:', 'A:')):
                 continue
                 
@@ -138,46 +131,37 @@ class LM4CVQuerier:
         for attr in attributes:
             attr = attr.strip()
             
-            # Length filter
             if not (self.filter_config['min_length'] <= len(attr) <= self.filter_config['max_length']):
                 continue
             
-            # Remove class name mentions (more sophisticated)
             if self._contains_class_name(attr, class_name):
                 continue
             
-            # Remove brand-specific terms
             if self._contains_brand_terms(attr, domain):
                 continue
             
-            # Remove specific measurements
             if self._contains_measurements(attr):
                 continue
             
-            # Remove overly generic terms
             if self._is_too_generic(attr):
                 continue
             
-            # Normalize format
             attr = self._normalize_attribute(attr)
             
             if attr and len(attr) >= self.filter_config['min_length']:
                 cleaned.append(attr)
         
-        # Remove duplicates and limit per class
-        cleaned = list(dict.fromkeys(cleaned))  # Preserve order while removing duplicates
-        return cleaned[:20]  # Increased limit
+        cleaned = list(dict.fromkeys(cleaned)) 
+        return cleaned[:20] 
     
     def _contains_class_name(self, attr: str, class_name: str) -> bool:
         """Check if attribute contains class name or its parts"""
         attr_lower = attr.lower()
         class_lower = class_name.lower()
         
-        # Check full class name
         if class_lower in attr_lower:
             return True
         
-        # Check individual words in class name (but not common words)
         class_words = class_lower.split()
         common_words = {'sedan', 'coupe', 'suv', 'convertible', 'wagon', 'hatchback', 
                        'truck', 'van', 'cab', 'crew', 'extended', 'regular'}
@@ -206,12 +190,10 @@ class LM4CVQuerier:
         """Check if attribute is too generic"""
         attr_lower = attr.lower()
         
-        # Check for generic terms
         for term in self.filter_config['generic_terms']:
             if term in attr_lower:
                 return True
         
-        # Check for overly vague descriptions
         vague_patterns = [
             r'^(nice|good|bad|great|beautiful|ugly)\s',
             r'^(big|small|large|little)\s+(car|vehicle|object)$',
@@ -226,14 +208,11 @@ class LM4CVQuerier:
     
     def _normalize_attribute(self, attr: str) -> str:
         """Normalize attribute format"""
-        # Ensure lowercase start (unless proper noun)
         if attr and attr[0].isupper() and not self._starts_with_proper_noun(attr):
             attr = attr[0].lower() + attr[1:]
         
-        # Remove trailing punctuation
         attr = re.sub(r'[.!?]+$', '', attr)
         
-        # Normalize whitespace
         attr = re.sub(r'\s+', ' ', attr).strip()
         
         return attr
@@ -252,7 +231,7 @@ class LM4CVQuerier:
             for attr in attributes:
                 f.write(f"{attr}\n")
         
-        print(f"✅ Saved {len(attributes)} attributes to {filepath}")
+        print(f" Saved {len(attributes)} attributes to {filepath}")
     
     def _save_cls2attributes_json(self, data: Dict, dataset_name: str):
         """Save class-to-attributes mapping"""
@@ -262,9 +241,8 @@ class LM4CVQuerier:
         with open(filepath, 'w') as f:
             json.dump(data, f, indent=2)
         
-        print(f"✅ Saved class mappings to {filepath}")
+        print(f" Saved class mappings to {filepath}")
         
-        # Also save a summary report
         self._save_summary_report(data, dataset_name)
     
     def _save_summary_report(self, data: Dict, dataset_name: str):
@@ -287,4 +265,4 @@ class LM4CVQuerier:
             for class_name, attrs in data.items():
                 f.write(f"  {class_name}: {len(attrs)} attributes\n")
         
-        print(f"📊 Saved summary report to {report_path}")
+        print(f" Saved summary report to {report_path}")
