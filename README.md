@@ -41,7 +41,6 @@ python run.py
 ## Roadmap
 
  - Finalize unified training interfaces
- -  Add full examples for LaBo, LM4CV, CB-LLM
  -  Benchmarks across standard datasets
  -  Documentation website
 
