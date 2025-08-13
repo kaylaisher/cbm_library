@@ -23,7 +23,6 @@
 ##  Installation
 
 ```bash
-# Clone your library (replace with your repo if needed)
 git clone https://github.com/kaylaisher/cbm_library.git
 cd cbm_library
 
