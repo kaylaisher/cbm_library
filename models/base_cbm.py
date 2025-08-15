@@ -1,11 +1,6 @@
 """
 Enhanced Base CBM with all improvements - COMPLETED:
-- Better Error Handling
-- Modular Design  
-- Enhanced Logging
-- Configuration Management
-- Early Stopping
-- Validation
+
 """
 
 import torch
@@ -28,18 +23,21 @@ from ..config.config_manager import ConfigManager, CBMBaseConfig
 
 logger = setup_enhanced_logging(__name__)
 
+def _is_cuda(device) -> bool:
+    """True if device is CUDA. Works for torch.device or string-like."""
+    try:
+        if hasattr(device, "type"):
+            return str(device.type).lower().startswith("cuda")
+        return "cuda" in str(device).lower()
+    except Exception:
+        return False
+
+
 
 class BaseCBM(nn.Module, ABC):
     """
     Enhanced Abstract base class for all Concept Bottleneck Models
     
-    Features:
-    - 🛡️ Better Error Handling: Comprehensive validation and graceful failure recovery
-    - 🏗️ Modular Design: Separated concerns with reusable components
-    - 📝 Enhanced Logging: Colored logging with progress tracking and metrics
-    - ⚙️ Configuration Management: Flexible config with validation and history
-    - ⏹️ Early Stopping: Advanced early stopping with multiple metrics
-    - 🔍 Validation: Comprehensive model and data validation
     """
     
     def __init__(self, 
@@ -54,17 +52,20 @@ class BaseCBM(nn.Module, ABC):
         self.logger = setup_enhanced_logging(f"CBM_{self.__class__.__name__}")
         self.logger.info(f"🏗️ Initializing {self.__class__.__name__}")
         
+        # Device must be set before any `.to(self.device)` calls
+        import torch
+        self.device = torch.device(device)
+
         # Validate and store core parameters
-        self.backbone = self._validate_backbone(backbone)
         self.num_concepts = self._validate_positive_int(num_concepts, "num_concepts")
         self.num_classes = self._validate_positive_int(num_classes, "num_classes")
-        self.device = device
-        
+        self.backbone = self._validate_backbone(backbone)
+
         # Enhanced configuration management
         base_config = config or CBMBaseConfig(
             num_concepts=num_concepts,
             num_classes=num_classes,
-            device=device
+            device=str(self.device)
         )
         self.config_manager = ConfigManager(base_config.to_dict())
         
@@ -97,10 +98,9 @@ class BaseCBM(nn.Module, ABC):
         # Performance tracking
         self._training_start_time = None
         self._last_validation_time = None
-        
+
         self.logger.info(f"✅ {self.__class__.__name__} initialized successfully")
-        self.logger.info(f"📊 Concepts: {num_concepts}, Classes: {num_classes}, Device: {device}")
-    
+        self.logger.info(f"📊 Concepts: {num_concepts}, Classes: {num_classes}, Device: {self.device}")
     # =================== VALIDATION METHODS ===================
     
     def _validate_backbone(self, backbone: nn.Module) -> nn.Module:
@@ -937,7 +937,7 @@ class BaseCBM(nn.Module, ABC):
             }
             
             # Add GPU memory info if CUDA is available
-            if torch.cuda.is_available() and 'cuda' in self.device:
+            if torch.cuda.is_available() and _is_cuda(self.device):
                 memory_info['gpu_memory'] = {
                     'allocated_mb': torch.cuda.memory_allocated() / (1024 * 1024),
                     'cached_mb': torch.cuda.memory_reserved() / (1024 * 1024),
@@ -982,30 +982,35 @@ class BaseCBM(nn.Module, ABC):
             raise RuntimeError(f"Failed to reset training state: {e}") from e
     
     def cleanup(self) -> None:
-        """Cleanup resources and temporary files"""
+        """Cleanup resources and temporary files."""
+        import gc
         try:
-            # Clear GPU cache if using CUDA
-            if torch.cuda.is_available() and 'cuda' in self.device:
+            # Clear GPU cache only when we're actually on CUDA
+            if torch.cuda.is_available() and _is_cuda(getattr(self, "device", "cpu")):
                 torch.cuda.empty_cache()
-            
-            # Close loggers and files
-            if hasattr(self.metrics_logger, 'close'):
-                self.metrics_logger.close()
-            
-            # Clear large tensors
-            if self.concept_mean is not None:
-                del self.concept_mean
-                self.concept_mean = None
-            
-            if self.concept_std is not None:
-                del self.concept_std
-                self.concept_std = None
-            
-            self.logger.info("🧹 Cleanup completed")
-            
+                # torch.cuda.ipc_collect()  # (optional) if you use CUDA IPC
+
+            # Close loggers/files if present
+            ml = getattr(self, "metrics_logger", None)
+            if ml is not None:
+                close = getattr(ml, "close", None)
+                if callable(close):
+                    try:
+                        close()
+                    except Exception as e:
+                        # keep going; this is best-effort
+                        (getattr(self, "logger", logger)).debug(f"metrics_logger.close() raised: {e}")
+
+            # Release large tensors
+            for name in ("concept_mean", "concept_std"):
+                if getattr(self, name, None) is not None:
+                    setattr(self, name, None)
+
+            gc.collect()
+            (getattr(self, "logger", logger)).info("🧹 Cleanup completed")
         except Exception as e:
-            self.logger.warning(f"⚠️ Cleanup encountered issues: {e}")
-    
+            (getattr(self, "logger", logger)).warning(f"⚠️ Cleanup encountered issues: {e}")
+
     def __del__(self):
         """Destructor with safe cleanup"""
         try:

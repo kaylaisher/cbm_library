@@ -1,20 +1,44 @@
+# Python bytecode / caches
 __pycache__/
 *.py[cod]
-*.ipynb_checkpoints
-.env/
+*$py.class
+
+# Virtual envs / build
 .venv/
-venv/
-dist/
+.venvs/
+.env
 build/
-*.log
+dist/
+*.egg-info/
+
+# Logs & runs
 logs/
-data/
+*.log
+
+# Datasets, checkpoints, big artifacts
 dataset/
-saved_models/
-outputs/
-checkpoints/
+data/
 *.pt
 *.pth
-*.ckpt
 *.npz
 *.npy
+*.ckpt
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Temp & outputs
+*.tmp
+*.bak
+*.backup
+*.orig
+*.swp
+concepts/main/outputs/
+
+# OS
+.DS_Store
+Thumbs.db
