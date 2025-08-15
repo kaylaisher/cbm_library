@@ -17,7 +17,7 @@ class LLMClient:
         MAX_CONTEXT_TOKENS = 8192
         prompt_token_estimate = len(prompt) // 4
         max_tokens = MAX_CONTEXT_TOKENS - prompt_token_estimate
-        max_tokens = max(64, min(max_tokens, 4096)) 
+        max_tokens = max(64, min(max_tokens, 4096))  # ← updated upper limit
 
         async with httpx.AsyncClient(timeout=600.0) as client:
             payload = {
@@ -36,10 +36,11 @@ class LLMClient:
 
                 content = response.json()["choices"][0]["message"]["content"]
 
+                # Logging
                 timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 output = (
-                    f"\n {timestamp}\n Prompt:\n{prompt}\n\n"
-                    f" Raw LLM Response:\n{content}\n" + ("=" * 60)
+                    f"\n🕒 {timestamp}\n📤 Prompt:\n{prompt}\n\n"
+                    f"📥 Raw LLM Response:\n{content}\n" + ("=" * 60)
                 )
                 print(output)
 
@@ -49,5 +50,5 @@ class LLMClient:
                 return content
 
             except httpx.HTTPStatusError as e:
-                print(f" HTTP {e.response.status_code}: {e.response.text}")
+                print(f"❌ HTTP {e.response.status_code}: {e.response.text}")
                 raise

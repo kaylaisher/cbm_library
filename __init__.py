@@ -9,3 +9,4 @@ from .evaluation import *
 from .datasets import *
 
 __version__ = "0.1.0"
+__author__ = "ISRP 25 - Weng Lab"
