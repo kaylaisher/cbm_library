@@ -1,0 +1,77 @@
+# API Configuration
+openai_api_key: "sk-noauth-needed"  
+openai_base_url: "http://openchat-vllm.wenglab-vs.svc.cluster.local:8000/v1"
+model_name: "openchat/openchat-3.5-0106"  
+
+# Dataset Configurations
+datasets:
+  cifar10:
+    classes_file: "/kayla/llm_query_module/classes/cifar10_classes.txt"
+    description: "CIFAR-10 dataset with 10 object classes"
+  
+  cifar100:
+    classes_file: "/kayla/llm_query_module/classes/cifar100_classes.txt"
+    description: "CIFAR-100 dataset with 100 object classes"
+    
+  cub:
+    classes_file: "/kayla/llm_query_module/classes/cub_classes.txt"
+    description: "CUB-200-2011 bird species dataset"
+
+  imagenet:
+    classes_file: "/kayla/llm_query_module/classes/imagenet_classes.txt"
+    description: "ImageNet dataset with 1000 objects classes"
+
+  places365:
+    classes_file: "/kayla/llm_query_module/classes/places365_classes.txt"
+    description: "Places365 scene classification dataset"
+
+# LLM Configuration
+llm:
+  provider: "openchat"  # or "huggingface", "anthropic", etc.
+  model: "openchat/openchat-3.5-0106"  # or "gpt-4", "text-davinci-003", etc.
+  api_key_env: "OPENAI_API_KEY"  # Environment variable name for API key
+  temperature: 0.7
+  max_tokens: 150
+  top_p: 1.0
+  frequency_penalty: 0.0
+  presence_penalty: 0.0
+  
+# Query Generation Settings
+query_settings:
+  # Label-Free CBM settings
+  label_free:
+    concepts_per_iteration: 50
+    max_iterations: 5
+    similarity_threshold: 0.8
+    
+  # LaBo settings
+  labo:
+    sentences_per_class: 500
+    concepts_per_class: 25
+    submodular_alpha: 1e7  # Discriminability weight
+    submodular_beta: 1.0   # Coverage weight
+    
+  # LM4CV settings
+  lm4cv:
+    attributes_per_class: 20
+    min_attribute_length: 3
+    max_attribute_length: 50
+
+# Output Configuration
+output:
+  base_dir: "outputs"
+  create_timestamped_dirs: true
+  save_intermediate_results: true
+  
+# Logging Configuration
+logging:
+  level: "INFO"
+  save_logs: true
+  log_dir: "query_logs"
+  detailed_logging: true
+  
+# File Paths
+paths:
+  classes_dir: "kayla/llm_query_module/classes"
+  config_dir: "config"
+  utils_dir: "utils"

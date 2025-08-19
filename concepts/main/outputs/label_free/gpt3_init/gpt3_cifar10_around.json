@@ -1,0 +1,122 @@
+{
+  "airplane": [
+    "Cockpit",
+    "Seatbelt",
+    "Tray table",
+    "Oxygen mask",
+    "Air vents",
+    "Window shade",
+    "Headrest",
+    "Food tray",
+    "Overhead bin",
+    "In-flight magazine"
+  ],
+  "automobile": [
+    "car engine",
+    "gas pump",
+    "tire pressure",
+    "car seat",
+    "windshield",
+    "side mirror",
+    "auto repair shop",
+    "traffic light",
+    "road signs",
+    "parking space"
+  ],
+  "bird": [
+    "birdhouse",
+    "nest",
+    "perch",
+    "birdfeeder",
+    "tree branch",
+    "garden",
+    "rooftop",
+    "window sill",
+    "park",
+    "power line"
+  ],
+  "cat": [
+    "cat bed",
+    "windowsill",
+    "cardboard box",
+    "cat tree",
+    "toy mouse",
+    "laundry basket",
+    "cat food bowl",
+    "scratching post",
+    "petting zoo",
+    "sunny window"
+  ],
+  "deer": [
+    "forest clearing",
+    "woodland path",
+    "meadow grass",
+    "stream bank",
+    "dense bushes",
+    "morning fog",
+    "dew-covered leaves",
+    "shaded glade",
+    "bark rubbing",
+    "moonlit clearing"
+  ],
+  "dog": [
+    "dog park",
+    "chew toy",
+    "leash",
+    "dog bed",
+    "food bowl",
+    "dog treat",
+    "squirrel",
+    "dog walk",
+    "dog crate",
+    "pet store"
+  ],
+  "frog": [
+    "pond",
+    "lily pad",
+    "insects",
+    "swamp",
+    "cattail",
+    "driftwood",
+    "tadpole",
+    "muddy banks",
+    "aquatic plants",
+    "creek"
+  ],
+  "horse": [
+    "Horse stable",
+    "Feed trough",
+    "Haystack",
+    "Saddle",
+    "Grooming area",
+    "Horse trailer",
+    "Paddock",
+    "Riding arena",
+    "Muck heap",
+    "Water trough"
+  ],
+  "ship": [
+    "bridge",
+    "anchor",
+    "cargo hold",
+    "engine room",
+    "dining hall",
+    "cabins",
+    "deck chairs",
+    "sail",
+    "lifeboat",
+    "navigation system"
+  ],
+  "truck": [
+    "Trailer hitch",
+    "Fuel pump",
+    "Cargo area",
+    "Tire pressure",
+    "Tailgate",
+    "Loading dock",
+    "Mirror adjustment",
+    "Oil change",
+    "Air filter",
+    "Traffic lane"
+  ]
+}

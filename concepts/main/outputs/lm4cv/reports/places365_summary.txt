@@ -1,0 +1,374 @@
+LM4CV Attribute Generation Summary - places365
+==================================================
+
+Total classes: 365
+Total attributes: 3453
+Unique attributes: 1815
+Average attributes per class: 9.5
+
+Class breakdown:
+  airfield: 9 attributes
+  airplane cabin: 10 attributes
+  airport terminal: 9 attributes
+  alcove: 8 attributes
+  alley: 10 attributes
+  amphitheater: 10 attributes
+  amusement arcade: 10 attributes
+  amusement park: 10 attributes
+  apartment building, outdoor: 10 attributes
+  aquarium: 10 attributes
+  aqueduct: 10 attributes
+  arcade: 8 attributes
+  arch: 7 attributes
+  archaelogical excavation: 10 attributes
+  archive: 10 attributes
+  arena, hockey: 10 attributes
+  arena, performance: 9 attributes
+  arena, rodeo: 12 attributes
+  army base: 9 attributes
+  art gallery: 10 attributes
+  art school: 8 attributes
+  art studio: 7 attributes
+  artists loft: 10 attributes
+  assembly line: 10 attributes
+  athletic field, outdoor: 8 attributes
+  atrium, public: 8 attributes
+  attic: 9 attributes
+  auditorium: 11 attributes
+  auto factory: 10 attributes
+  auto showroom: 8 attributes
+  badlands: 8 attributes
+  bakery, shop: 10 attributes
+  balcony, exterior: 10 attributes
+  balcony, interior: 9 attributes
+  ball pit: 10 attributes
+  ballroom: 10 attributes
+  bamboo forest: 7 attributes
+  bank vault: 10 attributes
+  banquet hall: 10 attributes
+  bar: 9 attributes
+  barn: 10 attributes
+  barndoor: 10 attributes
+  baseball field: 10 attributes
+  basement: 10 attributes
+  basketball court, indoor: 9 attributes
+  bathroom: 12 attributes
+  bazaar, indoor: 10 attributes
+  bazaar, outdoor: 10 attributes
+  beach: 12 attributes
+  beach house: 10 attributes
+  beauty salon: 10 attributes
+  bedchamber: 10 attributes
+  bedroom: 10 attributes
+  beer garden: 10 attributes
+  beer hall: 10 attributes
+  berth: 14 attributes
+  biology laboratory: 10 attributes
+  boardwalk: 8 attributes
+  boat deck: 10 attributes
+  boathouse: 8 attributes
+  bookstore: 8 attributes
+  booth, indoor: 10 attributes
+  botanical garden: 10 attributes
+  bow window, indoor: 10 attributes
+  bowling alley: 9 attributes
+  boxing ring: 9 attributes
+  bridge: 10 attributes
+  building facade: 9 attributes
+  bullring: 10 attributes
+  burial chamber: 9 attributes
+  bus interior: 10 attributes
+  bus station, indoor: 10 attributes
+  butchers shop: 8 attributes
+  butte: 10 attributes
+  cabin, outdoor: 9 attributes
+  cafeteria: 10 attributes
+  campsite: 8 attributes
+  campus: 10 attributes
+  canal, natural: 10 attributes
+  canal, urban: 9 attributes
+  candy store: 10 attributes
+  canyon: 10 attributes
+  car interior: 7 attributes
+  carrousel: 10 attributes
+  castle: 10 attributes
+  catacomb: 11 attributes
+  cemetery: 9 attributes
+  chalet: 9 attributes
+  chemistry lab: 8 attributes
+  childs room: 8 attributes
+  church, indoor: 9 attributes
+  church, outdoor: 10 attributes
+  classroom: 7 attributes
+  clean room: 8 attributes
+  cliff: 10 attributes
+  closet: 10 attributes
+  clothing store: 10 attributes
+  coast: 10 attributes
+  cockpit: 8 attributes
+  coffee shop: 10 attributes
+  computer room: 10 attributes
+  conference center: 8 attributes
+  conference room: 8 attributes
+  construction site: 10 attributes
+  corn field: 8 attributes
+  corral: 7 attributes
+  corridor: 12 attributes
+  cottage: 9 attributes
+  courthouse: 9 attributes
+  courtyard: 10 attributes
+  creek: 10 attributes
+  crevasse: 10 attributes
+  crosswalk: 9 attributes
+  dam: 10 attributes
+  delicatessen: 8 attributes
+  department store: 10 attributes
+  desert, sand: 10 attributes
+  desert, vegetation: 10 attributes
+  desert road: 10 attributes
+  diner, outdoor: 9 attributes
+  dining hall: 10 attributes
+  dining room: 15 attributes
+  discotheque: 9 attributes
+  doorway, outdoor: 8 attributes
+  dorm room: 7 attributes
+  downtown: 7 attributes
+  dressing room: 12 attributes
+  driveway: 10 attributes
+  drugstore: 8 attributes
+  elevator, door: 8 attributes
+  elevator lobby: 10 attributes
+  elevator shaft: 8 attributes
+  embassy: 9 attributes
+  engine room: 10 attributes
+  entrance hall: 12 attributes
+  escalator, indoor: 9 attributes
+  excavation: 7 attributes
+  fabric store: 10 attributes
+  farm: 10 attributes
+  fastfood restaurant: 10 attributes
+  field, cultivated: 10 attributes
+  field, wild: 8 attributes
+  field road: 10 attributes
+  fire escape: 10 attributes
+  fire station: 10 attributes
+  fishpond: 10 attributes
+  flea market, indoor: 10 attributes
+  florist shop, indoor: 10 attributes
+  food court: 8 attributes
+  football field: 10 attributes
+  forest, broadleaf: 7 attributes
+  forest path: 8 attributes
+  forest road: 10 attributes
+  formal garden: 10 attributes
+  fountain: 10 attributes
+  galley: 8 attributes
+  garage, indoor: 9 attributes
+  garage, outdoor: 10 attributes
+  gas station: 10 attributes
+  gazebo, exterior: 10 attributes
+  general store, indoor: 10 attributes
+  general store, outdoor: 10 attributes
+  gift shop: 8 attributes
+  glacier: 10 attributes
+  golf course: 10 attributes
+  greenhouse, indoor: 10 attributes
+  greenhouse, outdoor: 10 attributes
+  grotto: 12 attributes
+  gymnasium, indoor: 8 attributes
+  hangar, indoor: 10 attributes
+  hangar, outdoor: 10 attributes
+  harbor: 9 attributes
+  hardware store: 9 attributes
+  hayfield: 10 attributes
+  heliport: 9 attributes
+  highway: 8 attributes
+  home office: 10 attributes
+  home theater: 10 attributes
+  hospital: 10 attributes
+  hospital room: 11 attributes
+  hot spring: 10 attributes
+  hotel, outdoor: 10 attributes
+  hotel room: 10 attributes
+  house: 10 attributes
+  hunting lodge, outdoor: 8 attributes
+  ice cream parlor: 8 attributes
+  ice floe: 7 attributes
+  ice shelf: 6 attributes
+  ice skating rink, indoor: 10 attributes
+  ice skating rink, outdoor: 8 attributes
+  iceberg: 10 attributes
+  igloo: 8 attributes
+  industrial area: 10 attributes
+  inn, outdoor: 10 attributes
+  islet: 10 attributes
+  jacuzzi, indoor: 6 attributes
+  jail cell: 9 attributes
+  japanese garden: 10 attributes
+  jewelry shop: 10 attributes
+  junkyard: 7 attributes
+  kasbah: 10 attributes
+  kennel, outdoor: 9 attributes
+  kindergarden classroom: 8 attributes
+  kitchen: 9 attributes
+  lagoon: 10 attributes
+  lake, natural: 7 attributes
+  landfill: 9 attributes
+  landing deck: 10 attributes
+  laundromat: 9 attributes
+  lawn: 13 attributes
+  lecture room: 6 attributes
+  legislative chamber: 10 attributes
+  library, indoor: 10 attributes
+  library, outdoor: 10 attributes
+  lighthouse: 10 attributes
+  living room: 12 attributes
+  loading dock: 10 attributes
+  lobby: 7 attributes
+  lock chamber: 10 attributes
+  locker room: 9 attributes
+  mansion: 9 attributes
+  manufactured home: 10 attributes
+  market, indoor: 9 attributes
+  market, outdoor: 8 attributes
+  marsh: 8 attributes
+  martial arts gym: 15 attributes
+  mausoleum: 10 attributes
+  medina: 5 attributes
+  mezzanine: 10 attributes
+  moat, water: 9 attributes
+  mosque, outdoor: 10 attributes
+  motel: 10 attributes
+  mountain: 10 attributes
+  mountain path: 10 attributes
+  mountain snowy: 10 attributes
+  movie theater, indoor: 10 attributes
+  museum, indoor: 9 attributes
+  museum, outdoor: 7 attributes
+  music studio: 10 attributes
+  natural history museum: 15 attributes
+  nursery: 10 attributes
+  nursing home: 13 attributes
+  oast house: 8 attributes
+  ocean: 10 attributes
+  office: 10 attributes
+  office building: 10 attributes
+  office cubicles: 10 attributes
+  oilrig: 12 attributes
+  operating room: 16 attributes
+  orchard: 8 attributes
+  orchestra pit: 9 attributes
+  pagoda: 9 attributes
+  palace: 11 attributes
+  pantry: 9 attributes
+  park: 10 attributes
+  parking garage, indoor: 7 attributes
+  parking garage, outdoor: 8 attributes
+  parking lot: 13 attributes
+  pasture: 10 attributes
+  patio: 7 attributes
+  pavilion: 8 attributes
+  pet shop: 5 attributes
+  pharmacy: 13 attributes
+  phone booth: 9 attributes
+  physics laboratory: 10 attributes
+  picnic area: 10 attributes
+  pier: 10 attributes
+  pizzeria: 10 attributes
+  playground: 10 attributes
+  playroom: 8 attributes
+  plaza: 10 attributes
+  pond: 10 attributes
+  porch: 13 attributes
+  promenade: 9 attributes
+  pub, indoor: 10 attributes
+  racecourse: 8 attributes
+  raceway: 7 attributes
+  raft: 14 attributes
+  railroad track: 14 attributes
+  rainforest: 10 attributes
+  reception: 8 attributes
+  recreation room: 12 attributes
+  repair shop: 10 attributes
+  residential neighborhood: 8 attributes
+  restaurant: 7 attributes
+  restaurant kitchen: 8 attributes
+  restaurant patio: 10 attributes
+  rice paddy: 8 attributes
+  river: 6 attributes
+  rock arch: 10 attributes
+  roof garden: 7 attributes
+  rope bridge: 10 attributes
+  ruin: 10 attributes
+  runway: 11 attributes
+  sandbox: 10 attributes
+  sauna: 10 attributes
+  schoolhouse: 10 attributes
+  science museum: 9 attributes
+  server room: 9 attributes
+  shed: 9 attributes
+  shoe shop: 9 attributes
+  shopfront: 18 attributes
+  shopping mall, indoor: 9 attributes
+  shower: 10 attributes
+  ski resort: 10 attributes
+  ski slope: 8 attributes
+  sky: 8 attributes
+  skyscraper: 10 attributes
+  slum: 10 attributes
+  snowfield: 7 attributes
+  soccer field: 7 attributes
+  stable: 10 attributes
+  stadium, baseball: 10 attributes
+  stadium, football: 10 attributes
+  stadium, soccer: 10 attributes
+  stage, indoor: 9 attributes
+  stage, outdoor: 10 attributes
+  staircase: 11 attributes
+  storage room: 7 attributes
+  street: 8 attributes
+  subway station, platform: 10 attributes
+  supermarket: 10 attributes
+  sushi bar: 9 attributes
+  swamp: 10 attributes
+  swimming hole: 9 attributes
+  swimming pool, indoor: 13 attributes
+  swimming pool, outdoor: 11 attributes
+  synagogue, outdoor: 9 attributes
+  television room: 16 attributes
+  television studio: 6 attributes
+  temple, asia: 11 attributes
+  throne room: 10 attributes
+  ticket booth: 9 attributes
+  topiary garden: 10 attributes
+  tower: 7 attributes
+  toyshop: 8 attributes
+  train interior: 10 attributes
+  train station, platform: 9 attributes
+  tree farm: 10 attributes
+  tree house: 7 attributes
+  trench: 10 attributes
+  tundra: 10 attributes
+  underwater, ocean deep: 10 attributes
+  utility room: 7 attributes
+  valley: 8 attributes
+  vegetable garden: 8 attributes
+  veterinarians office: 15 attributes
+  viaduct: 7 attributes
+  village: 10 attributes
+  vineyard: 10 attributes
+  volcano: 8 attributes
+  volleyball court, outdoor: 10 attributes
+  waiting room: 9 attributes
+  water park: 10 attributes
+  water tower: 10 attributes
+  waterfall: 6 attributes
+  watering hole: 7 attributes
+  wave: 10 attributes
+  wet bar: 10 attributes
+  wheat field: 7 attributes
+  wind farm: 7 attributes
+  windmill: 8 attributes
+  yard: 9 attributes
+  youth hostel: 10 attributes
+  zen garden: 7 attributes
