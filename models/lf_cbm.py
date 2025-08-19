@@ -8,11 +8,8 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-import clip  # OpenAI CLIP
+import clip  
 
-# =============================================================
-# Helpers
-# =============================================================
 
 def _is_cuda(device) -> bool:
     """True if device is CUDA. Works for torch.device or string-like."""
@@ -27,11 +24,6 @@ def _is_cuda(device) -> bool:
 def _ensure_2d(x: torch.Tensor) -> torch.Tensor:
     """Flatten to [N, D] if x has more than 2 dims."""
     return x.view(x.size(0), -1) if x.ndim > 2 else x
-
-
-# =============================================================
-# Similarity (cos^3), minimal set actually used
-# =============================================================
 
 def cos_cubed_similarity_mean(proj: torch.Tensor, Y: torch.Tensor) -> torch.Tensor:
     """Mean cos^3 similarity between projected activations and CLIP concept scores.
@@ -51,14 +43,8 @@ def cos_cubed_similarity_per_concept(proj: torch.Tensor, Y: torch.Tensor) -> tor
     cos_c = (Pn * Tn).sum(dim=0)                          # [C]
     return cos_c ** 3
 
-
-# =============================================================
-# Single-class LabelFreeCBM (Base functionality merged in)
-# =============================================================
-
 class LabelFreeCBM(nn.Module):
-    """Label-Free CBM with BaseCBM components merged directly.
-
+    """
     Provides:
       - Backbone feature extraction (frozen CLIP RN50 visual)
       - Concept layer training (top-5 filter → cos^3 W-training → interpretability cutoff)
@@ -66,7 +52,6 @@ class LabelFreeCBM(nn.Module):
       - Inference: forward(x) → logits
     """
 
-    # ----------------- Construction -----------------
     @staticmethod
     def build_backbone(device: str = "cuda") -> nn.Module:
         """Build CLIP RN50 visual encoder as backbone (frozen)."""
@@ -88,7 +73,6 @@ class LabelFreeCBM(nn.Module):
         super().__init__()
         self.device = torch.device(device)
 
-        # --- Base initialization (was in BaseCBM) ---
         if backbone is None or not isinstance(backbone, nn.Module):
             raise ValueError("Backbone must be a torch.nn.Module")
         self.backbone = backbone.to(self.device).eval()
@@ -107,7 +91,6 @@ class LabelFreeCBM(nn.Module):
         self.final_layer: Optional[nn.Linear] = None
         self.concept_names: List[str] = []
 
-        # Buffers for standardization used by classifier
         self.register_buffer("concept_mean", None, persistent=False)
         self.register_buffer("concept_std", None, persistent=False)
 
@@ -121,7 +104,6 @@ class LabelFreeCBM(nn.Module):
             feat = _ensure_2d(self.backbone(dummy))
             self.feature_dim = int(feat.shape[1])
 
-    # ----------------- Inference utilities (from Base) -----------------
     def extract_features(self, x: torch.Tensor) -> torch.Tensor:
         x = x.to(self.device)
         feats = self.backbone(x)
@@ -145,7 +127,6 @@ class LabelFreeCBM(nn.Module):
         logits = self.predict_from_concepts(concepts)
         return logits
 
-    # ----------------- Core data extractions -----------------
     def _extract_dataset_features(self, dataset, batch_size: int = 64, num_workers: int = 4) -> torch.Tensor:
         feats: List[torch.Tensor] = []
         dl = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers,
@@ -421,11 +402,6 @@ class LabelFreeCBM(nn.Module):
             "num_concepts": num_concepts,
             "num_classes": num_classes,
         }
-
-
-# =============================================================
-# Tiny concept-set helper (simple repo-style newline list)
-# =============================================================
 
 def read_concepts_file(path: str) -> List[str]:
     if not os.path.exists(path):
