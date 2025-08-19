@@ -1,7 +1,3 @@
-"""
-Unified Final Layer Training Module with Original LF-CBM Integration
-"""
-
 import os
 import json
 from dataclasses import dataclass, asdict
@@ -73,8 +69,6 @@ class FinalLayerConfig:
         d["layer_type"] = FinalLayerType(d["layer_type"])
         return cls(**d)
 
-
-# ---- single facade that holds all methods ----
 class FinalLayerMethod:
     def __init__(self):
         # patch softmax dim default for glm_saga
@@ -94,12 +88,12 @@ class FinalLayerMethod:
             self._glm_saga = glm_saga
             self._IndexedTensorDataset = IndexedTensorDataset
             self._glm_ready = True
-            logger.info("✅ GLM-SAGA available")
+            logger.info(" GLM-SAGA available")
         except ImportError:
             self._glm_saga = None
             self._IndexedTensorDataset = None
             self._glm_ready = False
-            logger.warning("❌ GLM-SAGA not available. Install: pip install glm-saga")
+            logger.warning(" GLM-SAGA not available. Install: pip install glm-saga")
 
     # ---------- public API ----------
     def train(
@@ -140,7 +134,7 @@ class FinalLayerMethod:
         validation_data: Optional[Tuple[torch.Tensor, torch.Tensor]],
         progress_callback: Optional[callable],
         ):
-        logger.info("🚀 Training dense/elastic-net linear head")
+        logger.info(" Training dense/elastic-net linear head")
         X, mu, sigma = self._normalize(concept_acts, cfg.normalize_concepts)
 
         model = nn.Linear(cfg.num_concepts, cfg.num_classes).to(cfg.device)
@@ -209,7 +203,7 @@ class FinalLayerMethod:
         if not self._glm_ready:
             raise ImportError("GLM-SAGA not available. `pip install glm-saga`")
 
-        logger.info("🚀 Training GLM-SAGA sparse head")
+        logger.info(" Training GLM-SAGA sparse head")
         X, mu, sigma = self._normalize(concept_acts, cfg.normalize_concepts)
 
         idx_ds = self._IndexedTensorDataset(X, labels.long())
@@ -320,7 +314,7 @@ class UnifiedFinalTrainer:
         if config.num_classes == 0:
             config.num_classes = int(labels.max().item()) + 1
 
-        logger.info(f"🎯 Training {config.layer_type.value} final layer")
+        logger.info(f" Training {config.layer_type.value} final layer")
         result = self._method.train(concept_activations, labels, config, validation_data, progress_callback)
         result["config"] = config
         result["method"] = config.layer_type.value
@@ -367,7 +361,7 @@ class UnifiedFinalTrainer:
         with open(os.path.join(save_path, "final_layer_metadata.json"), "w") as f:
             json.dump(meta, f, indent=2, default=str)
 
-        logger.info(f"💾 Training results saved to {save_path}")
+        logger.info(f" Training results saved to {save_path}")
 
     def load_training_result(self, load_path: str, device: str = "cuda") -> Dict[str, Any]:
         out: Dict[str, Any] = {}
@@ -385,11 +379,10 @@ class UnifiedFinalTrainer:
         else:
             logger.warning("Enhanced metadata not found; using tensors only")
 
-        logger.info(f"📂 Loaded final layer from {load_path}")
+        logger.info(f" Loaded final layer from {load_path}")
         return out
 
 
-# ---- mapper: global config → trainer config (single source of truth) ----
 def get_label_free_cbm_config(
     num_concepts: int,
     num_classes: int,
