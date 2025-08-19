@@ -1,16 +1,8 @@
-"""
-Unified interface that wraps your existing querier classes.
-Preserves all functionality while providing standardized access.
-"""
-
 from pathlib import Path
 import sys
 import asyncio
 from typing import Optional, Dict, Any, List
 
-# -----------------------------------------------------------------------------
-# Repo root discovery and path setup
-# -----------------------------------------------------------------------------
 _CURRENT_DIR = Path(__file__).resolve().parent
 
 def _find_repo_root(start: Path) -> Path:
@@ -30,14 +22,10 @@ def _ensure_on_path(p: Path):
     if sp not in sys.path:
         sys.path.insert(0, sp)
 
-# Ensure project root and llm_query_module (folder style) are importable
 _ensure_on_path(_REPO_ROOT)
 _ensure_on_path(_REPO_ROOT / "llm_query_module")
 
-# -----------------------------------------------------------------------------
-# Resilient imports for queriers (package or folder style). We DO NOT fail import
-# time; instead we create small factories that raise only when used.
-# -----------------------------------------------------------------------------
+
 _last_import_err: Optional[Exception] = None
 
 def _resolve_class(pkg_path: str, fallback_mod: str, cls_name: str):
@@ -48,7 +36,6 @@ def _resolve_class(pkg_path: str, fallback_mod: str, cls_name: str):
     """
     global _last_import_err
 
-    # Attempt package-style import
     try:
         module_path, _, class_name = pkg_path.partition(":")
         if not class_name:
@@ -59,7 +46,6 @@ def _resolve_class(pkg_path: str, fallback_mod: str, cls_name: str):
     except Exception as e1:
         _last_import_err = e1
 
-    # Attempt folder-style import (module sitting in llm_query_module/)
     try:
         mod = __import__(fallback_mod, fromlist=[cls_name])
         cls = getattr(mod, cls_name)
@@ -67,7 +53,6 @@ def _resolve_class(pkg_path: str, fallback_mod: str, cls_name: str):
     except Exception as e2:
         _last_import_err = e2
 
-        # Return a factory that raises when called
         def _raiser(*_a, **_kw):
             raise ImportError(
                 f"Required class '{cls_name}' not found. "
@@ -89,9 +74,7 @@ _make_lm4cv_querier       = _resolve_class("llm_query_module.lm4cv_querier:LM4CV
 _make_async_interface     = _resolve_class("llm_query_module.async_main_interface:AsyncLLMQueryInterface",
                                            "async_main_interface", "AsyncLLMQueryInterface")
 
-# -----------------------------------------------------------------------------
-# UnifiedConceptInterface (lazy instantiation, cache, async APIs)
-# -----------------------------------------------------------------------------
+
 class UnifiedConceptInterface:
     """
     Unified interface wrapping your existing concept generation queriers.
@@ -123,14 +106,12 @@ class UnifiedConceptInterface:
         self.config_path = config_path
         self._concept_cache: Dict[str, Dict[str, Any]] = {}
 
-        # Lazy-initialized members
         self._async_interface = None
         self._cb_llm_querier = None
         self._label_free_querier = None
         self._labo_querier = None
         self._lm4cv_querier = None
 
-    # ----- Lazy getters -------------------------------------------------------
     def _get_async_interface(self):
         if self._async_interface is None:
             self._async_interface = _make_async_interface(self.config_path)
@@ -316,7 +297,6 @@ class UnifiedConceptInterface:
 
         raise ValueError(f"Unknown method: {method}")
 
-    # ----- Convenience sync wrappers / metadata -------------------------------
     def generate_concepts_sync(self, *args, **kwargs) -> Dict[str, Any]:
         """Synchronous wrapper for async concept generation."""
         return asyncio.run(self.generate_concepts_for_cbm(*args, **kwargs))
