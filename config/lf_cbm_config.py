@@ -1,5 +1,5 @@
 """
-Label-Free CBM Configuration 
+Label-Free CBM Configuration (repo-style, single source of truth)
 
 """
 
@@ -11,12 +11,14 @@ import json
 
 @dataclass
 class LabelFreeCBMConfig:
+    # ===== Dataset & Model =====
     dataset: str = "cifar10"
     concept_set: Optional[str] = None          # path to concept set file (if used)
     backbone: str = "clip_RN50"                # e.g., clip_RN50, resnet18_cub, resnet18_places
     clip_name: str = "ViT-B/16"
     device: str = "cuda"
 
+    # Model architecture (left None to be set by training/data pipeline)
     num_concepts: Optional[int] = None         # determined after concept filtering
     num_classes: Optional[int] = None          # inferred from dataset loader
 

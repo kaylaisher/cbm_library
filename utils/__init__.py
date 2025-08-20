@@ -1,3 +1,9 @@
-from .debug_inspector import CBMDebugInspector
+"""
+Utility subpackage for CBM library
+"""
 
-__all__ = ["CBMDebugInspector"]
+from .logging import setup_enhanced_logging
+
+__all__ = [
+    "setup_enhanced_logging",
+]

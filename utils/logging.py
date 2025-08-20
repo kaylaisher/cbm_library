@@ -11,24 +11,29 @@ from pathlib import Path
 import json
 
 
-def setup_enhanced_logging(name: str, level: int = logging.INFO, log_file: Optional[str] = None) -> logging.Logger:
-    """
-    Setup enhanced logging with colored output and optional file logging
-    
-    Args:
-        name: Logger name
-        level: Logging level
-        log_file: Optional file path for logging
-    
-    Returns:
-        Configured logger
-    """
+import logging
+import sys
+
+import logging, sys
+
+def setup_enhanced_logging(name: str):
     logger = logging.getLogger(name)
-    logger.setLevel(level)
-    
-    # Avoid duplicate handlers
-    if logger.handlers:
+    if logger.handlers:   # already configured
         return logger
+    handler = logging.StreamHandler(sys.stdout)
+
+    if sys.stdout.isatty():  # only use colors in real terminal
+        fmt = "\033[94m%(asctime)s\033[0m - %(name)s - \033[32m%(levelname)s\033[0m - %(message)s"
+    else:
+        fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+    handler.setFormatter(logging.Formatter(fmt, "%H:%M:%S"))
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    return logger
+
+
     
     # Color mapping for different log levels
     def add_color_to_record(record):
