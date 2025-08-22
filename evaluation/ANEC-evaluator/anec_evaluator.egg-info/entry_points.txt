@@ -1,0 +1,2 @@
+[console_scripts]
+get_anec = anec_evaluator.cli:main

@@ -17,8 +17,6 @@ import sys
 from pathlib import Path
 from typing import Tuple, Dict, Any, Optional, List
 import datetime
-import json
-import random
 
 
 import torch
@@ -120,66 +118,6 @@ def train_label_free(
         for k, v in cfg_overrides.items():
             setattr(cfg, k, v)
 
-    # ---- optional env overrides / new knobs ----
-  
-    seed_env = os.getenv("LF_SEED")
-    if seed_env is not None:
-        try:
-            cfg.seed = int(seed_env)
-        except ValueError:
-            cfg.seed = getattr(cfg, "seed", 42)
-    else:
-        cfg.seed = getattr(cfg, "seed", 42)
-
-    # Reproducibility
-    import random, numpy as np, torch
-    random.seed(cfg.seed); np.random.seed(cfg.seed); torch.manual_seed(cfg.seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(cfg.seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-
-    # Save dir (timestamped run folder)
-    ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    save_root = Path(getattr(cfg, "save_dir", "/kayla/saved_models"))
-    save_dir = save_root / f"lf_cbm_{dataset_name}_{ts}"
-    save_dir.mkdir(parents=True, exist_ok=True)
-
-    # Cache dir: ENV > cfg.feature_cache_dir > default under this run
-    env_cache = os.getenv("LF_CACHE_DIR")
-    if env_cache:
-        cache_root = Path(env_cache)
-    elif getattr(cfg, "feature_cache_dir", None):
-        cache_root = Path(cfg.feature_cache_dir)
-    else:
-        cache_root = save_dir / "cache"
-    cache_root.mkdir(parents=True, exist_ok=True)
-    cfg.feature_cache_dir = str(cache_root)
-
-    # Use-cache (truthy parse)
-    use_cache_env = os.getenv("LF_USE_CACHE")
-    if use_cache_env is None:
-        cfg.use_cache = bool(getattr(cfg, "use_cache", True))
-    else:
-        cfg.use_cache = use_cache_env.strip().lower() in ("1", "true", "yes", "y", "on")
-
-    # Top-k for pre-filter & projection patience
-    cfg.topk_k = int(os.getenv("LF_TOPK_K", str(getattr(cfg, "topk_k", 5))))
-    cfg.proj_patience = int(os.getenv("LF_PROJ_PATIENCE", str(getattr(cfg, "proj_patience", 100))))
-
-    logger.info(f"[paths] save_dir={save_dir} | cache_dir={cfg.feature_cache_dir} | use_cache={cfg.use_cache} | seed={cfg.seed} | topk_k={cfg.topk_k} | proj_patience={cfg.proj_patience}")
-
-    # ---- reproducibility (P0-E) ----
-    random.seed(int(cfg.seed))
-    np.random.seed(int(cfg.seed))
-    torch.manual_seed(int(cfg.seed))
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(int(cfg.seed))
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    logger.info(f"[repro] seed={cfg.seed}")
-
-
     if dataset_name not in _NUM_CLASSES:
         raise ValueError(f"Dataset '{dataset_name}' not supported. Choose from: {list(_NUM_CLASSES.keys())}")
 
@@ -189,25 +127,10 @@ def train_label_free(
         num_classes = _NUM_CLASSES[dataset_name]
         setattr(cfg, "num_classes", num_classes)
 
-    # --- run directory ---
-    ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    exp_name = f"lf_cbm_{dataset_name}_{ts}"
-    save_dir = Path(getattr(cfg, "save_dir", "/kayla/saved_models")) / exp_name
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    exp_name = f"lf_cbm_{dataset_name}_{timestamp}"
+    save_dir = Path(cfg.save_dir) / exp_name
     save_dir.mkdir(parents=True, exist_ok=True)
-
-    # --- cache root: ENV > cfg.feature_cache_dir > default under this run dir ---
-    env_cache = os.getenv("CACHE_DIR", "").strip() or None
-    if env_cache:
-        cache_root = Path(env_cache)
-    elif getattr(cfg, "feature_cache_dir", None):
-        cache_root = Path(cfg.feature_cache_dir)
-    else:
-        cache_root = save_dir / "cache"
-
-    cache_root.mkdir(parents=True, exist_ok=True)
-    cfg.feature_cache_dir = str(cache_root)  # thread this through your calls
-
-    logger.info(f"[paths] save_dir={save_dir} | cache_dir={cache_root}")
     logger.info(cfg.summary())
     logger.info("⚙️ Regularization and training parameters:")
     logger.info(f"  sparsity_lambda:        {cfg.lam}")
@@ -224,10 +147,6 @@ def train_label_free(
     logger.info(f"  learning_rate:          {cfg.learning_rate}")
     logger.info(f"  max_epochs:             {cfg.max_epochs}")
     logger.info(f"  weight_decay:           {cfg.weight_decay}")
-    logger.info(f"  topk_k:                 {cfg.topk_k}")
-    logger.info(f"  proj_patience:          {cfg.proj_patience}")
-    logger.info(f"  use_cache:              {cfg.use_cache}")
-    logger.info(f"  feature_cache_dir:      {cache_root}")
 
     # ---- concepts
     concepts = _ensure_concepts(dataset_name)
@@ -243,7 +162,41 @@ def train_label_free(
         clip_name=cfg.clip_name,
     )
 
-  
+    # ---- dataset (CIFAR10 special split)
+    '''
+    if dataset_name == "cifar10":
+        train_full = datasets.CIFAR10(root=cfg.data_dir, train=True,  download=True, transform=model.clip_preprocess)
+        test_set   = datasets.CIFAR10(root=cfg.data_dir, train=False, download=True, transform=model.clip_preprocess)
+
+        assert len(train_full) == 50_000, f"Unexpected CIFAR-10 train size: {len(train_full)}"
+        labels_np = np.array(train_full.targets)
+        num_classes = 10
+        val_per_class = 500
+        rng = np.random.default_rng(getattr(cfg, "seed", 42))
+
+        val_idx, train_idx = [], []
+        for c in range(num_classes):
+            idx_c = np.where(labels_np == c)[0]
+            rng.shuffle(idx_c)
+            val_idx.extend(idx_c[:val_per_class])
+            train_idx.extend(idx_c[val_per_class:])
+
+        train_ds = Subset(train_full, train_idx)   # 45,000
+        val_ds   = Subset(train_full, val_idx)     # 5,000
+
+        pin_mem = bool(getattr(cfg, "pin_memory", True)) and torch.cuda.is_available()
+        train_loader = DataLoader(train_ds, batch_size=cfg.batch_size, shuffle=True,
+                                  num_workers=cfg.num_workers, pin_memory=pin_mem)
+        val_loader   = DataLoader(val_ds,   batch_size=cfg.batch_size, shuffle=False,
+                                  num_workers=cfg.num_workers, pin_memory=pin_mem)
+        test_loader  = DataLoader(test_set, batch_size=cfg.batch_size, shuffle=False,
+                                  num_workers=cfg.num_workers, pin_memory=pin_mem)
+
+        if hasattr(cfg, "validation_split"):
+            cfg.validation_split = 0.0
+    else:
+        train_ds = _make_dataset(dataset_name, root=cfg.data_dir, split="train", clip_preprocess=model.clip_preprocess)
+    '''
         # ---- dataset (CIFAR10 special split)
     if dataset_name == "cifar10":
         train_full = datasets.CIFAR10(root=cfg.data_dir, train=True,  download=True, transform=model.clip_preprocess)
@@ -303,22 +256,9 @@ def train_label_free(
         standardize_activations=False,
         log_every_n_steps=50,
         min_concepts_kept=10,
-        feature_cache_dir=cache_root,
-        use_cache=bool(cfg.use_cache),
-        cache_split="train",
-        topk_k=int(cfg.topk_k),
-        proj_patience=int(cfg.proj_patience),
     )
     logger.info("Training concept layer (cos^3 projection with filters)…")
     concept_acts = model.train_concept_layer(train_ds, concepts, cbl_cfg)  # [N, C']
-
-    # ---- save kept concepts list (P0-D)
-    kept = getattr(model, "kept_concepts_", None) or getattr(model, "concept_names", [])
-    kept_path = save_dir / "kept_concepts.txt"
-    with open(kept_path, "w", encoding="utf-8") as f:
-        for name in kept:
-            f.write(str(name).strip() + "\n")
-    logger.info(f"Saved kept concept names → {kept_path}")
 
     # ---- labels tensor for train
     targets: List[int] = []
@@ -329,40 +269,59 @@ def train_label_free(
 
     concept_acts = concept_acts.detach().float().cpu()
     labels = labels.cpu()
-    # ---- (ONLY for CIFAR-10) compute VAL concept activations/labels (cache-aware)
+
+    # ---- (ONLY for CIFAR-10) compute VAL concept activations/labels
     val_acts, val_labels = None, None
     if dataset_name == "cifar10":
-        # 1) get cached/compute-once VAL backbone features
-        feats_val = model._extract_dataset_features(
-            dataset=val_ds,
-            batch_size=cfg.batch_size,
-            num_workers=cfg.num_workers,
-            cache_dir=cfg.feature_cache_dir,
-            split="val",
-            use_cache=getattr(cfg, "use_cache", True),
-        )
+        model.eval()
+        v_acts, v_lbls = [], []
+        with torch.no_grad():
+            for xb, yb in val_loader:
+                xb = xb.to(cfg.device, non_blocking=("cuda" in str(cfg.device)))
 
-        # 2) collect VAL labels (cheap: one pass, no backbone compute)
-        v_lbls = []
-        for _, yb in val_loader:
-            v_lbls.append(yb.detach().cpu())
-        val_labels = torch.cat(v_lbls, 0).long()
+                # --- backbone features (INLINE robust extraction; no helpers) ---
+                feats = None
+                if hasattr(model, "get_backbone_features"):
+                    out = model.get_backbone_features(xb)
+                elif hasattr(model, "backbone"):
+                    out = model.backbone(xb)
+                else:
+                    out = xb  # extreme fallback (should not happen)
 
-        # 3) project features -> concept activations (chunk to avoid OOM)
-        def _project_in_chunks(feats, chunk=8192):
-            outs = []
-            with torch.no_grad():
-                for i in range(0, feats.size(0), chunk):
-                    f = feats[i:i+chunk].to(model.concept_layer.weight.dtype).to(cfg.device, non_blocking=("cuda" in str(cfg.device)))
-                    if hasattr(model, "proj_layer"):
-                        a = model.proj_layer(f)
-                    else:
-                        a = model.concept_layer(f)
-                    outs.append(a.detach().cpu())
-            return torch.cat(outs, 0)
+                if isinstance(out, torch.Tensor):
+                    feats = out
+                elif isinstance(out, (list, tuple)) and len(out) > 0:
+                    for item in out:
+                        if isinstance(item, torch.Tensor):
+                            feats = item
+                            break
+                elif isinstance(out, dict):
+                    for k in ("feats", "features", "penultimate", "pool", "last_hidden_state", "x"):
+                        v = out.get(k, None)
+                        if isinstance(v, torch.Tensor):
+                            feats = v
+                            break
 
-        val_acts = _project_in_chunks(feats_val)
+                if feats is None:
+                    raise ValueError(f"Backbone returned no tensor features (type={type(out)}). "
+                                     "Adapt feature extraction to your encoder.")
 
+                if feats.ndim > 2:
+                    feats = torch.flatten(feats, 1)
+
+                # --- concept projection ---
+                if hasattr(model, "proj_layer"):
+                    acts_val = model.proj_layer(feats)
+                elif hasattr(model, "concept_layer"):
+                    feats = feats.to(model.concept_layer.weight.dtype)
+                    acts_val = model.concept_layer(feats)
+                else:
+                    raise RuntimeError("No projection/concept layer found on model.")
+
+                v_acts.append(acts_val.detach().cpu())
+                v_lbls.append(yb.detach().cpu())
+
+        val_acts = torch.cat(v_acts, 0).float()
         val_labels = torch.cat(v_lbls, 0).long()
 
     # ---- final layer with GLM‑SAGA sparse training
@@ -442,46 +401,68 @@ def train_label_free(
         maybe_splits.append("test")
     if dataset_name in ("imagenet", "places365"):
         maybe_splits.append("val")
-    
+
     for split in maybe_splits:
         ds = _make_dataset(dataset_name, root=cfg.data_dir, split=split, clip_preprocess=model.clip_preprocess)
         loader = DataLoader(ds, batch_size=256, shuffle=False, num_workers=min(4, cfg.num_workers))
+        acts_list, lbl_list = [], []
 
-        # A) get cached/compute-once backbone feats for this split
-        feats_split = model._extract_dataset_features(
-            dataset=ds,
-            batch_size=cfg.batch_size,
-            num_workers=cfg.num_workers,
-            cache_dir=cfg.feature_cache_dir,
-            split=split,
-            use_cache=getattr(cfg, "use_cache", True),
-        )
+        with torch.no_grad():
+            for xb, yb in loader:
+                xb = xb.to(device, non_blocking=("cuda" in str(device)))
 
-        # B) collect labels only
-        lbl_list = []
-        for _, yb in loader:
-            lbl_list.append(yb.detach().cpu())
-        y_split = torch.cat(lbl_list, 0).long()
+                # --- backbone features (INLINE robust extraction; no helpers) ---
+                feats = None
+                if hasattr(model, "get_backbone_features"):
+                    out = model.get_backbone_features(xb)
+                elif hasattr(model, "backbone"):
+                    out = model.backbone(xb)
+                else:
+                    out = xb
 
-        # C) project to concept activations (same helper as above)
-        def _project_in_chunks(feats, chunk=8192):
-            outs = []
-            with torch.no_grad():
-                for i in range(0, feats.size(0), chunk):
-                    f = feats[i:i+chunk].to(model.concept_layer.weight.dtype).to(cfg.device, non_blocking=("cuda" in str(cfg.device)))
-                    if hasattr(model, "proj_layer"):
-                        a = model.proj_layer(f)
-                    else:
-                        a = model.concept_layer(f)
-                    outs.append(a.detach().cpu())
-            return torch.cat(outs, 0)
+                if isinstance(out, torch.Tensor):
+                    feats = out
+                elif isinstance(out, (list, tuple)) and len(out) > 0:
+                    for item in out:
+                        if isinstance(item, torch.Tensor):
+                            feats = item
+                            break
+                elif isinstance(out, dict):
+                    for k in ("feats", "features", "penultimate", "pool", "last_hidden_state", "x"):
+                        v = out.get(k, None)
+                        if isinstance(v, torch.Tensor):
+                            feats = v
+                            break
 
-        acts_split = _project_in_chunks(feats_split)
+                if feats is None:
+                    raise ValueError(f"Backbone returned no tensor features (type={type(out)}). "
+                                     "Adapt feature extraction to your encoder.")
 
-        # D) normalize with TRAIN μ/σ and save
-        Xn = (acts_split.float() - mu) / sigma
-        torch.save(Xn, anec_dir / f"{split}_activations.pt")
-        torch.save(y_split, anec_dir / f"{split}_labels.pt")   
+                if feats.ndim > 2:
+                    feats = torch.flatten(feats, 1)
+
+                # --- concept projection ---
+                if hasattr(model, "proj_layer"):
+                    acts = model.proj_layer(feats)
+                elif hasattr(model, "concept_layer"):
+                    feats = feats.to(model.concept_layer.weight.dtype)
+                    acts = model.concept_layer(feats)
+                else:
+                    raise RuntimeError("No projection/concept layer found on model.")
+
+                acts_list.append(acts.detach().cpu())
+                lbl_list.append(yb.detach().cpu())
+
+        X = torch.cat(acts_list, 0).float()
+        y = torch.cat(lbl_list, 0).long()
+        Xn = (X - mu) / sigma
+
+        if split == "test":
+            torch.save(Xn, anec_dir / "test_activations.pt")
+            torch.save(y,  anec_dir / "test_labels.pt")
+        elif split == "val":
+            torch.save(Xn, anec_dir / "val_activations.pt")
+            torch.save(y,  anec_dir / "val_labels.pt")
 
     logger.info(f"📦 ANEC export ready at: {anec_dir}")
 

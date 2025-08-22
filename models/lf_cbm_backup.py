@@ -108,8 +108,6 @@ class LabelFreeCBM(nn.Module):
         self.concept_layer: Optional[nn.Linear] = None
         self.final_layer: Optional[nn.Linear] = None
         self.concept_names: List[str] = []
-        # will be set during training so caller can persist it (P0-D)
-        self.kept_concepts_: Optional[List[str]] = None
 
         # Buffers for standardization used by classifier
         self.register_buffer("concept_mean", None, persistent=False)
@@ -150,24 +148,7 @@ class LabelFreeCBM(nn.Module):
         return logits
 
     # ----------------- Core data extractions -----------------
-    #def _extract_dataset_features(self, dataset, batch_size: int = 64, num_workers: int = 4) -> torch.Tensor:
-    def _extract_dataset_features(
-        self,
-        dataset,
-        batch_size: int = 64,
-        num_workers: int = 4,
-        cache_dir: Optional[str] = None,
-        split: Optional[str] = None,
-        use_cache: bool = True,
-    ) -> torch.Tensor:
-        cache_path = None
-        mode = getattr(self, "_feat_mode", getattr(self, "backbone_feature_mode", "final"))
-        if cache_dir and split:
-            os.makedirs(cache_dir, exist_ok=True)
-            cache_path = os.path.join(cache_dir, f"backbone_{split}_{mode}.pt")
-            if use_cache and os.path.exists(cache_path):
-                return torch.load(cache_path, map_location=self.device)
-    
+    def _extract_dataset_features(self, dataset, batch_size: int = 64, num_workers: int = 4) -> torch.Tensor:
         feats: List[torch.Tensor] = []
         dl = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers,
                         pin_memory=_is_cuda(self.device))
@@ -177,28 +158,9 @@ class LabelFreeCBM(nn.Module):
                 x = x.to(self.device, non_blocking=_is_cuda(self.device))
                 z = self.backbone(x)
                 feats.append(_ensure_2d(z).float().cpu())
-        feats = torch.cat(feats, dim=0)
-        if cache_path:
-            torch.save(feats, cache_path)
-        return feats       
+        return torch.cat(feats, dim=0).to(self.device)
 
-    #def _extract_clip_image_features(self, dataset, batch_size: int = 64) -> torch.Tensor:
-    def _extract_clip_image_features(
-        self,
-        dataset,
-        batch_size: int = 64,
-        cache_dir: Optional[str] = None,
-        split: Optional[str] = None,
-        use_cache: bool = True,
-        ) -> torch.Tensor:
-
-        cache_path = None
-        if cache_dir and split:
-            os.makedirs(cache_dir, exist_ok=True)
-            cache_path = os.path.join(cache_dir, f"clip_images_{split}.pt")
-            if use_cache and os.path.exists(cache_path):
-                return torch.load(cache_path, map_location=self.device)
-    
+    def _extract_clip_image_features(self, dataset, batch_size: int = 64) -> torch.Tensor:
         from PIL import Image
         import numpy as np
 
@@ -226,61 +188,29 @@ class LabelFreeCBM(nn.Module):
                 f = self.clip_model.encode_image(x).to(dtype=torch.float32)
                 f = f / (f.norm(dim=1, keepdim=True) + 1e-8)
                 feats.append(f.float().cpu())
+        return torch.cat(feats, dim=0).to(self.device)
 
-        feats = torch.cat(feats, dim=0)
-        if cache_path:
-            torch.save(feats, cache_path)
-        return feats        
-    
-    def _extract_clip_concept_features(
-        self,
-        concepts: List[str],
-        cache_dir: Optional[str] = None,
-        split: Optional[str] = None,
-        use_cache: bool = True,
-        ) -> torch.Tensor:
-        cache_path = None
-        if cache_dir:
-            os.makedirs(cache_dir, exist_ok=True)
-            split_tag = split or "concepts"
-            clip_tag = getattr(self, "clip_name", getattr(self, "clip_model_name", "clip"))
-            cache_path = os.path.join(cache_dir, f"cliptxt_{split_tag}_{clip_tag}.pt")
-            if use_cache and os.path.exists(cache_path):
-                # load to CPU so cache is device-agnostic
-                return torch.load(cache_path, map_location="cpu")
-
-        # encode on GPU for speed, then move to CPU once
+    def _extract_clip_concept_features(self, concepts: List[str]) -> torch.Tensor:
         tokens = self.clip_tokenize(concepts).to(self.device)
         with torch.no_grad():
             tf = self.clip_model.encode_text(tokens).to(dtype=torch.float32)
             tf = tf / (tf.norm(dim=1, keepdim=True) + 1e-8)
+        return tf
 
-        tf_cpu = tf.detach().cpu()           # <-- cache on CPU
-
-        if cache_path:
-            torch.save(tf_cpu, cache_path)
-
-        return tf_cpu
     # ----------------- Concept filtering -----------------
     @staticmethod
-    #def filter_concepts_by_top5_clip(clip_scores: torch.Tensor, concepts: List[str], cutoff: float
-    #                                 ) -> Tuple[List[str], torch.Tensor]:
-    def filter_concepts_by_topk_clip(
-        clip_scores: torch.Tensor, concepts: List[str], cutoff: float, k: int = 5
-    ) -> Tuple[List[str], torch.Tensor]:   
+    def filter_concepts_by_top5_clip(clip_scores: torch.Tensor, concepts: List[str], cutoff: float
+                                     ) -> Tuple[List[str], torch.Tensor]:
         """Mean-of-top-5 across images per concept; keep if > cutoff.
         clip_scores: [N, C] (I @ T^T)
         Returns: (kept_concepts, kept_indices)
         """
-        #k = min(5, clip_scores.size(0))
-        k = max(1, min(int(k), clip_scores.size(0)))
+        k = min(5, clip_scores.size(0))
         topk_mean = torch.topk(clip_scores, dim=0, k=k)[0].mean(dim=0)  # [C]
         keep_mask = topk_mean > cutoff
         kept_idx = keep_mask.nonzero(as_tuple=False).squeeze(1)
         kept = [c for c, m in zip(concepts, keep_mask.tolist()) if m]
         return kept, kept_idx
-    # Back-compat alias
-    filter_concepts_by_top5_clip = filter_concepts_by_topk_clip
 
     # ----------------- Training: projection W -----------------
     def _train_projection_layer(
@@ -318,9 +248,6 @@ class LabelFreeCBM(nn.Module):
 
         best_val = float("inf")
         best_W = None
-        # P0-C: early stop by patience on val loss
-        patience = int(config.get("proj_patience", 100))
-        stall = 0
 
         with trange(steps, desc="Concept projection (cos^3)", leave=True) as pbar:
             for step in pbar:
@@ -350,11 +277,6 @@ class LabelFreeCBM(nn.Module):
                 if vloss.item() < best_val:
                     best_val = float(vloss.item())
                     best_W = W.detach().clone()
-                    stall = 0
-                else:
-                    stall += 1
-                    if stall >= patience:
-                        break
 
                 # update bar every `log_every` steps
                 if (step % log_every) == 0:
@@ -369,9 +291,6 @@ class LabelFreeCBM(nn.Module):
     def train_concept_layer(self, dataset, concepts: List[str], config: Optional[Dict[str, Any]] = None) -> torch.Tensor:
         """Top-5 filter → train W under cos^3 → interpretability cutoff → set concept layer."""
         cfg = {
-            "feature_cache_dir": None,
-            "use_cache": True,
-            "cache_split": "full",
             "val_frac": 0.1,
             "clip_cutoff": 0.25,
             "interpretability_cutoff": 0.45,
@@ -382,25 +301,14 @@ class LabelFreeCBM(nn.Module):
             "standardize_activations": False,
             "log_every_n_steps": 50,
             "min_concepts_kept": 10,
-            "topk_k": 5,
-            "proj_patience": 100,
         }
         if config:
             cfg.update(config)
 
-      
-        cache_root = cfg.get("feature_cache_dir")
-        split_tag = str(cfg.get("cache_split") or "full")
-        use_cache = bool(cfg.get("use_cache", True))
-        X_full = self._extract_dataset_features(
-            dataset, cache_dir=cache_root, split=f"{split_tag}", use_cache=use_cache
-        )  # [N, D]
-        I_full = self._extract_clip_image_features(
-            dataset, cache_dir=cache_root, split=f"{split_tag}", use_cache=use_cache
-        )  # [N, K]
-        T_full = self._extract_clip_concept_features(
-            concepts, cache_dir=cache_root, split="concepts", use_cache=use_cache
-        )  # [C, K]
+        # Extract features and CLIP pseudo labels
+        X_full = self._extract_dataset_features(dataset)  # [N, D]
+        I_full = self._extract_clip_image_features(dataset)  # [N, K]
+        T_full = self._extract_clip_concept_features(concepts)  # [C, K]
         Y_full = I_full @ T_full.T  # [N, C]
 
         # Split train/val
@@ -410,10 +318,7 @@ class LabelFreeCBM(nn.Module):
         Y_val, Y_tr = Y_full[:nval], Y_full[nval:]
 
         # Top-5 CLIP filter
-        #kept_concepts, kept_idx = self.filter_concepts_by_top5_clip(Y_tr, concepts, float(cfg["clip_cutoff"]))
-        kept_concepts, kept_idx = self.filter_concepts_by_topk_clip(
-            Y_tr, concepts, float(cfg["clip_cutoff"]), k=int(cfg.get("topk_k", 5))
-        )
+        kept_concepts, kept_idx = self.filter_concepts_by_top5_clip(Y_tr, concepts, float(cfg["clip_cutoff"]))
         if kept_idx.numel() == 0:
             # Keep top-k by same metric if nothing passes
             k = min(max(5, int(cfg["min_concepts_kept"])) , Y_tr.shape[1])
@@ -428,8 +333,8 @@ class LabelFreeCBM(nn.Module):
 
         # Interpretability cutoff on validation
         with torch.no_grad():
-            vproj = (X_val.to(self.device)) @ W.T
-            sim_per = cos_cubed_similarity_per_concept(vproj, Y_val.to(self.device))
+            vproj = X_val @ W.T
+            sim_per = cos_cubed_similarity_per_concept(vproj, Y_val)
             keep_mask = sim_per >= float(cfg["interpretability_cutoff"])
         if keep_mask.sum().item() == 0:
             # Keep top-k if nothing passes
@@ -446,13 +351,11 @@ class LabelFreeCBM(nn.Module):
         self.concept_layer = nn.Linear(self.feature_dim, W_final.size(0), bias=False).to(self.device)
         with torch.no_grad():
             self.concept_layer.weight.copy_(W_final)
-        #self.concept_names = final_concepts
         self.concept_names = final_concepts
-        self.kept_concepts_ = list(final_concepts)  # P0-D       
 
         # Return activations on full set (useful for final layer training)
         with torch.no_grad():
-            concept_acts = self.concept_layer(X_full.to(self.device)).detach().cpu()  # keep result portable
+            concept_acts = self.concept_layer(X_full)  # [N, C_final]
         return concept_acts
 
     def train_final_layer(self, concept_activations: torch.Tensor, labels: torch.Tensor,

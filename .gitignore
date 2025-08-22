@@ -1,0 +1,13 @@
+# Big artifacts
+/saved_models/
+/dataset/
+/logs/
+*.pt
+*.pth
+*.npy
+*.npz
+# Usual noise
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store

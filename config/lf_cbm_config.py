@@ -1,6 +1,5 @@
 """
 Label-Free CBM Configuration (repo-style, single source of truth)
-
 """
 
 from dataclasses import dataclass, asdict
@@ -21,6 +20,7 @@ class LabelFreeCBMConfig:
     # Model architecture (left None to be set by training/data pipeline)
     num_concepts: Optional[int] = None         # determined after concept filtering
     num_classes: Optional[int] = None          # inferred from dataset loader
+    num_workers: int = 4
 
     # ===== Training Hyperparameters =====
     batch_size: int = 512
@@ -46,7 +46,7 @@ class LabelFreeCBMConfig:
 
     # ===== Directories =====
     activation_dir: str = "saved_activations"
-    save_dir: str = "saved_models"
+    save_dir: str = "cbm_library/saved_models"
     concept_dir: str = "data/concept_sets"
     data_dir: str = "data"
     log_dir: str = "logs"

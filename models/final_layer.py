@@ -125,6 +125,13 @@ class FinalLayerMethod:
             if e % 20 == 0:
                 logger.info(f"[dense] epoch {e} loss={avg:.4f} val_acc={vacc:.4f}")
 
+        result_train_X = X.detach().cpu()
+        result_train_y = labels.detach().cpu()
+        result_val_X, result_val_y = None, None
+        if validation_data is not None:
+            result_val_X = (vX if not cfg.normalize_concepts else (vX)).detach().cpu()
+            result_val_y = vy.detach().cpu()
+
         return {
             "weight": model.weight.detach().cpu(),
             "bias": model.bias.detach().cpu(),
@@ -141,6 +148,10 @@ class FinalLayerMethod:
                 "sparsity_percentage": 1.0,
                 "sparsity_per_class": model.weight.shape[0],
             },
+            "train_concept_features": result_train_X,
+            "train_concept_labels":  result_train_y,
+            "val_concept_features":   result_val_X,
+            "val_concept_labels":     result_val_y,
         }
 
     def _train_sparse_glm(
@@ -201,6 +212,13 @@ class FinalLayerMethod:
         if progress_callback:
             progress_callback(cfg.glm_max_iters, {"loss": float(best.get("loss", 0.0)), "lambda": float(best.get("lam", cfg.sparsity_lambda))})
 
+        result_train_X = X.detach().cpu()
+        result_train_y = labels.detach().cpu()
+        result_val_X, result_val_y = None, None
+        if validation_data is not None:
+            result_val_X = vX.detach().cpu()
+            result_val_y = vy.detach().cpu()
+
         return {
             "weight": W_g,
             "bias": b_g,
@@ -219,6 +237,10 @@ class FinalLayerMethod:
                 "final_loss": float(best.get("loss", 0.0)),
                 "time": float(best.get("time", 0.0)),
             },
+            "train_concept_features": result_train_X,
+            "train_concept_labels":  result_train_y,
+            "val_concept_features":   result_val_X,
+            "val_concept_labels":     result_val_y,
         }
 
     def _apply_topk_sparsity(self, dense_result: Dict[str, Any], cfg: FinalLayerConfig):
@@ -283,6 +305,20 @@ class UnifiedFinalTrainer:
         torch.save(result["bias"], os.path.join(save_path, "b_g.pt"))
         torch.save(result["concept_mean"], os.path.join(save_path, "proj_mean.pt"))
         torch.save(result["concept_std"], os.path.join(save_path, "proj_std.pt"))
+
+        tcf = result.get("train_concept_features")
+        tcl = result.get("train_concept_labels")
+        vcf = result.get("val_concept_features")
+        vcl = result.get("val_concept_labels")
+
+        if tcf is not None:
+            torch.save(tcf, os.path.join(save_path, "train_concept_features.pt"))
+        if tcl is not None:
+            torch.save(tcl, os.path.join(save_path, "train_concept_labels.pt"))
+        if vcf is not None:
+            torch.save(vcf, os.path.join(save_path, "val_concept_features.pt"))
+        if vcl is not None:
+            torch.save(vcl, os.path.join(save_path, "val_concept_labels.pt"))
 
         meta = {
             "config": result["config"].to_dict(),
