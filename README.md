@@ -1,5 +1,6 @@
 # Concept Bottleneck Models benchmark Library
 
+
 ## *A unified training/evaluation toolkit for LF-CBM and VLG-CBM with ANEC metrics*
 
  - Built with vllm pre-generated concept sets
@@ -27,6 +28,7 @@ git clone https://github.com/kaylaisher/cbm_library.git
 cd cbm_library
 ```
 
+
 ## training
 
 ### Train LF-CBM
@@ -35,6 +37,7 @@ cd ..
 python -m cbm_library.scripts.lf_cbm_train <dataset> \
   --save_dir saved_models \
 ```
+
 
 ### Train VLG-CBM
 
@@ -45,6 +48,7 @@ python -m cbm_library.scripts.vlg_cbm_train <dataset_name> \
   --save_dir saved_models
 ```
 
+
 ## Evaluate with ANEC tool
 
 ```bash
@@ -53,19 +57,22 @@ pip install -e .
 get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_results>
 ```
 
+
 ## Sources
  - Label-Free CBM (ICLR 2023) — official code: https://github.com/Trustworthy-ML-Lab/Label-free-CBM
  - VLG-CBM (NeurIPS 2024) — official code & docs: https://github.com/Trustworthy-ML-Lab/VLG-CBM
  - ANEC-evaluator — standalone tool to compute ANEC: https://github.com/windymount/ANEC-evaluator
 #### We also build on GLM-SAGA for sparse final-layer training and related tooling.
 
+
+
 ## Acknowledgement
 #### This is a project of International Summer Research Program at UCSD. Developed by PIN-CI HUANG, National Cetral University. Under the supervision of Prof. Lily Weng and Ph.D Ge Yan. 
 
+
+
 ## Citations
-
 #### If you use this library, please also cite the foundational works:
-
 #### T. Oikarinen, S. Das, L. Nguyen and T.-W. Weng, Label-free Concept Bottleneck Models, ICLR 2023.
 ```
 @inproceedings{oikarinen2023labelfree,
@@ -75,6 +82,7 @@ get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_resul
   year      = {2023}
 }
 ```
+
 
 #### Srivastava, Divyansh and Yan, Ge and Weng, Tsui-Wei, VLG-CBM: Training Concept Bottleneck Models with Vision-Language Guidance, NeurIPS 2024.
 ```
