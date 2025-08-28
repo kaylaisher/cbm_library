@@ -13,11 +13,10 @@
 - [Training](#training)
   - [Train LF-CBM](#train-lf-cbm)
   - [Train VLG-CBM](#train-vlg-cbm)
-- [Evaluate (ANEC)](#evaluate-anec)
-- [Results (template)](#results-template)
+- [Evaluate with ANEC tool](#evaluate-with-anec-tool)
 - [Sources / Acknowledgments](#sources--acknowledgments)
 - [Citations](#citations)
-- [License](#license)
+
 
 ---
 
@@ -47,7 +46,7 @@ python -m cbm_library.scripts.vlg_cbm_train <dataset_name> \
   --save_dir saved_models
 ```
 
-### 4) Evaluate with ANEC tool
+## Evaluate with ANEC tool
 
 ```bash
 cd evaluation/ANEC-evaluator
@@ -55,13 +54,13 @@ pip install -e .
 get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_results>
 ```
 
-##Sources / Acknowledgments
+## Sources / Acknowledgments
  - Label-Free CBM (ICLR 2023) — official code: https://github.com/Trustworthy-ML-Lab/Label-free-CBM
  - VLG-CBM (NeurIPS 2024) — official code & docs: https://github.com/Trustworthy-ML-Lab/VLG-CBM
  - ANEC-evaluator — standalone tool to compute ANEC: https://github.com/windymount/ANEC-evaluator
 ####We also build on GLM-SAGA for sparse final-layer training and related tooling.
 
-##Citations
+## Citations
 
 ####If you use this library, please also cite the foundational works:
 @inproceedings{oikarinen2023labelfree,
@@ -78,8 +77,4 @@ get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_resul
   year    = {2024}
 }
 
-
-License
-
-This project is distributed under the license in this repository. Please also respect the licenses of the upstream projects linked above.
 
