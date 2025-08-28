@@ -58,11 +58,11 @@ get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_resul
  - Label-Free CBM (ICLR 2023) — official code: https://github.com/Trustworthy-ML-Lab/Label-free-CBM
  - VLG-CBM (NeurIPS 2024) — official code & docs: https://github.com/Trustworthy-ML-Lab/VLG-CBM
  - ANEC-evaluator — standalone tool to compute ANEC: https://github.com/windymount/ANEC-evaluator
-####We also build on GLM-SAGA for sparse final-layer training and related tooling.
+#### We also build on GLM-SAGA for sparse final-layer training and related tooling.
 
 ## Citations
 
-####If you use this library, please also cite the foundational works:
+#### If you use this library, please also cite the foundational works:
 @inproceedings{oikarinen2023labelfree,
   title     = {Label-free Concept Bottleneck Models},
   author    = {Oikarinen, Tuomas and Das, Subhro and Nguyen, Lam M and Weng, Tsui-Wei},
