@@ -1,3 +1,9 @@
+"""
+This module implements a final layer training pipeline for machine learning models, 
+supporting dense and sparse linear layers. 
+It provides utilities for training, saving, and loading final layers, as well as compatibility with LF-CBM and VLG-CBM configurations.
+"""
+
 from __future__ import annotations
 import os
 import json
