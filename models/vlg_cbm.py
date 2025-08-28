@@ -1,422 +1,421 @@
-# cbm_library/models/vlg_cbm.py
 from __future__ import annotations
-from dataclasses import replace
-from typing import Tuple, Dict, Any, Optional, List
-from pathlib import Path
-import os
-import json
-import math
-
+import os, json, operator
+from typing import Optional, Dict, Any, List
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+from loguru import logger
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
-try:
-    import clip  # OpenAI CLIP
-except Exception:
-    clip = None  # allow import without CLIP installed (you'll wire it up)
+from cbm_library.utils import data_utils
+from cbm_library.utils.glm_saga import glm_saga
+from cbm_library.utils.logging import setup_enhanced_logging
+from cbm_library.models.final_layer import FinalLayer  
+logger = setup_enhanced_logging("vlg_cbm")
 
-from cbm_library.config.vlg_cbm_config import VLGCBMConfig
 
-# ---------------------------
-# VLGCBM (MAIN METHODS FIRST)
-# ---------------------------
+class Backbone(nn.Module):
+    def __init__(self, backbone_name: str, feature_layer: str, device: str = "cuda"):
+        super().__init__()
+        target_model, target_preprocess = data_utils.get_target_model(backbone_name, device)
+
+        self._feature_vals = {}
+        self._hook_handle = None
+
+        def hook(module, _inp, output):
+            self._feature_vals[output.device] = output
+
+        submod = operator.attrgetter(feature_layer)(target_model)
+        self._hook_handle = submod.register_forward_hook(hook)
+
+        self.backbone = target_model
+        self.preprocess = target_preprocess
+
+        self.feature_layer = feature_layer
+        try:
+            with torch.no_grad():
+                pdev = next(target_model.parameters()).device
+                dummy = torch.randn(1, 3, 224, 224, device=pdev)
+                _ = target_model(dummy)               
+                feat = self._feature_vals.get(pdev)
+                if feat is None:
+                    raise RuntimeError(f"Failed to probe feature_layer='{feature_layer}'")
+                self.output_dim = feat.shape[1] if feat.ndim == 4 else feat.view(1, -1).shape[1]
+        except Exception as e:
+            raise RuntimeError(f"Could not infer output_dim via hook for layer='{feature_layer}': {e}")
+    
+    def forward(self, x: torch.Tensor):
+        _ = self.backbone(x)  
+        dev = x.device
+        feat = self._feature_vals.get(dev)
+        if feat is None:
+            raise RuntimeError(
+                f"Hook did not run; check feature_layer='{getattr(self, 'feature_layer', '?')}' and model forward."
+            )
+        # Support both 4D maps (N,C,H,W) and already-pooled 2D features (N,C)
+        if feat.ndim == 4:
+            return feat.mean(dim=(2, 3))   # GAP → [N, C]
+        if feat.ndim == 2:
+            return feat                    # already [N, C]
+        raise RuntimeError(f"Unsupported feature tensor shape: {tuple(feat.shape)}")
+    
+
+    def save_model(self, save_dir: str):
+        os.makedirs(save_dir, exist_ok=True)
+        torch.save(self.backbone.state_dict(), os.path.join(save_dir, "backbone.pt"))
+    
+    @classmethod
+    def from_pretrained(
+        cls,
+        load_dir: str,
+        *,
+        backbone_name: str,
+        feature_layer: str,
+        device: str = "cuda",
+    ):
+        model = cls(backbone_name, feature_layer, device)
+        state = torch.load(os.path.join(load_dir, "backbone.pt"), map_location=device)
+        model.backbone.load_state_dict(state)
+        return model
+
+    def remove_hook(self):
+        if self._hook_handle is not None:
+            self._hook_handle.remove()
+            self._hook_handle = None
+
+class BackboneCLIP(nn.Module):
+    def __init__(self, backbone_name: str, use_penultimate=True, device="cuda"):
+        super().__init__()
+        import clip
+        model, preprocess = clip.load(backbone_name[5:], device=device)
+        visual = model.visual
+        self.preprocess = preprocess
+
+        if use_penultimate:
+            N = visual.attnpool.c_proj.in_features
+            identity = nn.Linear(N, N, bias=True, device=device)
+            nn.init.zeros_(identity.bias)
+            with torch.no_grad():
+                identity.weight.copy_(torch.eye(N, device=device))
+            visual.attnpool.c_proj = identity
+            self.output_dim = N
+        else:
+            if hasattr(visual.attnpool, "c_proj") and hasattr(visual.attnpool.c_proj, "out_features"):
+                self.output_dim = int(visual.attnpool.c_proj.out_features)
+            elif hasattr(visual, "output_dim"):
+                self.output_dim = int(visual.output_dim)
+            else:
+                self.output_dim = int(visual.attnpool.c_proj.in_features)
+
+        self.backbone = visual.float()
+
+    def save_model(self, save_dir: str):
+        os.makedirs(save_dir, exist_ok=True)
+        torch.save(self.backbone.state_dict(), os.path.join(save_dir, "backbone_clip.pt"))
+
+    @classmethod
+    def from_pretrained(cls, load_dir: str, backbone_name: str, use_penultimate: bool = True, device: str = "cuda"):
+        model = cls(backbone_name, use_penultimate=use_penultimate, device=device)
+        path = os.path.join(load_dir, "backbone_clip.pt")
+        if os.path.exists(path):
+            sd = torch.load(path, map_location=device)
+            model.backbone.load_state_dict(sd, strict=False)
+        return model
+
+
+class ConceptLayer(nn.Module):
+    def __init__(self, in_features: int, out_features: int, num_hidden: int = 0, bias: bool = True, device: str = "cuda"):
+        super().__init__()
+        layers = [nn.Linear(in_features, out_features, bias=bias)]
+        for _ in range(num_hidden):
+            layers.append(nn.ReLU())
+            layers.append(nn.Linear(out_features, out_features, bias=bias))
+        self.model = nn.Sequential(*layers).to(device)
+        self.out_features = out_features
+
+    def forward(self, x):
+        return self.model(x)
+
+    def save_model(self, save_dir):
+        torch.save(self.state_dict(), os.path.join(save_dir, "cbl.pt"))
+  
+    
+    @classmethod
+    def from_pretrained(cls, load_dir: str, cfg, device: str = "cuda"):
+        if cfg.backbone.startswith("clip_"):
+            tmp_backbone = BackboneCLIP(cfg.backbone,
+                                        getattr(cfg, "use_clip_penultimate", True),
+                                        device=device)
+        else:
+            tmp_backbone = Backbone(cfg.backbone, cfg.feature_layer, device=device)
+        encoder_dim = int(tmp_backbone.output_dim)
+
+        concepts_path = os.path.join(load_dir, "concepts.txt")
+        concepts = [c for c in data_utils.get_concepts(concepts_path) if str(c).strip()]
+        num_concepts = len(concepts)
+
+        model = cls(encoder_dim, num_concepts,
+                    num_hidden=getattr(cfg, "cbl_hidden_layers", 0),
+                    device=device)
+        model.load_state_dict(torch.load(os.path.join(load_dir, "cbl.pt"), map_location=device))
+        return model
+
+
+class NormalizationLayer(nn.Module):
+    def __init__(self, mean: torch.Tensor, std: torch.Tensor, device: str = "cuda"):
+        super().__init__()
+        self.mean = mean.to(device)
+        self.std = std.to(device).clamp_min(1e-6)
+
+    def forward(self, x):
+        return (x - self.mean) / self.std
+
+    def save_model(self, save_dir):
+        torch.save(self.mean, os.path.join(save_dir, "train_concept_features_mean.pt"))
+        torch.save(self.std, os.path.join(save_dir, "train_concept_features_std.pt"))
+
+    @classmethod
+    def from_pretrained(cls, load_dir: str, device: str = "cuda"):
+        mean = torch.load(os.path.join(load_dir, "train_concept_features_mean.pt"), map_location=device)
+        std = torch.load(os.path.join(load_dir, "train_concept_features_std.pt"), map_location=device)
+        return cls(mean, std, device=device)
 
 class VLGCBM(nn.Module):
-    """
-    Vision-Language-Guided CBM
-    Pipeline:
-      1) Build backbone + CLIP, read concepts
-      2) (Optional) CLIP-based prefilter of concepts
-      3) Learn projection W_c: features -> concepts via cosine/sim alignment
-      4) Cache concept activations; compute normalization stats (train)
-      5) Train final head (dense or sparse)
-      6) Evaluate & export artifacts
-    """
-    def __init__(self, cfg: VLGCBMConfig):
-        super().__init__()
-        self.cfg = cfg.finalize()
-        self.device = torch.device(self.cfg.device)
-
-        # populated during build()
-        self.backbone = None
-        self.feature_dim = self.cfg.feature_dim
-        self.clip_model = None
-        self.clip_preprocess = None
-        self.clip_tokenizer = None
-
-        # concepts
-        self.concepts: List[str] = []
-        self.num_concepts: int = 0
-        self.text_embeds = None  # (C, E)
-
-        # learnable modules
-        self.proj: nn.Module = None         # features -> concept logits
-        self.final_head: nn.Linear = None   # concepts -> classes
-
-        # normalization
-        self.concept_mean = None
-        self.concept_std = None
-
-    # ---- Orchestrator ----
-    @torch.no_grad()
-    def run_full_pipeline(
-        self,
-        train_loader: DataLoader,
-        val_loader: DataLoader,
-        test_loader: Optional[DataLoader] = None,
-        work_dir: Optional[str] = None,
-    ) -> Dict[str, Any]:
-        """
-        Execute the whole VLG-CBM pipeline.
-        Returns metrics and paths to saved artifacts.
-        """
-        work_dir = work_dir or os.path.join(self.cfg.save_dir, self.cfg.run_name)
-        os.makedirs(work_dir, exist_ok=True)
-        (Path(work_dir) / "args.json").write_text(json.dumps(self.cfg.to_dict(), indent=2))
-
-        # 1) Models + concepts
-        self._build_backbone_and_clip()
-        self._load_concepts()
-        self._encode_concept_texts()
-
-        # 2) Optional prefilter
-        if self.cfg.clip_cutoff is not None:
-            self._prefilter_concepts(train_loader)
-
-        # 3) Learn projection (features -> concepts)
-        self._init_projection()
-        self._fit_projection(train_loader, val_loader)
-
-        # 4) Cache concept activations + normalization
-        train_Z, train_y = self.compute_concept_activations(train_loader)
-        val_Z,   val_y   = self.compute_concept_activations(val_loader)
-        self._fit_normalization(train_Z)
-        train_Zn = self.normalize_concepts(train_Z)
-        val_Zn   = self.normalize_concepts(val_Z)
-
-        # 5) Train final head
-        self._init_final_head()
-        if self.cfg.final_type == "dense":
-            self._fit_final_dense(train_Zn, train_y, val_Zn, val_y)
-        else:
-            self._fit_final_saga(train_Zn, train_y, val_Zn, val_y)
-
-        # 6) Evaluate & export
-        results = {"val_acc": float(self._eval_matrix(val_Zn, val_y))}
-        if test_loader is not None:
-            test_Z, test_y = self.compute_concept_activations(test_loader)
-            test_Zn = self.normalize_concepts(test_Z)
-            results["test_acc"] = float(self._eval_matrix(test_Zn, test_y))
-
-        artifacts = self._export_artifacts(work_dir)
-        results.update(artifacts)
-        return results
-
-    # ---- Public utility: compute activations from a loader ----
-    @torch.no_grad()
-    def compute_concept_activations(self, loader: DataLoader) -> Tuple[torch.Tensor, torch.Tensor]:
-        self.eval()
-        feats, labels = [], []
-        for xb, yb in loader:
-            xb = xb.to(self.device, non_blocking=True)
-            fb = self._extract_features(xb)                               # (B, D)
-            zb = self.proj(fb)                                            # (B, C)
-            feats.append(zb.detach().cpu())
-            labels.append(yb.detach().cpu())
-        Z = torch.cat(feats, dim=0)       # (N, C)
-        y = torch.cat(labels, dim=0)      # (N,)
-        return Z, y
-
-    # ---------------------------
-    # IMPLEMENTATION (HELPERS)
-    # ---------------------------
-
-    # -- build blocks --
-    def _build_backbone_and_clip(self):
-        if self.cfg.backbone == "clip_visual":
-            assert clip is not None, "pip install git+https://github.com/openai/CLIP.git"
-            self.clip_model, self.clip_preprocess = clip.load(self.cfg.clip_model, device=self.cfg.device)
-            self.backbone = self.clip_model.visual.eval()
-            self.feature_dim = self.feature_dim or self._infer_clip_visual_dim()
-        else:
-            # Torchvision backbone; you can swap this for your repo util
-            import torchvision.models as tvm
-            m = tvm.resnet50(weights=tvm.ResNet50_Weights.IMAGENET1K_V2)
-            m.eval().to(self.device)
-
-            # register forward hook to grab the configured layer output
-            self.feature_dim = self.feature_dim or 2048
-            layer = dict(m.named_modules())[self.cfg.feature_layer]
-            buffer = {"out": None}
-            def hook(_, __, out): buffer["out"] = out
-            layer.register_forward_hook(hook)
-            self.backbone = _ForwardHookBackbone(m, buffer, pool=self.cfg.feature_pool).to(self.device)
-
-        # CLIP text encoder (even if backbone isn't CLIP)
-        if clip is not None:
-            self.clip_model_text = self.clip_model if self.clip_model is not None else clip.load(self.cfg.clip_model, device=self.cfg.clip_device)[0]
-            self.clip_tokenize = clip.tokenize
-            self.clip_model_text.eval()
-
-    def _load_concepts(self):
-        concepts = []
-        if self.cfg.concept_list_path and os.path.isfile(self.cfg.concept_list_path):
-            with open(self.cfg.concept_list_path) as f:
-                concepts += [ln.strip() for ln in f if ln.strip()]
-        concepts += [c for c in self.cfg.extra_concepts if c.strip()]
-        if not concepts:
-            raise ValueError("No concepts provided. Set cfg.concept_list_path or cfg.extra_concepts.")
-        self.concepts = concepts
-        self.num_concepts = len(concepts)
-
-    @torch.no_grad()
-    def _encode_concept_texts(self):
-        assert clip is not None, "CLIP required for VLG guidance."
-        toks = self.clip_tokenize([self.cfg.prompt_template.format(concept=c) for c in self.concepts]).to(self.cfg.clip_device)
-        txt = self.clip_model_text.encode_text(toks)
-        self.text_embeds = F.normalize(txt.float(), dim=-1)  # (C, E)
-
-    # -- CLIP prefilter (optional) --
-    @torch.no_grad()
-    def _prefilter_concepts(self, train_loader: DataLoader):
-        sims = []
-        kept_mask = torch.ones(self.num_concepts, dtype=torch.bool)
-        for xb, _ in train_loader:
-            xb = xb.to(self.cfg.clip_device)
-            if self.cfg.backbone == "clip_visual" and self.clip_model is not None:
-                img_emb = self.clip_model.encode_image(xb)
-            else:
-                # always compute CLIP image embedding using text model’s visual pair
-                img_emb = clip.load(self.cfg.clip_model, device=self.cfg.clip_device)[0].encode_image(xb)  # lightweight reload for correctness
-            img_emb = F.normalize(img_emb.float(), dim=-1)        # (B, E)
-            s = img_emb @ self.text_embeds.T                      # (B, C)
-            sims.append(s.cpu())
-        S = torch.cat(sims, dim=0)                                # (N, C)
-
-        # keep concepts whose top-k mean >= cutoff
-        topk = S.topk(k=self.cfg.clip_topk, dim=0).values
-        means = topk.mean(dim=0)                                  # (C,)
-        kept_mask &= (means >= self.cfg.clip_cutoff)
-
-        # apply mask
-        if kept_mask.sum().item() == 0:
-            # fallback: keep everything to avoid empty set
-            return
-        self._apply_concept_mask(kept_mask)
-
-    # -- projection W_c (features -> concepts) --
-    def _init_projection(self):
-        D, C = self.feature_dim, self.num_concepts
-        if self.cfg.proj_hidden_dim:
-            self.proj = nn.Sequential(
-                nn.Linear(D, self.cfg.proj_hidden_dim),
-                nn.ReLU(inplace=True),
-                nn.Linear(self.cfg.proj_hidden_dim, C),
-            ).to(self.device)
-        else:
-            self.proj = nn.Linear(D, C).to(self.device)
-
-    def _fit_projection(self, train_loader: DataLoader, val_loader: DataLoader):
-        opt = torch.optim.AdamW(self.proj.parameters(), lr=self.cfg.proj_lr, weight_decay=self.cfg.proj_weight_decay)
-        best_state, best_val = None, float("inf")
-        patience = self.cfg.proj_early_stop_patience
-        stale = 0
-
-        for epoch in range(self.cfg.proj_epochs):
-            self.train()
-            tr_loss = 0.0
-            for i, (xb, _) in enumerate(train_loader):
-                xb = xb.to(self.device, non_blocking=True)
-                fb = self._extract_features(xb)                       # (B, D)
-                zb = self.proj(fb)                                    # (B, C)
-                with torch.no_grad():
-                    img_emb = self._clip_image_embed(xb)              # (B, E)
-                    target = self._clip_similarity_targets(img_emb)   # (B, C)
-                loss = _cosine_alignment_loss(zb, target)
-                opt.zero_grad(set_to_none=True)
-                loss.backward()
-                opt.step()
-                tr_loss += float(loss.item())
-
-            # val
-            self.eval()
-            val_loss = 0.0
-            with torch.no_grad():
-                for xb, _ in val_loader:
-                    xb = xb.to(self.device, non_blocking=True)
-                    fb = self._extract_features(xb)
-                    zb = self.proj(fb)
-                    img_emb = self._clip_image_embed(xb)
-                    target = self._clip_similarity_targets(img_emb)
-                    val_loss += float(_cosine_alignment_loss(zb, target).item())
-
-            if val_loss < best_val:
-                best_val, stale = val_loss, 0
-                best_state = {k: v.detach().cpu().clone() for k, v in self.proj.state_dict().items()}
-            else:
-                stale += 1
-                if stale >= patience:
-                    break
-
-        if best_state is not None:
-            self.proj.load_state_dict(best_state)
-
-    # -- normalization over concepts --
-    def _fit_normalization(self, Z_train: torch.Tensor) -> None:
-        mean = Z_train.mean(dim=0)
-        std = Z_train.std(dim=0).clamp_min(self.cfg.eps)
-        self.concept_mean = mean
-        self.concept_std = std
-
-    @torch.no_grad()
-    def normalize_concepts(self, Z: torch.Tensor) -> torch.Tensor:
-        return (Z - self.concept_mean) / self.concept_std
-
-    # -- final layer (dense) --
-    def _init_final_head(self):
-        self.final_head = nn.Linear(self.num_concepts, self.cfg.num_classes).to(self.device)
-
-    def _fit_final_dense(
-        self, Ztr: torch.Tensor, ytr: torch.Tensor, Zva: torch.Tensor, yva: torch.Tensor
-    ):
-        ds_tr = torch.utils.data.TensorDataset(Ztr, ytr)
-        dl_tr = DataLoader(ds_tr, batch_size=self.cfg.batch_size, shuffle=True, num_workers=0)
-        opt = torch.optim.AdamW(self.final_head.parameters(), lr=self.cfg.dense_lr, weight_decay=self.cfg.dense_weight_decay)
-        best, best_state, stale = -1.0, None, 0
-
-        for epoch in range(self.cfg.dense_epochs):
-            self.final_head.train()
-            for Zb, yb in dl_tr:
-                Zb = Zb.to(self.device); yb = yb.to(self.device)
-                logits = self.final_head(Zb)
-                loss = F.cross_entropy(logits, yb)
-                opt.zero_grad(set_to_none=True); loss.backward(); opt.step()
-
-            # val
-            acc = self._eval_matrix(Zva, yva)
-            if acc > best:
-                best, stale = acc, 0
-                best_state = {k: v.detach().cpu().clone() for k, v in self.final_head.state_dict().items()}
-            else:
-                stale += 1
-                if stale >= 10:
-                    break
-
-        if best_state is not None:
-            self.final_head.load_state_dict(best_state)
-
-    # -- final layer (sparse SAGA) --
-    def _fit_final_saga(
-        self, Ztr: torch.Tensor, ytr: torch.Tensor, Zva: torch.Tensor, yva: torch.Tensor
-    ):
-        # Placeholder: plug in your GLM-SAGA implementation here.
-        # For now, fall back to dense; swap later with your glm_saga() function.
-        self._fit_final_dense(Ztr, ytr, Zva, yva)
-
-    @torch.no_grad()
-    def _eval_matrix(self, Z: torch.Tensor, y: torch.Tensor) -> float:
-        self.final_head.eval()
-        logits = self.final_head(Z.to(self.device))
-        pred = logits.argmax(dim=1).cpu()
-        return (pred == y).float().mean().item()
-
-    # -- exporting --
-    def _export_artifacts(self, work_dir: str) -> Dict[str, Any]:
-        paths = {
-            "W_c": os.path.join(work_dir, "W_c.pt"),
-            "norm": os.path.join(work_dir, "concept_norm.json"),
-            "concepts": os.path.join(work_dir, "concepts.txt"),
-            "W_g": os.path.join(work_dir, "W_g.pt"),
-        }
-        # projection (W_c) / or full module
-        torch.save(self.proj.state_dict(), paths["W_c"])
-        # normalization
-        with open(paths["norm"], "w") as f:
-            json.dump({"mean": self.concept_mean.tolist(), "std": self.concept_std.tolist()}, f)
-        # concepts
-        Path(paths["concepts"]).write_text("\n".join(self.concepts))
-        # final head
-        torch.save(self.final_head.state_dict(), paths["W_g"])
-        return paths
-
-    # ---------------------------
-    # LOWER-LEVEL HELPERS
-    # ---------------------------
-
-    @torch.no_grad()
-    def _extract_features(self, xb: torch.Tensor) -> torch.Tensor:
-        """
-        Returns pooled backbone features (B, D)
-        """
-        if isinstance(self.backbone, _ForwardHookBackbone):
-            return self.backbone(xb)
-        elif self.cfg.backbone == "clip_visual":
-            feats = self.backbone(xb)              # raw visual transformer output
-            if feats.ndim == 3:                    # (B, T, D) -> CLS token
-                feats = feats[:, 0]
-            return feats.float()
-        else:
-            raise RuntimeError("Backbone not initialized")
-
-    @torch.no_grad()
-    def _clip_image_embed(self, xb: torch.Tensor) -> torch.Tensor:
-        assert clip is not None
-        # Use a CLIP image encoder (paired with text embeds) for guidance
-        if self.cfg.backbone == "clip_visual" and self.clip_model is not None:
-            img = self.clip_model.encode_image(xb.to(self.cfg.clip_device))
-        else:
-            model, _ = clip.load(self.cfg.clip_model, device=self.cfg.clip_device)
-            img = model.encode_image(xb.to(self.cfg.clip_device))
-        return F.normalize(img.float(), dim=-1)  # (B, E)
-
-    @torch.no_grad()
-    def _clip_similarity_targets(self, img_emb: torch.Tensor) -> torch.Tensor:
-        # soft targets: (B, C), normalized cosine similarities with temperature
-        logits = (img_emb @ self.text_embeds.T) / self.cfg.cosine_tau
-        probs = logits.softmax(dim=-1)
-        return probs
-
-    def _apply_concept_mask(self, mask: torch.Tensor):
-        # mask: (C,)
-        new_concepts = [c for c, k in zip(self.concepts, mask) if bool(k)]
-        self.concepts = new_concepts
-        self.num_concepts = len(new_concepts)
-        if self.text_embeds is not None:
-            self.text_embeds = self.text_embeds[mask]
-
-    def _infer_clip_visual_dim(self) -> int:
-        # heuristic dims for popular CLIP models
-        table = {"ViT-B/32": 768, "ViT-B/16": 768, "ViT-L/14": 1024, "RN50": 1024, "RN101": 512}
-        return table.get(self.cfg.clip_model, 768)
-
-
-class _ForwardHookBackbone(nn.Module):
-    """Wrap a torchvision model and expose pooled feature map from a hooked layer."""
-    def __init__(self, backbone: nn.Module, buffer: Dict[str, torch.Tensor], pool: str = "avg"):
+    def __init__(self, backbone: nn.Module, cbl: nn.Module, normalization: nn.Module, final_layer: nn.Module, device: str = "cuda"):
         super().__init__()
         self.backbone = backbone
-        self.buffer = buffer
-        self.pool = pool
+        self.cbl = cbl
+        self.normalization = normalization
+        self.final_layer = final_layer
+        self.device = device
+        self.to(device)
+        self.feature_vals = {}
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        _ = self.backbone(x)
-        fm = self.buffer["out"]  # (B, C, H, W)
-        if fm.ndim == 4:
-            if self.pool == "avg":
-                fm = fm.mean(dim=(2, 3))
+    def forward(self, x):
+        emb = self.backbone(x)
+        concepts = self.cbl(emb)
+        norm_c = self.normalization(concepts)
+        logits = self.final_layer(norm_c)
+        return logits, norm_c
+
+
+    @classmethod
+    def from_config(cls, cfg) -> "VLGCBM":
+        """
+        Build VLGCBM from a VLGCBMConfig-like object with fields:
+          - backbone (e.g., "resnet50" or "clip_ViT-B/32" style as "clip_ViT-B/32")
+          - feature_layer (e.g., "layer4") [for non-CLIP]
+          - use_clip_penultimate (bool)
+          - device (e.g., "cuda")
+          - cbl_hidden_layers (int)
+          - num_concepts (int), num_classes (int)  [these should be filled by your script after reading concepts/classes]
+        """
+        device = getattr(cfg, "device", "cuda")
+
+        if cfg.backbone.startswith("clip_"):
+            backbone = BackboneCLIP(cfg.backbone, use_penultimate=getattr(cfg, "use_clip_penultimate", True), device=device)
+            encoder_dim = backbone.output_dim
+        else:
+            backbone = Backbone(cfg.backbone, cfg.feature_layer, device=device)
+            encoder_dim = backbone.output_dim
+
+        cbl = ConceptLayer(encoder_dim, cfg.num_concepts, num_hidden=getattr(cfg, "cbl_hidden_layers", 0), device=device)
+        # default to identity normalization; your training pipeline should set real stats later
+        norm = NormalizationLayer(torch.zeros(cfg.num_concepts), torch.ones(cfg.num_concepts), device=device)
+        final = FinalLayer(cfg.num_concepts, cfg.num_classes, device=device)
+        return cls(backbone, cbl, norm, final, device=device)
+
+    def save(self, save_dir: str, args_dict: dict | None = None):
+        os.makedirs(save_dir, exist_ok=True)
+        if args_dict is not None:
+            with open(os.path.join(save_dir, "args.txt"), "w") as f:
+                json.dump(args_dict, f, indent=2)
+        if hasattr(self.backbone, "save_model"):
+            self.backbone.save_model(save_dir)
+        self.cbl.save_model(save_dir)
+        self.normalization.save_model(save_dir)
+        self.final_layer.save_model(save_dir)
+        torch.save(self.state_dict(), os.path.join(save_dir, "vlg_cbm_full.pt"))
+
+   
+    @classmethod
+    def from_pretrained(cls, load_dir: str, cfg, device: str = "cuda"):
+        if cfg.backbone.startswith("clip_"):
+            backbone = BackboneCLIP.from_pretrained(load_dir, cfg.backbone,
+                                                    getattr(cfg, "use_clip_penultimate", False), device)
+        else:
+            backbone = Backbone.from_pretrained(load_dir, device, backbone_name=cfg.backbone,
+                                                feature_layer=cfg.feature_layer)
+        cbl = ConceptLayer.from_pretrained(load_dir, cfg, device)
+        normalization = NormalizationLayer.from_pretrained(load_dir, device)
+        final_layer = FinalLayer.from_pretrained(load_dir, device)
+        model = cls(backbone, cbl, normalization, final_layer, device)
+        ckpt_path = os.path.join(load_dir, "vlg_cbm_full.pt")
+        if os.path.exists(ckpt_path):
+            model.load_state_dict(torch.load(ckpt_path, map_location=device))
+        return model
+
+
+    @torch.inference_mode()
+    def predict(self, x: torch.Tensor):
+        logits, _ = self.forward(x.to(self.device))
+        return logits.argmax(dim=1)
+
+    @torch.inference_mode()
+    def encode_concepts(self, x: torch.Tensor):
+        _, concepts = self.forward(x.to(self.device))
+        return concepts
+
+    @torch.inference_mode()
+    def evaluate_top1(self, loader: DataLoader) -> float:
+        self.eval()
+        correct, total = 0, 0
+        for images, _, targets in tqdm(loader):
+            images, targets = images.to(self.device), targets.to(self.device)
+            logits, _ = self.forward(images)
+            preds = logits.argmax(dim=1)
+            correct += (preds == targets).sum().item()
+            total += targets.numel()
+        return correct / max(total, 1)
+
+
+# -----------------
+# Training + Eval
+# -----------------
+
+def per_class_accuracy(model: nn.Module, loader: DataLoader, classes: list[str], device: str = "cuda"):
+    correct = torch.zeros(len(classes)).to(device)
+    total = torch.zeros(len(classes)).to(device)
+    model = model.to(device)
+    model.eval()
+    with torch.no_grad():
+        for features, _, targets in tqdm(loader):
+            features = features.to(device)
+            targets = targets.to(device)
+            logits, _ = model(features)
+            preds = logits.argmax(dim=1)
+            for pred, target in zip(preds, targets):
+                total[target] += 1
+                if pred == target:
+                    correct[target] += 1
+   
+    den = torch.where(total == 0, torch.ones_like(total), total)
+    per_class_acc = (correct / den) * 100.0
+
+    overall_den = total.sum().clamp_min(1)
+    overall_acc = (correct.sum() / overall_den) * 100.0
+
+    return {
+        "Per class accuracy": {classes[i]: f"{per_class_acc[i]:.2f}" for i in range(len(classes))},
+        "Overall accuracy": f"{overall_acc:.2f}",
+        "Datapoints": int(total.sum().item()),
+    }
+
+
+
+def test_model(loader: DataLoader, backbone: Backbone, cbl: ConceptLayer, normalization: NormalizationLayer, final_layer: FinalLayer, device="cuda"):
+    acc_sum = 0
+    with torch.no_grad():
+        for features, _, targets in tqdm(loader):
+            features, targets = features.to(device), targets.to(device)
+            emb = backbone(features)
+            concept_logits = cbl(emb)
+            concept_probs = normalization(concept_logits)
+            logits = final_layer(concept_probs)
+            preds = logits.argmax(dim=1)
+            acc_sum += (preds == targets).sum().item()
+    return acc_sum / len(loader.dataset)
+
+def train_cbl(backbone: Backbone, cbl: ConceptLayer, train_loader, val_loader, epochs: int,
+              loss_fn, lr=1e-3, weight_decay=1e-5, concepts=None, tb_writer=None, device="cuda",
+              finetune=False, optimizer="sgd", scheduler=None, backbone_lr=1e-3,
+              data_parallel=False):
+
+    if optimizer == "sgd":
+        opt = torch.optim.SGD(cbl.parameters(), lr=lr, weight_decay=weight_decay, momentum=0.9)
+    else:
+        opt = torch.optim.Adam(cbl.parameters(), lr=lr, weight_decay=weight_decay)
+    if finetune:
+        opt.add_param_group({"params": backbone.parameters(), "lr": backbone_lr})
+    if scheduler == "cosine":
+        sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs)
+    else:
+        sched = None
+
+    logger.info(" [CBL] start training")
+    best_val, best_state, best_epoch = float("inf"), None, -1
+
+    for epoch in range(epochs):
+        cbl.train()
+        running = 0.0
+        for features, concept_targets, _ in train_loader:
+            features = features.to(device)
+            concept_targets = concept_targets.to(device)
+
+            if finetune:
+                emb = backbone(features)
             else:
-                fm = fm.amax(dim=(2, 3))
-        return fm.float()
+                with torch.no_grad():
+                    emb = backbone(features)
+
+            logits = cbl(emb)
+            loss = loss_fn(logits, concept_targets)
+
+            opt.zero_grad()
+            loss.backward()
+            opt.step()
+            running += loss.item()
+
+        train_loss = running / max(1, len(train_loader))
+        val_loss = validate_cbl(backbone, cbl, val_loader, loss_fn, device)
+
+        logger.info(f"[CBL] epoch={epoch:04d} train_loss={train_loss:.6f} val_loss={val_loss:.6f}")
+        if val_loss < best_val:
+            best_val, best_state, best_epoch = val_loss, cbl.state_dict(), epoch
+            msg = f"[CBL] best_val={best_val:.6f} epoch={best_epoch:04d} "
+            if hasattr(logger, "success"):
+                logger.success(msg)   
+            else:
+                logger.info(msg)     
+
+        if tb_writer:
+            tb_writer.add_scalar("Loss/train", train_loss, epoch)
+            tb_writer.add_scalar("Loss/val", val_loss, epoch)
+        if sched: sched.step()
+
+    if best_state: cbl.load_state_dict(best_state)
+    logger.info(" [CBL] done")
+    return cbl, backbone
 
 
-def _cosine_alignment_loss(pred_logits: torch.Tensor, soft_targets: torch.Tensor) -> torch.Tensor:
-    """
-    Aligns projected concept logits with CLIP similarity soft-targets.
-    Both are normalized and compared via MSE on probabilities.
-    """
-    pred = pred_logits / pred_logits.std(dim=0, keepdim=True).clamp_min(1e-6)
-    pred = pred.softmax(dim=-1)
-    loss = F.mse_loss(pred, soft_targets)
-    return loss
+def validate_cbl(backbone: Backbone, cbl: ConceptLayer, val_loader, loss_fn, device="cuda"):
+    val_loss = 0
+    cbl.eval()
+    with torch.no_grad():
+        for features, concept_targets, _ in tqdm(val_loader):
+            features, concept_targets = features.to(device), concept_targets.to(device)
+            emb = backbone(features)
+            logits = cbl(emb)
+            val_loss += loss_fn(logits, concept_targets).item()
+    return val_loss/len(val_loader)
+
+
+def train_sparse_final(linear: nn.Linear, train_loader, val_loader, n_iters, lam, step_size=0.1, device="cuda"):
+    num_classes = linear.weight.shape[0]
+    linear.weight.data.zero_(); linear.bias.data.zero_()
+    metadata = {"max_reg": {"nongrouped": lam}}
+    return glm_saga(linear, train_loader, step_size, n_iters, 0.99, epsilon=1, k=1, val_loader=val_loader, do_zero=False, metadata=metadata, n_ex=len(train_loader.dataset), n_classes=num_classes, verbose=True)
+
+
+def train_dense_final(model: nn.Linear, train_loader, val_loader, n_iters, lr=1e-3, device="cuda"):
+    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    sched = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.95)
+    ce = nn.CrossEntropyLoss()
+    for epoch in range(n_iters):
+        for inputs, targets, _ in tqdm(train_loader):
+            inputs, targets = inputs.to(device), targets.to(device)
+            logits = model(inputs)
+            loss = ce(logits, targets)
+            opt.zero_grad(); loss.backward(); opt.step()
+        sched.step()
+    return {"path": [{"weight": model.weight, "bias": model.bias, "lr": lr, "lam": -1, "alpha": -1, "time": -1, "metrics": {}}]}
