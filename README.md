@@ -14,7 +14,8 @@
   - [Train LF-CBM](#train-lf-cbm)
   - [Train VLG-CBM](#train-vlg-cbm)
 - [Evaluate with ANEC tool](#evaluate-with-anec-tool)
-- [Sources / Acknowledgments](#sources--acknowledgments)
+- [Sources](#sources)
+- [Acknowledgement](#acknowledgement)
 - [Citations](#citations)
 
 
@@ -54,11 +55,14 @@ pip install -e .
 get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_results>
 ```
 
-## Sources / Acknowledgments
+## Sources
  - Label-Free CBM (ICLR 2023) — official code: https://github.com/Trustworthy-ML-Lab/Label-free-CBM
  - VLG-CBM (NeurIPS 2024) — official code & docs: https://github.com/Trustworthy-ML-Lab/VLG-CBM
  - ANEC-evaluator — standalone tool to compute ANEC: https://github.com/windymount/ANEC-evaluator
 #### We also build on GLM-SAGA for sparse final-layer training and related tooling.
+
+## Acknowledgement
+#### This is a project of International Summer Research Program at UCSD. Developed my PIN-CI HUANG, National Cetral University. Under the supervision of Prof. Lily Weng and Ph.D Ge Yan. 
 
 ## Citations
 
