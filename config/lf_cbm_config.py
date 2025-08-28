@@ -1,7 +1,3 @@
-"""
-Label-Free CBM Configuration (repo-style, single source of truth)
-"""
-
 from dataclasses import dataclass, asdict
 from typing import Dict, Any, Optional
 from pathlib import Path
@@ -13,7 +9,7 @@ class LabelFreeCBMConfig:
     # ===== Dataset & Model =====
     dataset: str = "cifar100"
     concept_set: Optional[str] = None          # path to concept set file (if used)
-    backbone: str = "clip_RN50"                # e.g., clip_RN50, resnet18_cub, resnet18_places
+    backbone: str = "clip_RN50"               
     clip_name: str = "ViT-B/16"
     device: str = "cuda"
 
