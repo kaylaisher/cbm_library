@@ -12,8 +12,7 @@
 - [Setup](#setup)
 - [Quick Start](#quick-start)
 - [Training](#training)
-  - [Overview](#overview)
-  - [Train Label-Free CBM](#train-label-free-cbm)
+  - [Train LF-CBM](#train-label-free-cbm)
   - [Train VLG-CBM](#train-vlg-cbm)
 - [Evaluate (ANEC)](#evaluate-anec)
 - [Results (template)](#results-template)
@@ -30,14 +29,17 @@
 git clone https://github.com/kaylaisher/cbm_library.git
 cd cbm_library
 ```
-### 2) Train LF-CBM
+
+## training
+
+### Train LF-CBM
 ```bash
 cd ..
 python -m cbm_library.scripts.lf_cbm_train <dataset> \
   --save_dir saved_models \
 ```
 
-### 3) Train VLG-CBM
+### Train VLG-CBM
 
 ```bash
 cd ..
