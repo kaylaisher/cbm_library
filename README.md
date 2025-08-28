@@ -1,4 +1,4 @@
-# Concept Bottleneck Models benchmark Library
+ Concept Bottleneck Models benchmark Library
 ## *A unified training/evaluation toolkit for LF-CBM and VLG-CBM with ANEC metrics*
 
  - Built with vllm pre-generated concept sets
