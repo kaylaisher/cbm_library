@@ -63,18 +63,24 @@ get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_resul
 ## Citations
 
 #### If you use this library, please also cite the foundational works:
+
+#### T. Oikarinen, S. Das, L. Nguyen and T.-W. Weng, Label-free Concept Bottleneck Models, ICLR 2023.
+```
 @inproceedings{oikarinen2023labelfree,
   title     = {Label-free Concept Bottleneck Models},
   author    = {Oikarinen, Tuomas and Das, Subhro and Nguyen, Lam M and Weng, Tsui-Wei},
   booktitle = {International Conference on Learning Representations},
   year      = {2023}
 }
+```
 
+#### Srivastava, Divyansh and Yan, Ge and Weng, Tsui-Wei, VLG-CBM: Training Concept Bottleneck Models with Vision-Language Guidance, NeurIPS 2024.
+```
 @inproceedings{srivastava2024vlg,
   title   = {VLG-CBM: Training Concept Bottleneck Models with Vision-Language Guidance},
   author  = {Srivastava, Divyansh and Yan, Ge and Weng, Tsui-Wei},
   booktitle = {NeurIPS},
   year    = {2024}
 }
-
+```
 
