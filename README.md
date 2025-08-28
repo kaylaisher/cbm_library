@@ -6,7 +6,6 @@
  - Shared final layer training class
  - incroporate ANEC tool
 
----
 
 ## Table of Contents
 - [Setup](#setup)
@@ -18,8 +17,6 @@
 - [Acknowledgement](#acknowledgement)
 - [Citations](#citations)
 
-
----
 
 ## Setup
 
