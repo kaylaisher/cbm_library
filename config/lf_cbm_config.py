@@ -11,7 +11,7 @@ import json
 @dataclass
 class LabelFreeCBMConfig:
     # ===== Dataset & Model =====
-    dataset: str = "cifar10"
+    dataset: str = "cifar100"
     concept_set: Optional[str] = None          # path to concept set file (if used)
     backbone: str = "clip_RN50"                # e.g., clip_RN50, resnet18_cub, resnet18_places
     clip_name: str = "ViT-B/16"
@@ -48,7 +48,7 @@ class LabelFreeCBMConfig:
     activation_dir: str = "saved_activations"
     save_dir: str = "cbm_library/saved_models"
     concept_dir: str = "data/concept_sets"
-    data_dir: str = "data"
+    data_dir: str = "/kayla/dataset"
     log_dir: str = "logs"
 
     # ===== GLM-SAGA params =====
@@ -97,7 +97,6 @@ class LabelFreeCBMConfig:
         cfg.pop("config_version", None)
         return cls(**cfg)
 
-    # ----- Convenience (optional) -----
     def summary(self) -> str:
         return (
             "Label-Free CBM Config\n"
