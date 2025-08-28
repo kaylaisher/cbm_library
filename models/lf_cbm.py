@@ -1,3 +1,9 @@
+"""
+This module implements the Label-Free Concept Bottleneck Model (LF-CBM), 
+which is a neural network architecture designed to learn interpretable concepts without requiring labeled data. 
+It uses CLIP as a backbone for feature extraction and supports training concept layers and final layers with various configurations.
+"""
+
 from __future__ import annotations
 import os
 from typing import List, Dict, Any, Optional, Tuple
@@ -9,6 +15,7 @@ from tqdm.auto import trange, tqdm
 import clip  
 
 def _is_cuda(device) -> bool:
+    '''Checks if the given device is a CUDA device.'''
     try:
         if hasattr(device, "type"):
             return str(device.type).lower().startswith("cuda")
@@ -22,12 +29,14 @@ def _ensure_2d(x: torch.Tensor) -> torch.Tensor:
     return x.view(x.size(0), -1) if x.ndim > 2 else x
 
 def _zscore(x: torch.Tensor, dim: int = 0, eps: float = 1e-8) -> torch.Tensor:
+    """Applies z-score normalization along the specified dimension."""
     mu = x.mean(dim=dim, keepdim=True)
     sd = x.std(dim=dim, keepdim=True)
     return (x - mu) / (sd + eps)
 
 @torch.no_grad()
 def cos_cubed_cols(proj: torch.Tensor, Y: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    """Computes the cosine similarity between the cube of the normalized columns of two tensors."""
     
     Pz = _zscore(proj, dim=0)
     Yz = _zscore(Y,    dim=0)
@@ -38,14 +47,27 @@ def cos_cubed_cols(proj: torch.Tensor, Y: torch.Tensor) -> Tuple[torch.Tensor, t
     Yn = Y3 / (Y3.norm(dim=0, keepdim=True) + 1e-8)
     cos_c = (Pn * Yn).sum(dim=0)  # [C], each in [-1,1]
     return cos_c.mean(), cos_c
+    # cos_c.mean(): A scalar tensor representing the mean cosine similarity between the cubed, normalized columns of the input tensors proj and Y. This value is a single number in the range [-1, 1].
+    # cos_c: A tensor of shape [C], where C is the number of columns in the input tensors. Each element in this tensor represents the cosine similarity for the corresponding column between proj and Y. Each value is in the range [-1, 1].
 
+def read_concepts_file(path: str) -> List[str]:
+    """Reads a list of concepts from a text file."""
+    
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Concept file not found: {path}")
+    with open(path, "r", encoding="utf-8") as f:
+        return [ln.strip() for ln in f if ln.strip()]
 
 class LabelFreeCBM(nn.Module):
+    """
+    The main class for implementing the Label-Free Concept Bottleneck Model.
+    """
     @staticmethod
     def build_backbone(device: str = "cuda", clip_name: str = "RN50") -> nn.Module:
+        '''Builds and returns a frozen CLIP visual backbone for feature extraction.'''
         dev = torch.device(device)
         model, _ = clip.load(clip_name, device=dev)
-        visual = model.visual.eval()
+        visual = model.visual.eval()                                                             # The input tensor x is moved to the determined device and data type, then passed through the visual encoder.
         for p in visual.parameters():
             p.requires_grad = False
 
@@ -53,8 +75,8 @@ class LabelFreeCBM(nn.Module):
             def __init__(self, visual_encoder: nn.Module):
                 super().__init__()
                 self.visual = visual_encoder
-            def forward(self, x: torch.Tensor) -> torch.Tensor:
-                if hasattr(self.visual, "conv1") and hasattr(self.visual.conv1, "weight"):
+            def forward(self, x: torch.Tensor) -> torch.Tensor:                                   # If the visual encoder has a conv1 layer with weights, it retrieves the weights (w) and uses their device and data type for the input tensor.
+                if hasattr(self.visual, "conv1") and hasattr(self.visual.conv1, "weight"):        # If conv1 is not present, it iterates through the modules of the visual encoder to find the first Conv2d layer and retrieves its weights. 
                     w = self.visual.conv1.weight
                 else:
                     w = None
@@ -72,6 +94,7 @@ class LabelFreeCBM(nn.Module):
 
     def __init__(self, backbone: nn.Module, num_concepts: int, num_classes: int,
                  device: str = "cuda", clip_name: str = "RN50"):
+        '''Initializes the LF-CBM model with the given backbone, number of concepts, and number of classes.'''
         super().__init__()
         self.device = torch.device(device)
         self.clip_name = clip_name
@@ -105,18 +128,24 @@ class LabelFreeCBM(nn.Module):
         
 
     def extract_features(self, x: torch.Tensor) -> torch.Tensor:
-        _bdtype = next(self.backbone.parameters()).dtype
-        x = x.to(self.device, dtype=_bdtype)
-        feats = self.backbone(x)
-        feats = _ensure_2d(feats)
-        return feats
+        '''Extracts features from input images using the CLIP backbone.'''
+        
+        _bdtype = next(self.backbone.parameters()).dtype                                              # Retrieves the data type (dtype) of the parameters in the backbone model.
+        x = x.to(self.device, dtype=_bdtype)                                                          # Moves the input tensor x to the device and data type of the backbone.
+        feats = self.backbone(x)                                                                      # Passes the input tensor through the backbone to extract features.
+        feats = _ensure_2d(feats)                                                                     # Flattens the extracted features to a 2D tensor of shape [N, D] (if necessary), where N is the batch size and D is the feature dimension.
+        return feats                                                                                  # Returns the processed feature tensor.
 
     def get_concept_activations(self, features: torch.Tensor) -> torch.Tensor:
-        if self.concept_layer is None:
-            raise RuntimeError("Concept layer not initialized. Train the model first.")
-        return self.concept_layer(features.to(self.concept_layer.weight.dtype))
+        '''Computes concept activations from extracted features.'''
+        
+        if self.concept_layer is None:                                                                # If the concept_layer is not initialized (i.e., None), it raises a RuntimeError 
+            raise RuntimeError("Concept layer not initialized. Train the model first.")               # Converts the input features tensor to the same data type as the weights of the concept_layer. Passes the processed features through the concept_layer to compute the activations.
+        return self.concept_layer(features.to(self.concept_layer.weight.dtype))                       # Returns the output of the concept_layer, which represents the concept activations.
 
     def predict_from_concepts(self, concept_activations: torch.Tensor) -> torch.Tensor:
+        '''Predicts class logits from concept activations.'''
+        
         if self.final_layer is None:
             raise RuntimeError("Final layer not initialized. Train the model first.")
         if self.concept_mean is not None and self.concept_std is not None:
@@ -124,6 +153,8 @@ class LabelFreeCBM(nn.Module):
         return self.final_layer(concept_activations)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        '''Performs a forward pass through the model (features → concepts → logits).'''
+        
         feats = self.extract_features(x)
         concepts = self.get_concept_activations(feats)
         logits = self.predict_from_concepts(concepts)
@@ -138,6 +169,8 @@ class LabelFreeCBM(nn.Module):
         split: Optional[str] = None,
         use_cache: bool = True,
     ) -> torch.Tensor:
+        '''Extracts features from a dataset and caches them for reuse.'''
+        
         cache_path = None
         mode = getattr(self, "_feat_mode", getattr(self, "backbone_feature_mode", "final"))
         if cache_dir and split:
@@ -171,6 +204,7 @@ class LabelFreeCBM(nn.Module):
         split: Optional[str] = None,
         use_cache: bool = True,
         ) -> torch.Tensor:
+        '''Extracts image features using the CLIP model.'''
 
         cache_path = None
         if cache_dir and split:
@@ -220,6 +254,8 @@ class LabelFreeCBM(nn.Module):
         split: Optional[str] = None,
         use_cache: bool = True,
         ) -> torch.Tensor:
+        '''Extracts text features for concepts using the CLIP model.'''
+            
         cache_path = None
         if cache_dir:
             os.makedirs(cache_dir, exist_ok=True)
@@ -418,7 +454,7 @@ class LabelFreeCBM(nn.Module):
 
     def train_final_layer(self, concept_activations: torch.Tensor, labels: torch.Tensor,
                           config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-             
+        '''Trains the final layer (classifier) on top of the learned concepts.'''
         
         cfg = {
             "max_epochs": 100,
@@ -506,9 +542,3 @@ class LabelFreeCBM(nn.Module):
             "used_glm_saga": used_glm,
         }
 
-
-def read_concepts_file(path: str) -> List[str]:
-    if not os.path.exists(path):
-        raise FileNotFoundError(f"Concept file not found: {path}")
-    with open(path, "r", encoding="utf-8") as f:
-        return [ln.strip() for ln in f if ln.strip()]
