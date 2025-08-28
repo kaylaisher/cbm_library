@@ -1,83 +1,66 @@
-# cbm_library/config/vlg_cbm_config.py
 from __future__ import annotations
-from dataclasses import dataclass, asdict, field
-from typing import Optional, List, Dict
-import os
-import json
-import datetime
+from dataclasses import dataclass, asdict
+from typing import Optional, Dict, Any
+import torch
 
 @dataclass
 class VLGCBMConfig:
-    # ---- run id / paths ----
+    # ---- dataset & IO ----
     dataset: str = "cifar10"
-    num_classes: int = 10
-    data_dir: str = "/kayla/dataset"
-    annotations_dir: str = "cbm_library/data/annotations"
-    save_dir: str = "/kayla/saved_models"
-    run_name: Optional[str] = None
-    device: str = "cuda"
+    save_dir: str = "saved_models"
+    load_dir: Optional[str] = None
+    dataset_dir: str = "/kayla/dataset"
+    annotation_dir: Optional[str] = "/kayla/Annotations"
+    concept_set: Optional[str] = None
+    filter_set: Optional[str] = None
+    val_split: float = 0.2
 
-    # ---- backbone / features ----
-    backbone: str = "resnet50"            # {"resnet50","clip_visual"}
-    feature_layer: str = "layer4"         # for torchvision backbones
-    feature_pool: str = "avg"             # {"avg","max"}
-    feature_dim: Optional[int] = None     # set automatically if None
+    # ---- device & runtime ----
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
+    seed: int = 42
+    num_workers: int = 4
+    data_parallel: bool = False
+    visualize_concepts: bool = False
 
-    # ---- CLIP (vision-language guidance) ----
-    clip_model: str = "ViT-B/32"
-    clip_device: Optional[str] = None     # default: same as device
-    prompt_template: str = "a photo of {concept}"
+    # ---- backbone ----
+    backbone: str = "clip_RN50"
+    feature_layer: str = "layer4"
+    use_clip_penultimate: bool = True
 
-    # ---- concept vocabulary & filtering ----
-    concept_list_path: Optional[str] = None     # txt file, one concept per line
-    extra_concepts: List[str] = field(default_factory=list)
-    min_pos_per_concept: int = 5
-    clip_topk: int = 5
-    clip_cutoff: float = 0.15                  # drop concepts below this mean@topk
+    # ---- CBL ----
+    cbl_batch_size: int = 32
+    cbl_epochs: int = 20
+    cbl_lr: float = 5e-4
+    cbl_weight_decay: float = 1e-5
+    cbl_hidden_layers: int = 0
+    cbl_confidence_threshold: float = 0.15
+    crop_to_concept_prob: float = 0.5
+    cbl_finetune: bool = False
+    cbl_optimizer: str = "adam"
+    cbl_scheduler: Optional[str] = None
+    cbl_bb_lr_rate: float = 0.1
+    cbl_loss_type: str = "bce"
+    cbl_pos_weight: Optional[float] = None
+    cbl_auto_weight: bool = False
+    cbl_twoway_tp: bool = False
+    allones_concept: bool = False
 
-    # ---- projection (features -> concepts) ----
-    proj_hidden_dim: Optional[int] = None      # None => linear
-    proj_lr: float = 3e-4
-    proj_weight_decay: float = 1e-4
-    proj_epochs: int = 20
-    proj_early_stop_patience: int = 5
-    cosine_tau: float = 0.07                   # softmax temperature for CLIP sims
-
-    # ---- concept normalization ----
-    eps: float = 1e-6
-
-    # ---- final layer (concepts -> classes) ----
-    final_type: str = "saga"                   # {"saga","dense"}
-    dense_lr: float = 5e-4
-    dense_weight_decay: float = 0.0
-    dense_epochs: int = 40
+    # ---- Final layer ----
+    dense: bool = False
+    saga_batch_size: int = 512
     saga_step_size: float = 0.1
     saga_n_iters: int = 2000
     saga_lam: float = 7e-4
-    max_sparsity: float = 0.95
+    saga_alpha: float = 0.99
+    saga_epsilon: float = 1.0
 
-    # ---- dataloader / misc ----
-    batch_size: int = 256
-    num_workers: int = min(8, os.cpu_count() or 2)
-    seed: int = 42
-    log_every: int = 50
+    # ---- Optional dense head ----
+    dense_lr: float = 3e-4
+    dense_batch_size: int = 512
+    dense_epochs: int = 2000
+    dense_weight_decay: float = 0.0
 
-    def finalize(self) -> "VLGCBMConfig":
-        """Compute derived fields and defaults."""
-        if self.run_name is None:
-            ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-            self.run_name = f"vlg_cbm_{self.dataset}_{ts}"
-        if self.clip_device is None:
-            self.clip_device = self.device
-        os.makedirs(self.save_dir, exist_ok=True)
-        return self
+    skip_concept_filter: bool = False
 
-    # Utilities
-    def to_dict(self) -> Dict: return asdict(self)
-    def dump_json(self, out_path: str) -> None:
-        with open(out_path, "w") as f: json.dump(self.to_dict(), f, indent=2)
-
-    @classmethod
-    def from_overrides(cls, **kw) -> "VLGCBMConfig":
-        cfg = cls(**kw)
-        return cfg.finalize()
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)
