@@ -1,13 +1,7 @@
-"""
-cbm_library
-Lean package initializer: exports only the merged model APIs you actually use.
-"""
-
 __version__ = "0.1.0"
 
-# Lightweight logging helper
 try:
-    from .utils.logging import setup_enhanced_logging  # noqa: F401
+    from .utils.logging import setup_enhanced_logging  
 except Exception:
     def setup_enhanced_logging(name: str):
         import logging
@@ -17,10 +11,9 @@ except Exception:
         return logger
 
 logger = setup_enhanced_logging(__name__)
-logger.info("📦 cbm_library loaded")
+logger.info("=== cbm_library loaded ===")
 
-# Export only the merged model (no optional subpackages, no star imports)
-from .models import LabelFreeCBM, read_concepts_file  # <- make sure models/__init__.py points to your merged file
+from .models import LabelFreeCBM, read_concepts_file 
 
 __all__ = [
     "__version__",
