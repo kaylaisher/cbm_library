@@ -10,9 +10,8 @@
 
 ## Table of Contents
 - [Setup](#setup)
-- [Quick Start](#quick-start)
 - [Training](#training)
-  - [Train LF-CBM](#train-label-free-cbm)
+  - [Train LF-CBM](#train-lf-cbm)
   - [Train VLG-CBM](#train-vlg-cbm)
 - [Evaluate (ANEC)](#evaluate-anec)
 - [Results (template)](#results-template)
