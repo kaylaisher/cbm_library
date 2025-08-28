@@ -28,6 +28,11 @@ git clone https://github.com/kaylaisher/cbm_library.git
 cd cbm_library
 ```
 
+### 2) Install requirements
+```bash
+bash requirements.sh
+```
+
 
 ## training
 
