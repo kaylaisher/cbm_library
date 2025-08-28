@@ -60,7 +60,7 @@ get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_resul
 #### We also build on GLM-SAGA for sparse final-layer training and related tooling.
 
 ## Acknowledgement
-#### This is a project of International Summer Research Program at UCSD. Developed my PIN-CI HUANG, National Cetral University. Under the supervision of Prof. Lily Weng and Ph.D Ge Yan. 
+#### This is a project of International Summer Research Program at UCSD. Developed by PIN-CI HUANG, National Cetral University. Under the supervision of Prof. Lily Weng and Ph.D Ge Yan. 
 
 ## Citations
 
