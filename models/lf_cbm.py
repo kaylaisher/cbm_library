@@ -15,7 +15,7 @@ from tqdm.auto import trange, tqdm
 import clip  
 
 def _is_cuda(device) -> bool:
-    '''Checks if the given device is a CUDA device.'''
+    """Check if the given device string or object refers to a CUDA-capable device."""
     try:
         if hasattr(device, "type"):
             return str(device.type).lower().startswith("cuda")
@@ -25,11 +25,11 @@ def _is_cuda(device) -> bool:
 
 
 def _ensure_2d(x: torch.Tensor) -> torch.Tensor:
-    """Flatten to [N, D] if x has more than 2 dims."""
+    """Ensure tensor has shape [N, D]; flattens if more than 2 dimensions."""
     return x.view(x.size(0), -1) if x.ndim > 2 else x
 
 def _zscore(x: torch.Tensor, dim: int = 0, eps: float = 1e-8) -> torch.Tensor:
-    """Applies z-score normalization along the specified dimension."""
+    """Apply z-score normalization along a given dimension with numerical stability."""
     mu = x.mean(dim=dim, keepdim=True)
     sd = x.std(dim=dim, keepdim=True)
     return (x - mu) / (sd + eps)
@@ -64,7 +64,7 @@ class LabelFreeCBM(nn.Module):
     """
     @staticmethod
     def build_backbone(device: str = "cuda", clip_name: str = "RN50") -> nn.Module:
-        '''Builds and returns a frozen CLIP visual backbone for feature extraction.'''
+        """Load and freeze a CLIP visual backbone model for feature extraction."""
         dev = torch.device(device)
         model, _ = clip.load(clip_name, device=dev)
         visual = model.visual.eval()                                                             # The input tensor x is moved to the determined device and data type, then passed through the visual encoder.
@@ -94,7 +94,7 @@ class LabelFreeCBM(nn.Module):
 
     def __init__(self, backbone: nn.Module, num_concepts: int, num_classes: int,
                  device: str = "cuda", clip_name: str = "RN50"):
-        '''Initializes the LF-CBM model with the given backbone, number of concepts, and number of classes.'''
+        """Initialize CBM with backbone, number of concepts/classes, and CLIP models."""
         super().__init__()
         self.device = torch.device(device)
         self.clip_name = clip_name
@@ -128,7 +128,7 @@ class LabelFreeCBM(nn.Module):
         
 
     def extract_features(self, x: torch.Tensor) -> torch.Tensor:
-        '''Extracts features from input images using the CLIP backbone.'''
+        """Extract features from input images using the backbone."""
         
         _bdtype = next(self.backbone.parameters()).dtype                                              # Retrieves the data type (dtype) of the parameters in the backbone model.
         x = x.to(self.device, dtype=_bdtype)                                                          # Moves the input tensor x to the device and data type of the backbone.
@@ -137,14 +137,14 @@ class LabelFreeCBM(nn.Module):
         return feats                                                                                  # Returns the processed feature tensor.
 
     def get_concept_activations(self, features: torch.Tensor) -> torch.Tensor:
-        '''Computes concept activations from extracted features.'''
+        """Project features into concept space using the trained concept layer."""
         
         if self.concept_layer is None:                                                                # If the concept_layer is not initialized (i.e., None), it raises a RuntimeError 
             raise RuntimeError("Concept layer not initialized. Train the model first.")               # Converts the input features tensor to the same data type as the weights of the concept_layer. Passes the processed features through the concept_layer to compute the activations.
         return self.concept_layer(features.to(self.concept_layer.weight.dtype))                       # Returns the output of the concept_layer, which represents the concept activations.
 
     def predict_from_concepts(self, concept_activations: torch.Tensor) -> torch.Tensor:
-        '''Predicts class logits from concept activations.'''
+        """Predict class logits from concept activations using the final layer."""
         
         if self.final_layer is None:
             raise RuntimeError("Final layer not initialized. Train the model first.")
@@ -153,7 +153,7 @@ class LabelFreeCBM(nn.Module):
         return self.final_layer(concept_activations)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        '''Performs a forward pass through the model (features → concepts → logits).'''
+        """Forward pass: extract features → compute concepts → predict logits."""
         
         feats = self.extract_features(x)
         concepts = self.get_concept_activations(feats)
@@ -169,7 +169,7 @@ class LabelFreeCBM(nn.Module):
         split: Optional[str] = None,
         use_cache: bool = True,
     ) -> torch.Tensor:
-        '''Extracts features from a dataset and caches them for reuse.'''
+        """Extract and optionally cache backbone features for a dataset."""
         
         cache_path = None
         mode = getattr(self, "_feat_mode", getattr(self, "backbone_feature_mode", "final"))
@@ -204,7 +204,7 @@ class LabelFreeCBM(nn.Module):
         split: Optional[str] = None,
         use_cache: bool = True,
         ) -> torch.Tensor:
-        '''Extracts image features using the CLIP model.'''
+        """Extract and normalize CLIP image features for a dataset, with caching support."""
 
         cache_path = None
         if cache_dir and split:
@@ -254,7 +254,7 @@ class LabelFreeCBM(nn.Module):
         split: Optional[str] = None,
         use_cache: bool = True,
         ) -> torch.Tensor:
-        '''Extracts text features for concepts using the CLIP model.'''
+        """Extract CLIP text embeddings for a list of concepts, with caching support."""
             
         cache_path = None
         if cache_dir:
@@ -454,7 +454,7 @@ class LabelFreeCBM(nn.Module):
 
     def train_final_layer(self, concept_activations: torch.Tensor, labels: torch.Tensor,
                           config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        '''Trains the final layer (classifier) on top of the learned concepts.'''
+        """Train interpretable final classifier layer on concept activations using GLM-SAGA or fallback."""
         
         cfg = {
             "max_epochs": 100,
