@@ -29,7 +29,7 @@ class FinalLayer(nn.Linear):
         self.to(device)
 
     def export_state(self) -> Dict[str, torch.Tensor]:
-        '''Exports the layer's weights and biases as a dictionary.'''
+        """Export weights and biases as a dictionary."""
         return {
             "weight": self.weight.detach().cpu(),
             "bias": self.bias.detach().cpu(),
@@ -41,7 +41,7 @@ class FinalLayer(nn.Linear):
 
     @classmethod
     def from_pretrained(cls, load_dir: str, device: str = "cuda"):
-        '''Loads a pretrained model from the specified directory.'''
+        """Load a pretrained final layer from disk (supports legacy format)."""
         state_path = os.path.join(load_dir, "final.pt")
         if os.path.exists(state_path):
             sd = torch.load(state_path, map_location=device)
@@ -110,7 +110,7 @@ class FinalLayerMethod:
         validation_data: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
         progress_callback: Optional[callable] = None,
     ) -> Dict[str, Any]:
-        '''Trains the final layer based on the specified configuration.'''
+        """Train final layer according to config (dense, sparse, or GLM)."""
         if config.num_concepts == 0:
             config.num_concepts = int(concept_activations.shape[1])
             
@@ -130,10 +130,11 @@ class FinalLayerMethod:
             raise ValueError(f"Unsupported layer type: {config.layer_type}")
 
     def create_layer(self, config: FinalLayerConfig) -> nn.Module:
-        '''Creates a FinalLayer instance based on the configuration.'''
+        """Create a new FinalLayer instance from config."""
         return FinalLayer(config.num_concepts, config.num_classes, device=config.device)
 
     def _normalize(self, X: torch.Tensor, use_norm: bool):
+        """Normalize features if enabled in config."""
         if use_norm:
             m = X.mean(dim=0, keepdim=True)
             s = X.std(dim=0, keepdim=True).clamp_min(1e-6)
@@ -148,6 +149,7 @@ class FinalLayerMethod:
         validation_data: Optional[Tuple[torch.Tensor, torch.Tensor]],
         progress_callback: Optional[callable],
     ):
+        """Train a dense or elastic-net linear layer."""
         logger.info(" Training dense/elastic-net linear head")
         X, mu, sigma = self._normalize(concept_acts, cfg.normalize_concepts)
 
@@ -224,6 +226,8 @@ class FinalLayerMethod:
         validation_data: Optional[Tuple[torch.Tensor, torch.Tensor]],
         progress_callback: Optional[callable],
     ):
+        """Train a sparse GLM-SAGA final layer."""
+        
         if not self._glm_ready:
             raise ImportError("GLM-SAGA not available. `pip install glm-saga`")
         logger.info(" Training GLM-SAGA sparse head")
@@ -372,6 +376,8 @@ class FinalLayerMethod:
         }
 
     def _apply_topk_sparsity(self, dense_result: Dict[str, Any], cfg: FinalLayerConfig):
+        """Apply Top-K sparsity pruning to dense model weights."""
+        
         W = dense_result["weight"]
         if cfg.sparsity_percentage is not None:
             k = int(W.numel() * cfg.sparsity_percentage)
@@ -412,7 +418,7 @@ class FinalLayerMethod:
         config: FinalLayerConfig,
         progress_callback: Optional[callable] = None,
     ) -> Dict[str, Any]:
-        '''Trains the final layer using data loaders.'''
+        """Train final layer directly from training/validation loaders."""
         Xtr, ytr = self._stack_features_labels(train_loader)
         val_tuple = None
         if val_loader is not None:
@@ -436,7 +442,7 @@ class UnifiedFinalTrainer:
         validation_data: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
         progress_callback: Optional[callable] = None,
     ) -> Dict[str, Any]:
-        '''Trains the final layer using FinalLayerMethod.'''
+        """Train final layer using wrapped FinalLayerMethod."""
         
         logger.info(f" Training {config.layer_type.value} final layer")
 
@@ -466,14 +472,14 @@ class UnifiedFinalTrainer:
         return out
 
     def create_final_layer(self, config: FinalLayerConfig, training_result: Dict[str, Any]) -> nn.Module:
-        '''Creates a final layer from training results.'''
+        """Build a FinalLayer from training results."""
         layer = self._method.create_layer(config)
         layer.weight.data = training_result["weight"].to(config.device)
         layer.bias.data = training_result["bias"].to(config.device)
         return layer
 
     def save_training_result(self, result: Dict[str, Any], save_path: str):
-        '''Loads training results from the specified directory.'''
+        """Save trained weights, stats, and metadata to disk."""
         
         os.makedirs(save_path, exist_ok=True)
         torch.save(result["weight"], os.path.join(save_path, "W_g.pt"))
@@ -515,6 +521,8 @@ class UnifiedFinalTrainer:
         logger.info(f" Training results saved to {save_path}")
 
     def load_training_result(self, load_path: str, device: str = "cuda") -> Dict[str, Any]:
+        """Load weights, metadata, and config from disk."""
+
         out: Dict[str, Any] = {}
         out["weight"] = torch.load(os.path.join(load_path, "W_g.pt"), map_location=device)
         out["bias"] = torch.load(os.path.join(load_path, "b_g.pt"), map_location=device)
@@ -566,7 +574,8 @@ def make_fl_config_from_vlg(
     num_classes: int,
     cfg: VLGCBMConfig,
 ) -> FinalLayerConfig:
-    """Map VLG runner config → FinalLayerConfig."""
+    """Convert VLG-CBM config into FinalLayerConfig."""
+
     fl_type = FinalLayerType.DENSE_LINEAR if getattr(cfg, "dense", False) else FinalLayerType.SPARSE_GLM
     return FinalLayerConfig(
         layer_type=fl_type,
