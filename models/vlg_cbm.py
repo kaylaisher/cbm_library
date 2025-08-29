@@ -45,6 +45,8 @@ class Backbone(nn.Module):
             raise RuntimeError(f"Could not infer output_dim via hook for layer='{feature_layer}': {e}")
     
     def forward(self, x: torch.Tensor):
+        #Run backbone and return pooled feature embeddings.
+        
         _ = self.backbone(x)  
         dev = x.device
         feat = self._feature_vals.get(dev)
@@ -168,6 +170,7 @@ class NormalizationLayer(nn.Module):
         self.std = std.to(device).clamp_min(1e-6)
 
     def forward(self, x):
+        """Apply feature-wise normalization to concepts."""
         return (x - self.mean) / self.std
 
     def save_model(self, save_dir):
@@ -263,11 +266,14 @@ class VLGCBM(nn.Module):
 
     @torch.inference_mode()
     def encode_concepts(self, x: torch.Tensor):
+        """Extract normalized concept activations."""
         _, concepts = self.forward(x.to(self.device))
         return concepts
 
     @torch.inference_mode()
     def evaluate_top1(self, loader: DataLoader) -> float:
+        """Compute top-1 accuracy on a dataset loader."""
+        
         self.eval()
         correct, total = 0, 0
         for images, _, targets in tqdm(loader):
@@ -284,6 +290,8 @@ class VLGCBM(nn.Module):
 # -----------------
 
 def per_class_accuracy(model: nn.Module, loader: DataLoader, classes: list[str], device: str = "cuda"):
+    """Compute per-class and overall accuracy from a loader."""
+    
     correct = torch.zeros(len(classes)).to(device)
     total = torch.zeros(len(classes)).to(device)
     model = model.to(device)
@@ -314,6 +322,8 @@ def per_class_accuracy(model: nn.Module, loader: DataLoader, classes: list[str],
 
 
 def test_model(loader: DataLoader, backbone: Backbone, cbl: ConceptLayer, normalization: NormalizationLayer, final_layer: FinalLayer, device="cuda"):
+    """Run evaluation with backbone, CBL, normalization, and final layer."""
+    
     acc_sum = 0
     with torch.no_grad():
         for features, _, targets in tqdm(loader):
@@ -330,6 +340,7 @@ def train_cbl(backbone: Backbone, cbl: ConceptLayer, train_loader, val_loader, e
               loss_fn, lr=1e-3, weight_decay=1e-5, concepts=None, tb_writer=None, device="cuda",
               finetune=False, optimizer="sgd", scheduler=None, backbone_lr=1e-3,
               data_parallel=False):
+            """Train concept bottleneck layer with optional finetuning of backbone."""
 
     if optimizer == "sgd":
         opt = torch.optim.SGD(cbl.parameters(), lr=lr, weight_decay=weight_decay, momentum=0.9)
@@ -389,6 +400,8 @@ def train_cbl(backbone: Backbone, cbl: ConceptLayer, train_loader, val_loader, e
 
 
 def validate_cbl(backbone: Backbone, cbl: ConceptLayer, val_loader, loss_fn, device="cuda"):
+    """Evaluate concept bottleneck loss on validation set."""
+    
     val_loss = 0
     cbl.eval()
     with torch.no_grad():
@@ -401,6 +414,8 @@ def validate_cbl(backbone: Backbone, cbl: ConceptLayer, val_loader, loss_fn, dev
 
 
 def train_sparse_final(linear: nn.Linear, train_loader, val_loader, n_iters, lam, step_size=0.1, device="cuda"):
+    """Train sparse linear final layer using GLM-SAGA optimizer."""
+    
     num_classes = linear.weight.shape[0]
     linear.weight.data.zero_(); linear.bias.data.zero_()
     metadata = {"max_reg": {"nongrouped": lam}}
@@ -408,6 +423,8 @@ def train_sparse_final(linear: nn.Linear, train_loader, val_loader, n_iters, lam
 
 
 def train_dense_final(model: nn.Linear, train_loader, val_loader, n_iters, lr=1e-3, device="cuda"):
+    """Train dense linear final layer with Adam + exponential LR schedule."""
+    
     opt = torch.optim.Adam(model.parameters(), lr=lr)
     sched = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.95)
     ce = nn.CrossEntropyLoss()
