@@ -71,6 +71,6 @@ get_anec --load_path <path_to_your_data_folder> --output_dir <path_to_save_resul
 
 
 ## Acknowledgement
-#### This is a project of International Summer Research Program at UCSD. Developed by PIN-CI HUANG, National Central University. Under the supervision of Prof. Lily Weng and Ph.D Ge Yan. 
+#### This is a project of International Summer Research Program at UCSD. Developed by Pin-Ci Huang, National Central University. Under the supervision of Prof. Lily Weng and Ph.D Ge Yan. 
 
 
