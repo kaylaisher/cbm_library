@@ -17,7 +17,6 @@
 - [Evaluate with ANEC tool](#evaluate-with-anec-tool)
 - [Sources](#sources)
 - [Acknowledgement](#acknowledgement)
-- [Citations](#citations)
 
 
 ## Setup
