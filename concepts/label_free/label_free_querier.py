@@ -8,6 +8,10 @@ from utils.detailed_logger import DetailedLogger
 import asyncio
 import time
 from collections import Counter
+from pathlib import Path
+
+# Outputs of this concept-generation method live next to its querier
+OUTPUT_DIR = Path(__file__).resolve().parent / "outputs"
 
 
 class LabelFreeQuerier:
@@ -106,7 +110,7 @@ Provide only SHORT PHRASES or SINGLE WORDS (1-3 words each), one per line:
             results[prompt_type] = concepts_dict
             
             # Save to appropriate directory structure
-            output_dir = "outputs/label_free/gpt3_init"
+            output_dir = str(OUTPUT_DIR / "gpt3_init")
             os.makedirs(output_dir, exist_ok=True)
             json_path = os.path.join(output_dir, f"gpt3_{dataset_name}_{prompt_type}.json")
             
@@ -287,7 +291,7 @@ Provide only SHORT PHRASES or SINGLE WORDS (1-3 words each), one per line:
         filtered_concepts.sort(key=len)
         
         # Save filtered concepts
-        output_path = f"outputs/label_free/{dataset_name}_filtered.txt"
+        output_path = str(OUTPUT_DIR / f"{dataset_name}_filtered.txt")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         with open(output_path, 'w') as f:

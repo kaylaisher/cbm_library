@@ -34,6 +34,10 @@ def _ensure_on_path(p: Path):
 _ensure_on_path(_REPO_ROOT)
 _ensure_on_path(_REPO_ROOT / "llm_query_module")
 
+# Per-method concept generation folders (concepts/<method>/) and shared code (concepts/common/)
+for _sub in ("common", "label_free", "labo", "lm4cv", "cb_llm"):
+    _ensure_on_path(_CURRENT_DIR / _sub)
+
 # -----------------------------------------------------------------------------
 # Resilient imports for queriers (package or folder style). We DO NOT fail import
 # time; instead we create small factories that raise only when used.
@@ -87,7 +91,7 @@ _make_labo_querier        = _resolve_class("llm_query_module.labo_querier:LaBoQu
 _make_lm4cv_querier       = _resolve_class("llm_query_module.lm4cv_querier:LM4CVQuerier",
                                            "lm4cv_querier", "LM4CVQuerier")
 _make_async_interface     = _resolve_class("llm_query_module.async_main_interface:AsyncLLMQueryInterface",
-                                           "async_main_interface", "AsyncLLMQueryInterface")
+                                           "async_main_interface_test", "AsyncLLMQueryInterface")
 
 # -----------------------------------------------------------------------------
 # UnifiedConceptInterface (lazy instantiation, cache, async APIs)
@@ -107,7 +111,7 @@ class UnifiedConceptInterface:
         """
         # Resolve default config if none provided
         if config_path is None:
-            cand1 = _REPO_ROOT / "concepts" / "main" / "config" / "query_config.yaml"
+            cand1 = _CURRENT_DIR / "config" / "query_config.yaml"
             cand2 = _REPO_ROOT / "llm_query_module" / "config" / "query_config.yaml"
             if cand1.is_file():
                 config_path = str(cand1)

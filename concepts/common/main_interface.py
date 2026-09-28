@@ -1,6 +1,14 @@
 import yaml
 import os
 from pathlib import Path
+import sys
+
+_CONCEPTS_ROOT = Path(__file__).resolve().parents[1]
+for _p in (_CONCEPTS_ROOT / "common", _CONCEPTS_ROOT / "label_free", _CONCEPTS_ROOT / "labo",
+           _CONCEPTS_ROOT / "lm4cv", _CONCEPTS_ROOT / "cb_llm"):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
+
 from label_free_querier import LabelFreeQuerier
 from labo_querier import LaBoQuerier
 from lm4cv_querier import LM4CVQuerier
@@ -152,7 +160,7 @@ class LLMQueryInterface:
         
         print(f"\n✅ Label-Free CBM Complete!")
         print(f"📊 Generated {len(filtered_concepts)} filtered concepts")
-        print(f"📁 Files saved in outputs/label_free/")
+        print(f"📁 Files saved in label_free/outputs/")
         print(f"📝 Detailed logs saved in query_logs/")
 
         # Create summary
@@ -178,7 +186,7 @@ class LLMQueryInterface:
         total_selected = sum(len(concepts) for concepts in selected_concepts.values())
         print(f"\n✅ LaBo CBM Complete!")
         print(f"📊 Selected {total_selected} concepts total")
-        print(f"📁 Files saved in outputs/labo/")
+        print(f"📁 Files saved in labo/outputs/")
     
     def run_lm4cv(self):
         """Run LM4CV pipeline"""
@@ -194,7 +202,7 @@ class LLMQueryInterface:
         print(f"\n✅ LM4CV Complete!")
         print(f"📊 Generated {len(attributes)} unique attributes")
         print(f"📊 Created mappings for {len(cls2attributes)} classes")
-        print(f"📁 Files saved in outputs/lm4cv/")
+        print(f"📁 Files saved in lm4cv/outputs/")
     
     def run_all_methods(self):
         """Run all three methods"""

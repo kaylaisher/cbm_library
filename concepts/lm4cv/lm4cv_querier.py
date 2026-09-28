@@ -4,6 +4,10 @@ import asyncio
 import re
 from typing import List, Dict, Tuple
 from utils.llm_clients import LLMClient
+from pathlib import Path
+
+# Outputs of this concept-generation method live next to its querier
+OUTPUT_DIR = Path(__file__).resolve().parent / "outputs"
 
 class LM4CVQuerier:
     def __init__(self, config_path: str):
@@ -245,7 +249,7 @@ class LM4CVQuerier:
     
     def _save_attributes_txt(self, attributes: List[str], dataset_name: str):
         """Save attributes list as TXT"""
-        filepath = f"outputs/lm4cv/data/{dataset_name}/{dataset_name}_attributes.txt"
+        filepath = str(OUTPUT_DIR / "data" / dataset_name / f"{dataset_name}_attributes.txt")
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
         
         with open(filepath, 'w') as f:
@@ -256,7 +260,7 @@ class LM4CVQuerier:
     
     def _save_cls2attributes_json(self, data: Dict, dataset_name: str):
         """Save class-to-attributes mapping"""
-        filepath = f"outputs/lm4cv/cls2attributes/{dataset_name}_cls2attributes.json"
+        filepath = str(OUTPUT_DIR / "cls2attributes" / f"{dataset_name}_cls2attributes.json")
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
         
         with open(filepath, 'w') as f:
@@ -269,7 +273,7 @@ class LM4CVQuerier:
     
     def _save_summary_report(self, data: Dict, dataset_name: str):
         """Save a summary report of generated attributes"""
-        report_path = f"outputs/lm4cv/reports/{dataset_name}_summary.txt"
+        report_path = str(OUTPUT_DIR / "reports" / f"{dataset_name}_summary.txt")
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
         
         total_attributes = sum(len(attrs) for attrs in data.values())

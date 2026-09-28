@@ -7,6 +7,10 @@ from utils.detailed_logger import DetailedLogger
 import asyncio
 import time
 from collections import Counter
+from pathlib import Path
+
+# Outputs of this concept-generation method live next to its querier
+OUTPUT_DIR = Path(__file__).resolve().parent / "outputs"
 
 
 class CBLLMQuerier:
@@ -199,8 +203,8 @@ class CBLLMQuerier:
 
             print(f"  → {class_name}: {len(filtered)} concepts (before: {len(unique_concepts)})")
 
-        os.makedirs("outputs/cb_llm_concepts", exist_ok=True)
-        json_path = f"outputs/cb_llm_concepts/cb_llm_{dataset_name}.json"
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        json_path = str(OUTPUT_DIR / f"cb_llm_{dataset_name}.json")
         with open(json_path, 'w') as f:
             json.dump(concepts_dict, f, indent=2)
 
@@ -324,7 +328,7 @@ async def main():
     
     # Optionally generate for all datasets
     # all_concepts = await querier.generate_all_datasets()
-    # querier.export_for_cbm_benchmark(all_concepts, "outputs/cb_llm_concepts/concepts.py")
+    # querier.export_for_cbm_benchmark(all_concepts, str(OUTPUT_DIR / "concepts.py"))
 
 
 if __name__ == "__main__":

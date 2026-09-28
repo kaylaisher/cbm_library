@@ -5,10 +5,13 @@ import argparse
 from pathlib import Path
 
 import sys
-sys.path.append('/kayla/llm_query_module/src')  # Adjust this path if necessary
-
-# Optionally, print to confirm if the path is included
-print(sys.path)
+# Queriers live in per-method folders (label_free/, labo/, lm4cv/, cb_llm/);
+# shared utils live in common/.
+_CONCEPTS_ROOT = Path(__file__).resolve().parents[1]
+for _p in (_CONCEPTS_ROOT / "common", _CONCEPTS_ROOT / "label_free", _CONCEPTS_ROOT / "labo",
+           _CONCEPTS_ROOT / "lm4cv", _CONCEPTS_ROOT / "cb_llm"):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
 
 # Use the same import strategy as your working main_interface.py
 from label_free_querier import LabelFreeQuerier
@@ -199,11 +202,11 @@ class AsyncLLMQueryInterface:
                 all_results = await querier.generate_all_datasets()
                 
                 # Export in CB-LLM format
-                export_path = "outputs/cb_llm_concepts/concepts.py"
+                export_path = "cb_llm/outputs/concepts.py"
                 querier.export_for_cbm_benchmark(all_results, export_path)
                 
                 print(f"\n✅ CB-LLM Complete for all datasets!")
-                print(f"📁 Files saved in outputs/cb_llm_concepts/")
+                print(f"📁 Files saved in cb_llm/outputs/")
                 print(f"📝 CBM-benchmark format exported to {export_path}")
                 
             else:
@@ -216,7 +219,7 @@ class AsyncLLMQueryInterface:
                 
                 print(f"\n✅ CB-LLM Complete for {dataset_name}!")
                 print(f"📊 Generated {len(filtered_concepts)} filtered concepts")
-                print(f"📁 Files saved in outputs/cb_llm_concepts/")
+                print(f"📁 Files saved in cb_llm/outputs/")
                 
         except Exception as e:
             print(f"❌ Error in CB-LLM pipeline: {e}")
@@ -256,7 +259,7 @@ class AsyncLLMQueryInterface:
         
         print(f"\n✅ Label-Free CBM Complete!")
         print(f"📊 Generated {len(filtered_concepts)} filtered concepts")
-        print(f"📁 Files saved in outputs/label_free/")
+        print(f"📁 Files saved in label_free/outputs/")
         print(f"📝 Detailed logs saved in query_logs/")
 
         # Create summary
@@ -305,7 +308,7 @@ class AsyncLLMQueryInterface:
             print(f"📊 Selected {total_selected} concepts total")
         else:
             print(f"\n✅ LaBo CBM Complete!")
-        print(f"📁 Files saved in outputs/labo/")
+        print(f"📁 Files saved in labo/outputs/")
     
     async def run_lm4cv(self):
         """Run LM4CV pipeline"""
@@ -329,7 +332,7 @@ class AsyncLLMQueryInterface:
         print(f"\n✅ LM4CV Complete!")
         print(f"📊 Generated {len(attributes)} unique attributes")
         print(f"📊 Created mappings for {len(cls2attributes)} classes")
-        print(f"📁 Files saved in outputs/lm4cv/")
+        print(f"📁 Files saved in lm4cv/outputs/")
     
     async def run_all_methods(self):
         """Run all four methods"""

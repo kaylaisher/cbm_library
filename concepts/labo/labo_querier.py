@@ -5,6 +5,10 @@ from typing import List, Dict, Set
 from utils.llm_clients import LLMClient
 import asyncio
 from collections import Counter
+from pathlib import Path
+
+# Outputs of this concept-generation method live next to its querier
+OUTPUT_DIR = Path(__file__).resolve().parent / "outputs"
 
 
 class LaBoQuerier:
@@ -278,7 +282,7 @@ class LaBoQuerier:
 
     def _save_class2concepts(self, data: Dict, dataset_name: str):
         """Save raw concepts to JSON file"""
-        filepath = f"outputs/labo/concepts/class2concepts_{dataset_name}.json"
+        filepath = str(OUTPUT_DIR / "concepts" / f"class2concepts_{dataset_name}.json")
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
         
         with open(filepath, 'w') as f:
@@ -287,7 +291,7 @@ class LaBoQuerier:
 
     def _save_selected_concepts(self, data: Dict, dataset_name: str):
         """Save selected concepts to JSON file"""
-        filepath = f"outputs/labo/selected_concepts/{dataset_name.upper()}.json"
+        filepath = str(OUTPUT_DIR / "selected_concepts" / f"{dataset_name.upper()}.json")
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
         
         with open(filepath, 'w') as f:
@@ -328,7 +332,7 @@ class LaBoQuerier:
         filtered_concepts.sort(key=lambda x: (-concept_freq[x], len(x)))
         
         # Save filtered concepts
-        output_path = f"outputs/labo/{dataset_name}_filtered.txt"
+        output_path = str(OUTPUT_DIR / f"{dataset_name}_filtered.txt")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         with open(output_path, 'w') as f:

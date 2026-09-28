@@ -35,7 +35,7 @@ _NUM_CLASSES = {
 }
 
 def _concepts_path(dataset: str) -> str:
-    base = Path(__file__).resolve().parents[2] / "cbm_library" / "concepts" / "main" / "outputs" / "label_free"
+    base = Path(__file__).resolve().parents[2] / "cbm_library" / "concepts" / "label_free" / "outputs"
     return str(base / f"{dataset}_filtered.txt")
 
 def _ensure_concepts(dataset: str) -> List[str]:
@@ -43,7 +43,7 @@ def _ensure_concepts(dataset: str) -> List[str]:
     if not os.path.exists(cpath):
         raise FileNotFoundError(
             f"Concept file not found for dataset '{dataset}': {cpath}\n"
-            f"Make sure you have the filtered concepts under concepts/main/outputs/label_free/"
+            f"Make sure you have the filtered concepts under concepts/label_free/outputs/"
         )
     return read_concepts_file(cpath)
 

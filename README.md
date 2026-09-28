@@ -9,6 +9,13 @@
  - incroporate ANEC tool
 
 
+## Project Layout
+- `concepts/` — concept generation, split by method: `label_free/`, `labo/`, `lm4cv/`, `cb_llm/` (each holds its querier code and its generated concept files under `outputs/`). See [concepts/README.md](concepts/README.md).
+- `config/`, `models/`, `scripts/`, `utils/` — CBM training (LF-CBM, VLG-CBM, shared final layer).
+- `evaluation/` — evaluation notebook and ANEC-evaluator.
+- `docs/research_report.md` — research report (研究成果報告).
+
+
 ## Table of Contents
 - [Setup](#setup)
 - [Training](#training)

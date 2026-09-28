@@ -6,8 +6,9 @@ from pathlib import Path
 # Get the root directory of the project (where this file is located)
 ROOT_DIR = Path(__file__).parent.absolute()
 
-# Add src directory to Python path
-sys.path.insert(0, str(ROOT_DIR / 'src'))
+# Add shared code and each concept-generation method folder to Python path
+for sub in ('common', 'label_free', 'labo', 'lm4cv', 'cb_llm'):
+    sys.path.insert(0, str(ROOT_DIR / sub))
 
 # Change working directory to project root (important for relative paths)
 os.chdir(ROOT_DIR)

@@ -6,23 +6,23 @@ model_name: "openchat/openchat-3.5-0106"
 # Dataset Configurations
 datasets:
   cifar10:
-    classes_file: "/kayla/llm_query_module/classes/cifar10_classes.txt"
+    classes_file: "classes/cifar10_classes.txt"
     description: "CIFAR-10 dataset with 10 object classes"
   
   cifar100:
-    classes_file: "/kayla/llm_query_module/classes/cifar100_classes.txt"
+    classes_file: "classes/cifar100_classes.txt"
     description: "CIFAR-100 dataset with 100 object classes"
     
   cub:
-    classes_file: "/kayla/llm_query_module/classes/cub_classes.txt"
+    classes_file: "classes/cub_classes.txt"
     description: "CUB-200-2011 bird species dataset"
 
   imagenet:
-    classes_file: "/kayla/llm_query_module/classes/imagenet_classes.txt"
+    classes_file: "classes/imagenet_classes.txt"
     description: "ImageNet dataset with 1000 objects classes"
 
   places365:
-    classes_file: "/kayla/llm_query_module/classes/places365_classes.txt"
+    classes_file: "classes/places365_classes.txt"
     description: "Places365 scene classification dataset"
 
 # LLM Configuration
@@ -72,6 +72,6 @@ logging:
   
 # File Paths
 paths:
-  classes_dir: "kayla/llm_query_module/classes"
+  classes_dir: "classes"
   config_dir: "config"
   utils_dir: "utils"
